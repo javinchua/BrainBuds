@@ -8,10 +8,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <div>
+    <>
     <main>
-     <Hero heading="Brainbuds" message="Your instagram assistant"></Hero>
+     <Hero heading="Brainbuds" message="Your personal instagram assistant"></Hero>
     </main>
-    </div>
+    </>
   );
 }
