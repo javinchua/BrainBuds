@@ -21,13 +21,6 @@ Inside that directory, it will generate the initial project structure and instal
 
 ```
  my-app
- ┣ __tests__
- ┃ ┣ components
- ┃ ┃ ┣ __snapshots__
- ┃ ┃ ┗ layout.test.tsx
- ┃ ┗ pages
- ┃ ┃ ┣ __snapshots__
- ┃ ┃ ┗ index.test.tsx
  ┣ public
  ┃ ┣ fonts
  ┃ ┃ ┣ basier-circle
