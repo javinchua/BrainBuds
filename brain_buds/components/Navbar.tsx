@@ -54,7 +54,7 @@ export const Navbar = () => {
           </ul>
 
           {/*mobile button */}
-          <div className="z-10 block sm-hidden">
+          <div className="z-10 block sm:hidden">
             {nav ? (
               <AiOutlineClose size={20} style={{ color: `${textColor}` }} />
             ) : (
