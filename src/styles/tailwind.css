@@ -55,3 +55,8 @@
     font-display: swap;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Wix madefor Text', sans-serif;
+}

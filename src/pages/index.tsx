@@ -1,7 +1,14 @@
-import { NextPage } from 'next'
+import Hero from '@/components/Hero'
+import { SliderData } from '@/components/Slider/SliderData'
+import Slider from '@/components/Slider'
 
-const IndexPage: NextPage = () => {
-  return <div className="fixed bottom-0 left-0 right-0">Hello</div>
+export default function Home() {
+  return (
+    <>
+      <main>
+        <Hero heading="Brainbuds" message="Your personal instagram assistant"></Hero>
+        <Slider slides={SliderData} />
+      </main>
+    </>
+  )
 }
-
-export default IndexPage
