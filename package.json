@@ -16,13 +16,17 @@
   },
   "dependencies": {
     "@apideck/components": "^0.12.8",
+    "firebase": "^9.22.1",
     "next": "^13.3.1",
     "openai": "^3.2.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^1.12.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/aspect-ratio": "0.4.2",
+    "@tailwindcss/typography": "0.5.9",
     "@testing-library/dom": "^8.16.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -48,14 +52,10 @@
     "postcss": "^8.4.23",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.3.1",
+    "tw-elements": "1.0.0-alpha13",
     "typescript": "^4.7.4"
   },
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint . --fix",
