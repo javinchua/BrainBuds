@@ -1,5 +1,5 @@
 import { ButtonComponent } from '../Button'
-import { Auth, createUserWithEmailAndPassword, getAuth, sendEmailVerification } from 'firebase/auth'
+import { Auth, createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import React from 'react'
 import { useRouter } from 'next/router'
 import { InputContainer } from '../InputContainer'
