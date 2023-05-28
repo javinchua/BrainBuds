@@ -1,19 +1,10 @@
 # Next Starter Kit
 
-<img alt="Logo" align="right" src="./public/img/logo.png" width="10%" />
 
 A boilerplate for creating new projects with Next.js, TypeScript, Tailwind CSS, ESLint, Prettier, Jest, and React Testing Library. Bootstrapped with [create-next-app](https://nextjs.org/docs/api-reference/create-next-app).
 <br>
 <br>
 
-## Quick overview
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the starter kit:
-
-```bash
-npx create-next-app --example https://github.com/apideck-io/next-starter-kit
-# or
-yarn create next-app --example https://github.com/apideck-io/next-starter-kit
 ```
 
 It will create a new directory inside the current folder.<br>
@@ -23,13 +14,9 @@ Inside that directory, it will generate the initial project structure and instal
  my-app
  ┣ public
  ┃ ┣ fonts
- ┃ ┃ ┣ basier-circle
  ┃ ┣ img
- ┃ ┃ ┣ logo.png
- ┃ ┃ ┗ screenshot.jpg
  ┣ src
  ┃ ┣ components
- ┃ ┃ ┗ Layout.tsx
  ┃ ┣ pages
  ┃ ┃ ┣ _app.tsx
  ┃ ┃ ┗ index.tsx
@@ -61,8 +48,6 @@ Inside the newly created project, you can run some commands:
 
 Runs `next dev` which starts the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-<img alt="Screenshot" src="./public/img/screenshot.jpg" />
 
 #### `yarn build`
 
@@ -104,28 +89,5 @@ Runs the `jest` command with `--watch` flag which runs all tests in watch mode
 
 Runs the `jest` command with `--coverage` flag which indicates that test coverage information should be collected and reported in the output.
 
-## Commit hooks
 
-This project uses [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged) to run linters against staged git files on commit.
 
-#### Pre-commit
-
-Before each commit we run `eslint` and `prettier` on all staged files.
-
-#### Pre-push
-
-Before each push to the repository we run `jest` to check if all tests are passing.
-
-## Resources
-
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
-- [TypeScript](https://www.typescriptlang.org/) - learn about TypeScript
-- [Tailwind CSS](https://tailwindcss.com/) - learn about the utility-first CSS framework Tailwind
-- [Jest](https://jestjs.io/) - learn about Jest, the JavaScript Testing Framework
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - learn about testing React components with React Testing Library
-- [ESLint](https://eslint.org/) - learn about analyzing code with ESLint
-- [Prettier](https://eslint.org/) - learn about formatting code with Prettier
-- [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - a Prettier extension for Visual Studio Code
