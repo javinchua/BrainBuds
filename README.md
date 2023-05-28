@@ -113,38 +113,14 @@ Config: The config folder typically contains configuration files for our applica
 
 Context: The context folder is used to store files related to application-level state management using React's Context API or other state management libraries like Redux. By centralizing the management of shared data and providing it to components throughout our app, the Context folder helps improve code organization, decoupling, and facilitates the handling of global application state. Here, we store our context for firebase so that the user information can be passed down across the different pages and components. 
 
- my-app
- ┣ public
- ┃ ┣ fonts
- ┃ ┣ img
- ┣ src
- ┃ ┣ components
- ┃ ┣ pages
- ┃ ┃ ┣ _app.tsx
- ┃ ┃ ┗ index.tsx
- ┃ ┗ styles
- ┃ ┃ ┗ tailwind.css
- ┣ .babelrc
- ┣ .eslintrc.json
- ┣ .gitignore
- ┣ .prettierrc
- ┣ README.md
- ┣ jest.config.js
- ┣ next-env.d.ts
- ┣ package.json
- ┣ postcss.config.js
- ┣ tailwind.config.js
- ┣ tsconfig.json
- ┗ yarn.lock
-```
-
-Once the installation is done, you can open your project folder:
-
-```sh
-cd next-starter-kit
-```
+# Secret / Environment Variables
+We also store all our secrets (for firebase configuration) within a .env.local file to ensure security.
 
 Inside the newly created project, you can run some commands:
+
+#### `yarn install / npm install`
+
+This helps downloads the dependencies from package.json to run the application. 
 
 #### `yarn dev`
 
