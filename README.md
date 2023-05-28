@@ -80,6 +80,7 @@ Our other features include a caption generator, a hashtag generator, and a sched
 - Python
 - Express/Next.js
 - Amazon EC2
+- Tailwind CSS
 
 We'll be using Next.JS and TypeScript for frontend, coupled with Firebase for authentication and data storage. Our machine learning model will be created with Python and deployed online with Amazon EC2. Furthermore, we'll utilize Instagram's Graph API for data access.
 
