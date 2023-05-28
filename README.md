@@ -116,6 +116,8 @@ Context: The context folder is used to store files related to application-level 
 # Secret / Environment Variables
 We also store all our secrets (for firebase configuration) within a .env.local file to ensure security.
 
+
+# Setup
 Inside the newly created project, you can run some commands:
 
 #### `yarn install / npm install`
