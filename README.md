@@ -28,7 +28,7 @@ Key performance metrics include:
 
 Our other features include a caption generator, a hashtag generator, and a scheduler for auto-posting, among others.
 
-### 🎨 Login Page:
+### 🎨 Login Page (Firebase):
 
 - Top-placed logo
 - Username and password fields
