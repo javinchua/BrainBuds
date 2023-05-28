@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import { useAuth } from 'context/AuthContext'
+import { getAuth, signOut } from 'firebase/auth'
 
 export const Navbar = () => {
   const [nav, setNav] = useState(false)
@@ -13,7 +14,7 @@ export const Navbar = () => {
     setNav(!nav)
   }
   const { user } = useAuth()
-
+  const auth = getAuth()
   useEffect(() => {
     const changeColor = () => {
       if (window.scrollY >= 90) {
@@ -49,13 +50,15 @@ export const Navbar = () => {
             <Link href="/contact">
               <li className="p-4">Contact</li>
             </Link>
-            <Link href="/login">
-              {user && user.uid ? (
-                <li className="p-4">My Profile</li>
-              ) : (
+            {user && user.uid ? (
+              <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
+                Logout
+              </div>
+            ) : (
+              <Link href="/login">
                 <li className="p-4">Login</li>
-              )}
-            </Link>
+              </Link>
+            )}
           </ul>
 
           {/*mobile button */}
