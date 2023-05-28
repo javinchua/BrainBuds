@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
+import { useAuth } from 'context/AuthContext'
 
 export const Navbar = () => {
   const [nav, setNav] = useState(false)
@@ -11,6 +12,7 @@ export const Navbar = () => {
   const handleNav = () => {
     setNav(!nav)
   }
+  const { user } = useAuth()
 
   useEffect(() => {
     const changeColor = () => {
@@ -46,6 +48,13 @@ export const Navbar = () => {
             </Link>
             <Link href="/contact">
               <li className="p-4">Contact</li>
+            </Link>
+            <Link href="/login">
+              {user && user.uid ? (
+                <li className="p-4">My Profile</li>
+              ) : (
+                <li className="p-4">Login</li>
+              )}
             </Link>
           </ul>
 
