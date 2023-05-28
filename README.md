@@ -35,37 +35,37 @@ Our other features include a caption generator, a hashtag generator, and a sched
 - "Log In" button
 - "Forgot Password" and "Sign Up" links
 
-### 🏠 Dashboard Main Page:
+### 🏠 Dashboard Main Page: (June)
 
 - Left-side navigation bar (Home, Analytics, Scheduler, Caption Generator, Hashtag Generator, Settings, etc.)
 - Home page overview of key metrics (follower growth, engagement rate, post reach)
 - "Recommended Posting Time" and "Recommended Content Type" sections, based on AI analysis
 
-### 📊 Analytics Page:
+### 📊 Analytics Page: (Throughout June)
 
-- Graphs/charts displaying follower growth, engagement rates, and post reach over time
-- Engagement breakdown (likes, comments, shares)
-- Date range selection for historical data viewing
+- Graphs/charts displaying follower growth, engagement rates, and post reach over time (June Week 1)
+- Engagement breakdown (likes, comments, shares) (June Week 2)
+- Date range selection for historical data viewing (June Week 3)
 
-### 📅 Scheduler Page:
+### 📅 Scheduler Page: (June Week 4)
 
 - Calendar view for post scheduling
 - Option to upload images/videos, write captions, and add hashtags
 - List view of scheduled and past posts
 
-### 🖊️ Caption Generator Page:
+### 🖊️ Caption Generator Page: (July)
 
 - Keyword/topic input field
 - Caption generation button
 - Display area for generated caption with copying or adding options
 
-### 🏷️ Hashtag Generator Page:
+### 🏷️ Hashtag Generator Page: (July)
 
 - Keyword/topic input field
 - Hashtag generation button
 - Display area for generated hashtags with copying or adding options
 
-### ⚙️ Settings Page:
+### ⚙️ Settings Page: (June)
 
 - User account details and preferences fields
 
