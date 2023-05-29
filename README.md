@@ -1,4 +1,4 @@
-# 🧠 BrainBuds
+# 🧠 BrainBuds (https://brain-buds.vercel.app/)
 
 ## 🎯 Proposed Level of Achievement: Apollo 11
 
