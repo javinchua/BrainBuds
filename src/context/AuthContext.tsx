@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import {
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-} from 'firebase/auth'
+import { onAuthStateChanged, User } from 'firebase/auth'
 import { auth } from '../config/firebase'
 
 interface UserType {
@@ -12,16 +7,26 @@ interface UserType {
   uid: string | null
 }
 
-const AuthContext = createContext({})
+interface AuthContextType {
+  user: UserType
+}
 
-export const useAuth = () => useContext<any>(AuthContext)
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthContextProvider')
+  }
+  return context
+}
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType>({ email: null, uid: null })
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
         setUser({
           email: user.email,
@@ -30,11 +35,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       } else {
         setUser({ email: null, uid: null })
       }
+      setLoading(false)
     })
-    setLoading(false)
 
     return () => unsubscribe()
   }, [])
 
-  return <AuthContext.Provider value={{ user }}>{loading ? null : children}</AuthContext.Provider>
+  if (loading) {
+    return null
+  }
+
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
 }

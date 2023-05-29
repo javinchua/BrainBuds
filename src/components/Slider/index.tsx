@@ -4,7 +4,11 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
-const Slider = ({ slides }: { slides: any[] }) => {
+interface SliderDataProps {
+  image: string
+}
+
+const Slider = ({ slides }: { slides: SliderDataProps[] }) => {
   const [currImage, setCurrImage] = useState(0)
   const length = slides.length
   const prevSlide = () => {

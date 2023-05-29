@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export const CONFIRM_BUTTON_CLASSES = 'h-10 rounded-3xl text-white bg-primary'
@@ -11,7 +11,7 @@ interface IButtonProps {
   className?: string
   children?: React.ReactNode
   type?: 'submit' | 'reset' | 'button'
-  onClick?: (any: any) => void
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   disabled?: boolean
