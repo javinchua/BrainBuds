@@ -36,17 +36,5 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return () => unsubscribe()
   }, [])
 
-  const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password)
-  }
-
-  const logIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
-
-  const logOut = async () => {
-    setUser({ email: null, uid: null })
-    await signOut(auth)
-  }
   return <AuthContext.Provider value={{ user }}>{loading ? null : children}</AuthContext.Provider>
 }
