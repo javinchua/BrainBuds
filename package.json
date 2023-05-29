@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apideck/components": "^0.12.8",
+    "@headlessui/react": "^1.7.14",
     "@mui/material": "^5.13.2",
     "firebase": "^9.22.1",
     "next": "^13.3.1",

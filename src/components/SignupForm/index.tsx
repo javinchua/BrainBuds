@@ -4,6 +4,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { InputContainer } from '../InputContainer'
 import { useAuth } from 'context/AuthContext'
+import { RedirectComponent } from '../Redirect'
 
 export const SignupForm: React.FC = () => {
   // State
@@ -20,6 +21,11 @@ export const SignupForm: React.FC = () => {
 
   const auth = getAuth()
   const { user } = useAuth()
+
+  // For Dialog
+  const [isOpen, setIsOpen] = React.useState<boolean>(true)
+  const cancelButtonRef = React.useRef(null)
+
   // TODO: Handle sign up
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
@@ -49,25 +55,24 @@ export const SignupForm: React.FC = () => {
     router.push('/')
     return null
   }
-  if (user && user.uid) {
+  if ((user && user.uid) || signupSuccess) {
     setTimeout(() => {
       if (countdownTime > 0) {
         setCountdownTime(countdownTime - 1)
       }
     }, 1000)
     return countdownTime > 0 ? (
-      <div>
-        <h1>Logged in!</h1>
-        <p>Redirecting in {countdownTime}</p>
-      </div>
+      <RedirectComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        cancelButtonRef={cancelButtonRef}
+        setLogInSuccess={setSignupSuccess}
+      />
     ) : (
       redirect()
     )
   }
 
-  if (signupSuccess) {
-    return redirect()
-  }
   return (
     <section className="bg-gray-900">
       <div className="flex flex-col items-center justify-center h-screen px-8 py-8 mx-auto lg:py-0">

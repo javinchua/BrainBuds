@@ -1,9 +1,10 @@
 import { ButtonComponent } from 'components/Button'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useRouter } from 'next/router'
 import { InputContainer } from 'components/InputContainer'
 import { useAuth } from 'context/AuthContext'
+import { RedirectComponent } from 'components/Redirect'
 
 const LoginForm: React.FC = (): JSX.Element | null => {
   // State
@@ -14,6 +15,10 @@ const LoginForm: React.FC = (): JSX.Element | null => {
   const [userNotFound, setUserNotFound] = React.useState<boolean>(false)
   const [passwordInvalid, setPasswordInvalid] = React.useState<boolean>(false)
 
+  // For Dialog
+  const [isOpen, setIsOpen] = React.useState<boolean>(true)
+  const cancelButtonRef = useRef(null)
+
   const { user } = useAuth()
   const router = useRouter()
 
@@ -21,7 +26,11 @@ const LoginForm: React.FC = (): JSX.Element | null => {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setLogInSuccess(true)
+        setIsOpen(true)
+        setTimeout(() => {
+          setIsOpen(false)
+          setLogInSuccess(true)
+        }, 3000)
       })
       .catch((error) => {
         if (error.code === 'auth/user-not-found') {
@@ -39,24 +48,23 @@ const LoginForm: React.FC = (): JSX.Element | null => {
     router.push('/')
     return null
   }
-  if (user && user.uid) {
+
+  if ((user && user.uid) || logInSuccess) {
     setTimeout(() => {
       if (countdownTime > 0) {
         setCountdownTime(countdownTime - 1)
       }
     }, 1000)
     return countdownTime > 0 ? (
-      <div>
-        <h1>Logged in!</h1>
-        <p>Redirecting in {countdownTime}</p>
-      </div>
+      <RedirectComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        cancelButtonRef={cancelButtonRef}
+        setLogInSuccess={setLogInSuccess}
+      />
     ) : (
       redirect()
     )
-  }
-
-  if (logInSuccess) {
-    return redirect()
   }
 
   return (
