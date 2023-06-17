@@ -51,9 +51,12 @@ export const Navbar = () => {
               <li className="p-4">Contact</li>
             </Link>
             {user && user.uid ? (
-              <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
-                Logout
-              </div>
+              <>
+                <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
+                  Logout
+                </div>
+                <div className="p-4">User Type: {user.type}</div>
+              </>
             ) : (
               <Link href="/login">
                 <li className="p-4">Login</li>

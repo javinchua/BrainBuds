@@ -5,6 +5,9 @@ import { useRouter } from 'next/router'
 import { InputContainer } from '../InputContainer'
 import { useAuth } from 'context/AuthContext'
 import { RedirectComponent } from '../Redirect'
+import { doc, setDoc } from 'firebase/firestore'
+import { userTypes } from '@/utils/constants/constants'
+import { getFirestore } from 'firebase/firestore'
 
 export const SignupForm: React.FC = () => {
   // State
@@ -17,6 +20,8 @@ export const SignupForm: React.FC = () => {
   const [emailInUsed, setEmailInUsed] = React.useState<boolean>(false)
   const [passwordInvalid, setPasswordInvalid] = React.useState<boolean>(false)
   const [confirmPasswordValid, setConfirmPasswordValid] = React.useState<boolean>(false)
+  const [userType, setUserType] = React.useState<userTypes>(userTypes.CHARITY)
+
   const router = useRouter()
 
   const auth = getAuth()
@@ -32,13 +37,25 @@ export const SignupForm: React.FC = () => {
     if (password !== confirmPassword) {
       setConfirmPasswordValid(false)
     } else {
-      handleFirebaseUserCreation(auth, email, password)
+      handleFirebaseUserCreation(auth, email, password, userType)
     }
   }
 
-  const handleFirebaseUserCreation = (auth: Auth, email: string, password: string) => {
+  const handleFirebaseUserCreation = (
+    auth: Auth,
+    email: string,
+    password: string,
+    userType: userTypes
+  ) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
+        const user = userCredential.user
+        const firestore = getFirestore()
+        const userRef = doc(firestore, 'users', user.uid)
+        setDoc(userRef, {
+          uid: user.uid,
+          userType: userType
+        })
         setSignupSuccess(true)
       })
       .catch((error) => {
@@ -117,6 +134,19 @@ export const SignupForm: React.FC = () => {
               {confirmPasswordValid === false && (
                 <span className="text-xs text-pink">Password not equal!</span>
               )}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-white">
+                  Select an option
+                </label>
+                <select
+                  className="border-gray-600 text-white border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700  placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500"
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value as userTypes)}
+                >
+                  <option value={userTypes.DONOR}>{userTypes.DONOR}</option>
+                  <option value={userTypes.CHARITY}>{userTypes.CHARITY}</option>
+                </select>
+              </div>
               <ButtonComponent type="submit" onClick={handleSubmit}>
                 Register
               </ButtonComponent>
