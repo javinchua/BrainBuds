@@ -3,7 +3,7 @@ import ProductGrid from '@/components/ProductGrid'
 
 const productdonor = () => {
   return (
-    <div>
+    <div className="mx-6 mt-8">
       <h1>Listings</h1>
       <ProductGrid></ProductGrid>
     </div>
