@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, TextField, Typography } from '@mui/material'
-import { Edit, Save, Add } from '@mui/icons-material'
+import { Edit, Save } from '@mui/icons-material'
 import { Product } from '@/utils/constants/constants'
 
 const ProductListingPage = () => {
@@ -104,7 +104,7 @@ const ProductListingPage = () => {
               )}
             </div>
           ))}
-          <Button
+          {/* <Button
             onClick={() =>
               setProducts((prevProducts) => [
                 ...prevProducts,
@@ -115,7 +115,7 @@ const ProductListingPage = () => {
             endIcon={<Add />}
           >
             Add Product
-          </Button>
+          </Button> */}
         </div>
       </div>
     </section>
