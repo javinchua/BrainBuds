@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react'
 import { useAuth } from 'context/AuthContext'
 import { getAuth, signOut } from 'firebase/auth'
 
-export const Navbar = () => {
+export const NavBar = () => {
   const [nav, setNav] = useState(false)
-  const [color, setColor] = useState('transparent')
+  const [color, setColor] = useState('#1b263d')
   const [textColor, setTextColor] = useState('white')
 
   const handleNav = () => {
@@ -21,11 +21,14 @@ export const Navbar = () => {
         setColor('#ffffff')
         setTextColor('#000000')
       } else {
-        setColor('transparent')
+        setColor('#1b263d')
         setTextColor('#ffffff')
       }
     }
     window.addEventListener('scroll', changeColor)
+    return () => {
+      window.removeEventListener('scroll', changeColor)
+    }
   }, [])
 
   return (

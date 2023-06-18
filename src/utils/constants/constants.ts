@@ -11,3 +11,10 @@ export const sampleCharity: CharityData = {
   name: 'Sample Charity',
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 }
+export interface Product {
+  id: string
+  name: string
+  description: string
+  price: string
+  editing: boolean
+}
