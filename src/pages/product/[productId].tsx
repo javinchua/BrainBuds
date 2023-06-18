@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getProductById } from '../api/product' // Replace with your API call to fetch the product data
-import ProductPage from '@/components/ProductsPage'
+import ProductPage from '@/components/ProductPage'
 import { Product } from '@/utils/constants/constants'
 
 const ProductDetailPage = () => {
@@ -22,7 +22,7 @@ const ProductDetailPage = () => {
 
   if (!product) {
     // Handle case when product is not found or still loading
-    return <div>Loading...</div>
+    return <div className="mt-10">Loading...</div>
   }
 
   return <ProductPage product={product} />

@@ -19,4 +19,5 @@ export interface Product {
   image: string
   editing: boolean
   available: boolean
+  sellerId: string
 }

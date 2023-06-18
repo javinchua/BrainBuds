@@ -18,7 +18,8 @@ export const getAllProducts = async () => {
         price: data.price,
         image: data.image,
         editing: false,
-        available: data.available
+        available: data.available,
+        sellerId: data.sellerId
       }
     })
 

@@ -40,16 +40,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
           <div
             key={product.id}
             className="p-4 bg-white shadow hover:shadow-md"
-            onClick={() => handleClick}
+            onClick={() => handleClick(product.id)}
           >
             <div className="grid h-full grid-cols-1 gap-2">
-              <p className="text-gray-700">{product.id}</p>
+              <p className="text-gray-700">{product.sellerId}</p>
               <div className="aspect-w-1 aspect-h-1">
                 <img src={product.image} alt={product.name} className="object-cover" />
               </div>
               <h2 className="font-semibold text-md">{product.name}</h2>
               <div className="flex flex-col justify-end">
                 <p className="text-sm text-gray-500">{product.description}</p>
+
                 <p className="mt-2 text-gray-700">${product.price}</p>
               </div>
             </div>
