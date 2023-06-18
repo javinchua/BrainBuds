@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <main>
-        <Hero heading="Brainbuds" message="Your personal instagram assistant"></Hero>
+        <Hero heading="Givver" message="Your personal instagram assistant"></Hero>
         <Slider slides={SliderData} />
       </main>
     </>
