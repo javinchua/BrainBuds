@@ -4,12 +4,12 @@ import { Product } from '@/utils/constants/constants'
 
 const firestore = getFirestore()
 
-export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
+export const getAllProducts = async () => {
   try {
-    const productRef = collection(firestore, `charities/${uid}/products`)
+    const productRef = collection(firestore, 'products')
     const productSnapshot = await getDocs(productRef)
 
-    const products: Product[] = productSnapshot.docs.map((doc) => {
+    const products = productSnapshot.docs.map((doc) => {
       const data = doc.data()
       return {
         id: doc.id,
