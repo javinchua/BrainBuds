@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
 import { Product } from '@/utils/constants/constants'
+import { useRouter } from 'next/router'
 
 interface ProductGridProps {
   searchQuery: string
@@ -10,6 +11,10 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   const [products, setProducts] = useState<Product[]>([])
+  const router = useRouter()
+  const handleClick = (productId: string) => {
+    router.push(`/product/${productId}`)
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,7 +37,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
         <div className="text-gray-500">No items found</div>
       ) : (
         filteredProducts.map((product) => (
-          <div key={product.id} className="p-4 bg-white shadow hover:shadow-md">
+          <div
+            key={product.id}
+            className="p-4 bg-white shadow hover:shadow-md"
+            onClick={() => handleClick}
+          >
             <div className="grid h-full grid-cols-1 gap-2">
               <p className="text-gray-700">{product.id}</p>
               <div className="aspect-w-1 aspect-h-1">

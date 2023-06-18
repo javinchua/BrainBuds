@@ -1,4 +1,4 @@
-import { doc, setDoc, collection, getDocs } from 'firebase/firestore'
+import { doc, setDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
 
@@ -37,5 +37,28 @@ export const updateProductInfo = async (data: Product, uid: string) => {
   } catch (error) {
     console.error('Error updating product info:', error)
     return null
+  }
+}
+
+export const getProductById = async (id: string): Promise<Product | null> => {
+  const productRef = collection(firestore, 'products')
+  const q = query(productRef, where('id', '==', id))
+  const productSnapshot = await getDocs(q)
+
+  if (!productSnapshot.empty) {
+    const productDoc = productSnapshot.docs[0]
+    const productData = productDoc.data()
+    const product: Product = {
+      id: productDoc.id,
+      name: productData.name,
+      description: productData.description,
+      price: productData.price,
+      image: productData.image,
+      editing: false,
+      available: false
+    }
+    return product
+  } else {
+    return null // Product not found
   }
 }
