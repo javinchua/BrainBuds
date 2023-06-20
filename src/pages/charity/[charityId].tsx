@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import CharityPage from '@/components/CharityInfo'
+import CharityPage from '@/components/CharityGeneral'
 import { CharityData } from '@/utils/constants/constants'
 import { getFirestore } from 'firebase/firestore'
 import { doc, getDoc } from 'firebase/firestore'
