@@ -1,38 +1,90 @@
-import React from 'react'
+import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
+import Link from 'next/link'
+import { CharityProfile } from '../CharityProfile'
+import { useEffect } from 'react'
+import { doc, getDoc } from 'firebase/firestore'
+import { useState } from 'react'
 
 interface ProductPageProps {
   product: Product
 }
+const firestore = getFirestore()
 
 const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
+  const [sellerName, setSellerName] = useState<string>('')
+
+  const fetchCharityData = async () => {
+    const docRef = doc(firestore, 'charities', product.sellerId)
+    const docSnap = await getDoc(docRef)
+
+    // Access the data from the document snapshot
+    if (docSnap.exists()) {
+      const sellerData = docSnap.data()
+      const sellerName = sellerData.name
+      setSellerName(sellerName)
+      // Process the seller data here
+    }
+  }
+
+  useEffect(() => {
+    fetchCharityData()
+  }, [])
+
   return (
     <div className="p-4 mt-10">
-      <div className="relative">
-        <div className="relative w-[200px] h-[344px] mx-auto">
-          <div className="aspect-w-1 aspect-h-1">
-            <img src={product.image} alt={product.name} className="object-cover" />
+      {/*image*/}
+      <div className="flex justify-center mb-10 bg-neutral-300">
+        <div className="relative">
+          <div className="rounded-full">
+            <img src={product.image} alt={product.name} className="object-contain" />
           </div>
+          <div className="absolute inset-0 bg-gray-200 opacity-50"></div>
         </div>
-        <div className="absolute inset-0 bg-gray-200 opacity-50"></div>
       </div>
 
-      <div className="flex justify-between mt-4">
-        <div className="w-[70%] border-b">
-          <h1 className="text-lg">{product.name}</h1>
+      {/*header for product*/}
+      <div className="flex">
+        <div className="w-[70%]">
+          <h1 className="text-2xl">{product.name}</h1>
+          <div className="flex">
+            <li>Meet up</li>
+            <li></li>
+          </div>
         </div>
-
-        <div className="justify-center block w-[30%] text-center border-neutral-800 shadow-md">
-          <div className="w-full">
-            <h1 className="py-4">seller</h1>
-            <button className="w-full py-4 font-bold text-red-100 bg-purple">Donate</button>
-            <button className="w-full py-4 bg-gray-100">Chat</button>
+        <div className="w-[30%] mt-4">
+          <div className="flex flex-col p-4 text-center shadow-md border-neutral-800">
+            <h1 className="py-4 text-lg font-bold">{sellerName}</h1>
+            <Link href="/checkout" className="w-full py-4 font-bold text-red-100 bg-purple">
+              Donate
+            </Link>
+            <Link href="/chat" className="w-full py-4 bg-gray-100 ">
+              Chat
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* product description*/}
+
       <div className="my-4">
-        <h2 className="text-lg font-semibold">Description</h2>
+        <h2 className="py-4 text-xl font-semibold">Description</h2>
+        <div className="flex mb-4">
+          <div className="w-1/2">
+            <h1>Posted</h1>
+          </div>
+          <div className="w-1/2">
+            <h1>category</h1>
+          </div>
+        </div>
         <p>{product.description}</p>
+      </div>
+
+      {/* seller description*/}
+
+      <div className="my-4">
+        <h1 className="py-4 text-xl font-semibold">Meet the charity</h1>
+        <CharityProfile></CharityProfile>
       </div>
     </div>
   )

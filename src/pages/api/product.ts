@@ -19,7 +19,11 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         image: data.image,
         editing: false,
         available: data.available,
-        sellerId: data.sellerId
+        sellerId: data.sellerId,
+        sellerName: data.sellerName,
+        category: data.category,
+        delivery: data.delivery,
+        createdAt: data.createdAt
       }
     })
     return products
@@ -56,7 +60,11 @@ export const getProductById = async (id: string): Promise<Product | null> => {
         image: productData.image,
         editing: false,
         available: false,
-        sellerId: productData.sellerId
+        sellerId: productData.sellerId,
+        sellerName: productData.sellerName,
+        category: productData.category,
+        delivery: productData.delivery,
+        createdAt: productData.createdAt
       }
       return product
     } else {

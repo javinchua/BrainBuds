@@ -5,11 +5,10 @@ import { useRouter } from 'next/router'
 
 interface ProductGridProps {
   searchQuery: string
+  sellerId?: string
 }
 
-//should only show if is available.
-
-const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, sellerId }) => {
   const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
   const handleClick = (productId: string) => {
@@ -20,7 +19,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     const fetchProducts = async () => {
       const productsData = await getAllProducts()
       if (productsData) {
-        setProducts(productsData)
+        let filteredProducts = productsData
+
+        if (sellerId) {
+          filteredProducts = filteredProducts.filter((product) => product.sellerId === sellerId)
+        }
+
+        setProducts(filteredProducts) // Update the state with filtered products
       }
     }
 
@@ -43,14 +48,19 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
             onClick={() => handleClick(product.id)}
           >
             <div className="grid h-full grid-cols-1 gap-2">
-              <p className="text-gray-700">{product.sellerId}</p>
-              <div className="aspect-w-1 aspect-h-1">
+              <div className="flex items-center">
+                <div className="w-6 h-6 rounded-full bg-purple"></div>
+                <div>
+                  <p className="block ml-2 font-semibold text-gray-700">{product.sellerName}</p>
+                  <p className="block ml-2 text-gray-700">{product.createdAt}</p>
+                </div>
+              </div>
+              <div className="rounded-full aspect-w-1 aspect-h-1">
                 <img src={product.image} alt={product.name} className="object-cover" />
               </div>
-              <h2 className="font-semibold text-md">{product.name}</h2>
+              <h2 className="text-md">{product.name}</h2>
               <div className="flex flex-col justify-end">
                 <p className="text-sm text-gray-500">{product.description}</p>
-
                 <p className="mt-2 text-gray-700">${product.price}</p>
               </div>
             </div>

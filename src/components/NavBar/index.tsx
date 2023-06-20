@@ -47,6 +47,9 @@ export const NavBar = () => {
             <Link href="/">
               <li className="p-4">Home</li>
             </Link>
+            <Link href="/products">
+              <li className="p-4">Browse All</li>
+            </Link>
             <Link href="/gallery">
               <li className="p-4">Gallery</li>
             </Link>

@@ -11,15 +11,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   }
 
   return (
-    <div>
+    <div className="flex">
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search products..."
-        className="px-4 py-2 border border-gray-300 rounded-md"
+        className="flex-grow px-4 py-2 border border-gray-300 rounded-md"
       />
-      <button onClick={handleSearch} className="px-4 py-2 ml-2 rounded-md bg-blue text-green">
+      <button
+        onClick={handleSearch}
+        className="px-4 py-2 ml-2 bg-gray-300 rounded-md bg-blue text-green"
+      >
         Search
       </button>
     </div>

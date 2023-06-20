@@ -19,7 +19,11 @@ export const getAllProducts = async () => {
         image: data.image,
         editing: false,
         available: data.available,
-        sellerId: data.sellerId
+        sellerId: data.sellerId,
+        sellerName: data.sellerName,
+        category: data.category,
+        delivery: data.delivery,
+        createdAt: data.createdAt
       }
     })
 

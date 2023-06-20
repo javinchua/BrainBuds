@@ -20,4 +20,8 @@ export interface Product {
   editing: boolean
   available: boolean
   sellerId: string
+  category: string
+  delivery: string
+  createdAt: string
+  sellerName: string
 }

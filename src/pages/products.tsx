@@ -10,10 +10,12 @@ const ProductDonor = () => {
   }
 
   return (
-    <div className="mx-6 mt-8">
-      <h1 className="mb-2 text-xl font-bold">What would you like to donate today?</h1>
+    <div className="mx-6 mt-10">
+      <h1 className="mb-6 text-xl font-bold ">What would you like to donate today?</h1>
       <SearchBar onSearch={handleSearch} />
-      <ProductGrid searchQuery={searchQuery}></ProductGrid>
+      <div className="mt-6">
+        <ProductGrid searchQuery={searchQuery}></ProductGrid>{' '}
+      </div>
     </div>
   )
 }
