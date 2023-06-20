@@ -1,4 +1,4 @@
-import { doc, setDoc, collection, getDocs } from 'firebase/firestore'
+import { doc, setDoc, collection, getDocs, addDoc, query, where } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
 
@@ -6,8 +6,8 @@ const firestore = getFirestore()
 
 export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
   try {
-    const productRef = collection(firestore, `charities/${uid}/products`)
-    const productSnapshot = await getDocs(productRef)
+    const q = query(collection(firestore, 'products'), where('sellerId', '==', uid))
+    const productSnapshot = await getDocs(q)
 
     const products: Product[] = productSnapshot.docs.map((doc) => {
       const data = doc.data()
@@ -17,7 +17,8 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         description: data.description,
         price: data.price,
         image: data.image,
-        editing: false
+        sellerId: data.sellerId,
+        category: data.category
       }
     })
 
@@ -28,13 +29,27 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
   }
 }
 
-export const updateProductInfo = async (data: Product, uid: string) => {
+export const updateProductInfo = async (data: Product) => {
   try {
-    const docRef = doc(firestore, `charities/${uid}/products`, data.id)
+    const docRef = doc(firestore, `products`, data.id)
     setDoc(docRef, data)
-    return null
+    return data as Product
   } catch (error) {
     console.error('Error updating product info:', error)
+    return null
+  }
+}
+
+export const addNewProduct = async (data: Product) => {
+  try {
+    const collectionRef = collection(firestore, `products`)
+    const docRef = await addDoc(collectionRef, data)
+    return {
+      ...data,
+      id: docRef.id
+    } as Product
+  } catch (error) {
+    console.error('Error adding new product:', error)
     return null
   }
 }

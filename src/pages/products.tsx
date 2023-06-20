@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextField, Typography } from '@mui/material'
-import { Edit, Save } from '@mui/icons-material'
-import { Product } from '@/utils/constants/constants'
+import { Edit, Save, Add } from '@mui/icons-material'
+import { ProductEditing } from '@/utils/constants/constants'
+import { addNewProduct, getAllProductsFromCharity, updateProductInfo } from './api/product'
+import { useAuth } from 'context/AuthContext'
 
 const ProductListingPage = () => {
-  const [products, setProducts] = useState<Product[]>([])
+  const { user } = useAuth()
+  const [loading, setLoading] = useState(false)
+  const [products, setProducts] = useState<ProductEditing[]>([])
 
   const handleEdit = (index: number) => {
     setProducts((prevProducts) =>
@@ -14,18 +18,62 @@ const ProductListingPage = () => {
     )
   }
 
-  const handleSave = (index: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product, i) => (i === index ? { ...product, editing: false } : product))
-    )
+  const handleSave = async (index: number) => {
+    const result = await handleSaveProduct(products[index])
+    if (result != undefined) {
+      setProducts((prevProducts) =>
+        prevProducts.map((product, i) => (i === index ? result : product))
+      )
+    }
   }
 
-  const handleProductChange = (index: number, field: keyof Product, value: string) => {
+  const handleProductChange = (index: number, field: keyof ProductEditing, value: string) => {
     setProducts((prevProducts) =>
       prevProducts.map((product, i) => (i === index ? { ...product, [field]: value } : product))
     )
   }
 
+  const handleSaveProduct = async (data: ProductEditing) => {
+    if (user.uid) {
+      const removedEditField = {
+        id: data.id,
+        name: data.name,
+        category: data.category,
+        description: data.description,
+        sellerId: data.sellerId,
+        price: data.price,
+        image: data.image
+      }
+      let res
+      if (data.id == '0') {
+        res = await addNewProduct(removedEditField)
+      } else {
+        res = await updateProductInfo(removedEditField)
+      }
+      const addEditField = {
+        ...res,
+        editing: false
+      }
+      return addEditField as ProductEditing
+    }
+  }
+  useEffect(() => {
+    const retrieveInfo = async () => {
+      if (user.uid) {
+        setLoading(true)
+        const data = await getAllProductsFromCharity(user.uid)
+        if (data != null) {
+          const editedData = data.map((info) => ({
+            ...info,
+            editing: false
+          }))
+          setProducts(editedData)
+        }
+        setLoading(false)
+      }
+    }
+    retrieveInfo()
+  }, [user])
   return (
     <section className="bg-gray-900">
       <div className="flex flex-col min-h-screen px-4 py-8">
@@ -92,6 +140,8 @@ const ProductListingPage = () => {
                   <Typography variant="body1" style={{ marginBottom: '1rem' }}>
                     {product.price}
                   </Typography>
+                  {product.image ? <img src={product.image} /> : null}
+
                   <Button
                     onClick={() => handleEdit(index)}
                     variant="contained"
@@ -104,18 +154,27 @@ const ProductListingPage = () => {
               )}
             </div>
           ))}
-          {/* <Button
+          <Button
             onClick={() =>
               setProducts((prevProducts) => [
                 ...prevProducts,
-                { name: '', description: '', price: '', editing: true }
+                {
+                  name: '',
+                  description: '',
+                  price: 0,
+                  editing: true,
+                  sellerId: user.uid || '',
+                  image: '',
+                  category: '',
+                  id: '0'
+                }
               ])
             }
             variant="contained"
             endIcon={<Add />}
           >
             Add Product
-          </Button> */}
+          </Button>
         </div>
       </div>
     </section>

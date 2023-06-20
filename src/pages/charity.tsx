@@ -10,7 +10,9 @@ const CharityPage = () => {
   const { user } = useAuth()
 
   const [editing, setEditing] = useState(false)
+  // charity info refers to the data in the backend
   const [charityInfo, setCharityInfo] = useState<CharityData>(sampleCharity)
+  // refers to the info that users see on their s
   const [charityData, setCharityData] = useState<CharityData>(charityInfo)
   const [loading, setLoading] = useState(false)
 

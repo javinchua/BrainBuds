@@ -15,6 +15,12 @@ export interface Product {
   id: string
   name: string
   description: string
-  price: string
+  price: number
+  sellerId: string
+  image: string
+  category: string
+}
+
+export interface ProductEditing extends Product {
   editing: boolean
 }
