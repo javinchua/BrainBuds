@@ -1,18 +1,20 @@
 import { getFirestore } from 'firebase/firestore'
-import { Product } from '@/utils/constants/constants'
+import { CharityData, Product } from '@/utils/constants/constants'
 import Link from 'next/link'
 import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { useState } from 'react'
-
-interface ProductPageProps {
+import { FiMapPin } from 'react-icons/fi'
+import ProductIcon from '../ProductIcon'
+import { FaHandshake } from 'react-icons/fa'
+interface ProductDetailProps {
   product: Product
 }
 const firestore = getFirestore()
 
-const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
-  const [sellerName, setSellerName] = useState<string>('')
+const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+  const [charity, setCharity] = useState<CharityData>()
 
   const fetchCharityData = async () => {
     const docRef = doc(firestore, 'charities', product.sellerId)
@@ -20,9 +22,9 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
 
     // Access the data from the document snapshot
     if (docSnap.exists()) {
-      const sellerData = docSnap.data()
-      const sellerName = sellerData.name
-      setSellerName(sellerName)
+      const charityData = docSnap.data() as CharityData
+      setCharity(charityData)
+
       // Process the seller data here
     }
   }
@@ -32,7 +34,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
   }, [])
 
   return (
-    <div className="p-4 mt-10">
+    <div className="h-screen p-4 mt-10">
       {/*image*/}
       <div className="flex justify-center mb-10 bg-neutral-300">
         <div className="relative">
@@ -44,17 +46,23 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
       </div>
 
       {/*header for product*/}
-      <div className="flex">
+      <div className="flex border-b">
         <div className="w-[70%]">
           <h1 className="text-2xl">{product.name}</h1>
-          <div className="flex">
-            <li>Meet up</li>
-            <li></li>
+          <div className="flex mt-6">
+            <div className="flex w-1/2">
+              <ProductIcon icon={<FaHandshake></FaHandshake>}></ProductIcon>
+              <p className="w-1/2 ml-4">Meet up</p>
+            </div>
+            <div className="flex w-1/2">
+              <ProductIcon icon={<FiMapPin></FiMapPin>}></ProductIcon>
+              <p className="ml-4">Location</p>
+            </div>
           </div>
         </div>
         <div className="w-[30%] mt-4">
           <div className="flex flex-col p-4 text-center shadow-md border-neutral-800">
-            <h1 className="py-4 text-lg font-bold">{sellerName}</h1>
+            <h1 className="py-4 text-lg font-bold">{charity ? charity.name : 'Unknown'}</h1>
             <Link href="/checkout" className="w-full py-4 font-bold text-red-100 bg-purple">
               Donate
             </Link>
@@ -67,14 +75,14 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
 
       {/* product description*/}
 
-      <div className="my-4">
-        <h2 className="py-4 text-xl font-semibold">Description</h2>
+      <div className="p-4 my-4 border-b">
+        <h2 className="py-4 text-2xl font-semibold ">Description</h2>
         <div className="flex mb-4">
           <div className="w-1/2">
-            <h1>Posted</h1>
+            <h1>Posted: {product.createdAt}</h1>
           </div>
           <div className="w-1/2">
-            <h1>category</h1>
+            <h1>Category: {product.category}</h1>
           </div>
         </div>
         <p>{product.description}</p>
@@ -83,11 +91,11 @@ const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
       {/* seller description*/}
 
       <div className="my-4">
-        <h1 className="py-4 text-xl font-semibold">Meet the charity</h1>
-        <CharityProfile></CharityProfile>
+        <h1 className="py-4 text-2xl font-semibold">Meet the charity</h1>
+        <CharityProfile charity={charity}></CharityProfile>
       </div>
     </div>
   )
 }
 
-export default ProductPage
+export default ProductDetail

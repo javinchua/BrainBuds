@@ -12,7 +12,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, sellerId }) => {
   const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
   const handleClick = (productId: string) => {
-    router.push(`/product/${productId}`)
+    router.push(`/products/${productId}`)
   }
 
   useEffect(() => {

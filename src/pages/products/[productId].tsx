@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getProductById } from '../api/product' // Replace with your API call to fetch the product data
-import ProductPage from '@/components/ProductPage'
+import ProductDetail from '@/components/ProductDetail'
 import { Product } from '@/utils/constants/constants'
 
 const ProductDetailPage = () => {
@@ -25,7 +25,7 @@ const ProductDetailPage = () => {
     return <div className="mt-10">Loading...</div>
   }
 
-  return <ProductPage product={product} />
+  return <ProductDetail product={product} />
 }
 
 export default ProductDetailPage
