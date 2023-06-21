@@ -81,7 +81,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-4">
+    <div className="grid gap-4 sm:grid-cols-3 md:grid-cols-5">
       {filteredProducts.length === 0 ? (
         <div className="text-gray-500">No items found</div>
       ) : (
@@ -95,11 +95,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
               <div className="flex items-center">
                 <div className="w-6 h-6 rounded-full bg-purple"></div>
                 <div>
-                  <p className="block ml-2 font-semibold text-gray-700">
+                  <p className="block ml-2 font-semibold text-gray-700 text-md">
                     {sellerNames.length > 0 ? sellerNames[index] : 'Unknown Seller'}
                   </p>
 
-                  <p className="block ml-2 text-gray-700">{product.createdAt}</p>
+                  <p className="block ml-2 text-sm text-gray-700">{product.createdAt}</p>
                 </div>
               </div>
               <div className="rounded-full aspect-w-1 aspect-h-1">
