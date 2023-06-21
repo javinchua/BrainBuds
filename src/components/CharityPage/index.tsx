@@ -3,6 +3,7 @@ import React from 'react'
 
 import ProductGrid from '../ProductGrid'
 import { useRouter } from 'next/router'
+import VerticalCharityProfile from '../VerticalCharityProfile'
 
 //has to accept the charity as a prop
 interface CharityPageProps {
@@ -19,29 +20,35 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
     router.push('/charityInfo')
   }
   return (
-    <div className="flex flex-col mt-20 text-center">
-      <div className="mb-10">
-        <h1>Thank you for visiting</h1>
-        <h1>{charity.description}</h1>
-      </div>
-
+    <div className="flex p-10 mt-20 text-center">
       {/* charity profile navbar */}
-      <div className="flex w-full">
-        <div className="w-[30%]">
-          <h1 className="my-5">profile goes here</h1>
-        </div>
-        <div className="flex w-[70%] h-20 bg-primary-300">
-          <button onClick={handleClickListings} className="my-auto ml-10">
+      <div className="w-[500px]">
+        <VerticalCharityProfile charity={charity} />
+      </div>
+      <div>
+        <div className="flex h-20 border-b">
+          <button
+            onClick={handleClickListings}
+            className="z-10 ml-10 text-lg border-b-4 text-bold text-dark-green border-b-dark-green"
+          >
             <h1>Listings</h1>
           </button>
-          <button onClick={handleClickInfo} className="my-auto ml-10">
+          <button onClick={handleClickInfo} className="ml-10 text-lg border-b-4 border-white">
             <h1>Information</h1>
           </button>
         </div>
+        <ProductGrid />
+      </div>
+      {/* <div className="flex">
+        <div className="w-[30%]">
+          <VerticalCharityProfile charity={charity} />
+        </div>
+    
       </div>
       <div>
         <ProductGrid></ProductGrid>
       </div>
+    </div> */}
     </div>
   )
 }
