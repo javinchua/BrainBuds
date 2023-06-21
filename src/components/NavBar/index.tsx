@@ -45,7 +45,7 @@ export const NavBar = () => {
         className="fixed top-0 left-0 z-10 w-full duration-300 ease-in"
       >
         <div className="max-w-[1240px] m-auto flex justify-between items-center text-white">
-          <Link href="/" className="flex p-4 text-3xl">
+          <Link href="/" className="absolute flex p-4 text-3xl left-6">
             <SiJustgiving />
             <h1 style={{ color: `${textColor}` }} className="ml-[1px] text-3xl font-bold">
               ivver
