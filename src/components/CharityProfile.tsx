@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CharityData } from '@/utils/constants/constants'
+import ProfileAvatar from './ProfileAvatar'
 
 interface CharityProfileProps {
   charity: CharityData | undefined
@@ -21,7 +22,7 @@ export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
       {charity ? (
         <>
           <div className="w-[17%] items-center justify-ceneter p-2">
-            <div className="w-full h-full rounded-full aspect-w-1 aspect-h-1 bg-purple"></div>{' '}
+            <ProfileAvatar charity={charity} />
             {/* Avatar/Circle */}
           </div>
           <div className="flex flex-col object-cover w-full my-4 ml-4">

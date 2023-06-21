@@ -29,7 +29,7 @@ const CharityPage = () => {
 
   if (!charity) {
     // Handle case when charity is not found or still loading
-    return <div className="mt-10">Loading...</div>
+    return <div>Loading...</div>
   }
 
   return <CharityPageComponent charity={charity} />

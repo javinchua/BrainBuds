@@ -26,7 +26,7 @@ export interface Product {
   sellerName: string
 }
 
-export const sampleCharity: CharityData = {
+export const charitySample: CharityData = {
   id: '0zUwFItSqXYhWCMXfprWQI3',
   name: 'old folks home',
   description: 'making people happy'
