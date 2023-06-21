@@ -22,10 +22,16 @@ const ProductDetailPage = () => {
 
   if (!product) {
     // Handle case when product is not found or still loading
-    return <div className="mt-10">Loading...</div>
+    return <div className="flex items-center justify-center h-screen text-gray-700">Loading...</div>
   }
 
-  return <ProductDetail product={product} />
+  return (
+    <div className="min-h-screen py-10 bg-purple-100">
+      <div className="max-w-5xl px-4 mx-auto">
+        <ProductDetail product={product} />
+      </div>
+    </div>
+  )
 }
 
 export default ProductDetailPage

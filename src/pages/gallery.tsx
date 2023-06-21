@@ -1,9 +1,10 @@
 import React from 'react'
-
+import Slider from '@/components/Slider'
+import { SliderData } from '@/components/Slider/SliderData'
 const Gallery = () => {
   return (
     <div className="mt-20">
-      <h1>Gallery</h1>
+      <Slider slides={SliderData}></Slider>
     </div>
   )
 }

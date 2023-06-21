@@ -4,12 +4,18 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import { useAuth } from 'context/AuthContext'
 import { getAuth, signOut } from 'firebase/auth'
+import { BsGrid } from 'react-icons/bs'
+import CategorySidebar from '../CategoryBar'
 
 export const NavBar = () => {
   const [nav, setNav] = useState(false)
   const [color, setColor] = useState('#1b263d')
   const [textColor, setTextColor] = useState('white')
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false)
 
+  const toggleCategory = () => {
+    setIsCategoryOpen(!isCategoryOpen)
+  }
   const handleNav = () => {
     setNav(!nav)
   }
@@ -37,13 +43,21 @@ export const NavBar = () => {
         style={{ backgroundColor: `${color}` }}
         className="fixed top-0 left-0 z-10 w-full duration-300 ease-in"
       >
-        <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
-          <Link href="/">
+        <div className="max-w-[1240px] m-auto flex justify-between items-center text-white">
+          <Link href="/" className="p-4">
             <h1 style={{ color: `${textColor}` }} className="text-3xl font-bold">
               Givver
             </h1>
           </Link>
-          <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
+
+          <button className="p-4 m-auto hover:bg-primary-800" onClick={toggleCategory}>
+            <div className="flex">
+              <BsGrid size={24} />
+              <h1 className="ml-2">All Categories</h1>
+            </div>
+          </button>
+
+          <ul style={{ color: `${textColor}` }} className="hidden p-4 sm:flex">
             <Link href="/">
               <li className="p-4">Home</li>
             </Link>
@@ -105,6 +119,7 @@ export const NavBar = () => {
             </ul>
           </div>
         </div>
+        {isCategoryOpen && <CategorySidebar />}
       </div>
     </>
   )

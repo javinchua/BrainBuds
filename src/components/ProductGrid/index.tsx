@@ -4,11 +4,16 @@ import { Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
 
 interface ProductGridProps {
-  searchQuery: string
-  sellerId?: string
+  searchQuery?: string
+  query?: {
+    sellerId?: string
+    category?: string
+  }
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, sellerId }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, query }) => {
+  const { sellerId = '', category = '' } = query || {}
+
   const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
   const handleClick = (productId: string) => {
@@ -25,16 +30,23 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, sellerId }) => {
           filteredProducts = filteredProducts.filter((product) => product.sellerId === sellerId)
         }
 
+        if (category) {
+          filteredProducts = filteredProducts.filter((product) => product.category === category)
+        }
+
         setProducts(filteredProducts) // Update the state with filtered products
       }
     }
 
     fetchProducts()
-  }, [])
+  }, [sellerId, category, query])
 
-  const filteredProducts = products.filter(
-    (product) => product.available && product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const filteredProducts = searchQuery
+    ? products.filter(
+        (product) =>
+          product.available && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : products
 
   return (
     <div className="grid grid-cols-5 gap-4">

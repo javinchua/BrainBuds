@@ -34,9 +34,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   }, [])
 
   return (
-    <div className="h-screen p-4 mt-10">
+    <div className="h-screen p-10 mt-10">
       {/*image*/}
-      <div className="flex justify-center mb-10 bg-neutral-300">
+      <div className="flex justify-center bg-neutral-300">
         <div className="relative">
           <div className="rounded-full">
             <img src={product.image} alt={product.name} className="object-contain" />
@@ -46,15 +46,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       </div>
 
       {/*header for product*/}
-      <div className="flex border-b">
+      <div className="flex pb-4 mt-10 border-b">
         <div className="w-[70%]">
-          <h1 className="text-2xl">{product.name}</h1>
+          <h1 className="text-3xl">{product.name}</h1>
           <div className="flex mt-6">
-            <div className="flex w-1/2">
+            <div className="flex w-1/2 text-lg">
               <ProductIcon icon={<FaHandshake></FaHandshake>}></ProductIcon>
-              <p className="w-1/2 ml-4">Meet up</p>
+              <h1 className="w-1/2 ml-4">Meet up</h1>
             </div>
-            <div className="flex w-1/2">
+            <div className="flex w-1/2 text-lg">
               <ProductIcon icon={<FiMapPin></FiMapPin>}></ProductIcon>
               <p className="ml-4">Location</p>
             </div>
@@ -74,9 +74,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       </div>
 
       {/* product description*/}
-
-      <div className="p-4 my-4 border-b">
-        <h2 className="py-4 text-2xl font-semibold ">Description</h2>
+      <div className="pb-10 mt-10 border-b">
+        <h2 className="text-2xl font-semibold ">Description</h2>
         <div className="flex mb-4">
           <div className="w-1/2">
             <h1>Posted: {product.createdAt}</h1>
@@ -89,9 +88,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       </div>
 
       {/* seller description*/}
-
-      <div className="my-4">
-        <h1 className="py-4 text-2xl font-semibold">Meet the charity</h1>
+      <div className="mt-10">
+        <h1 className="mb-10 text-2xl font-semibold">Meet the charity</h1>
         <CharityProfile charity={charity}></CharityProfile>
       </div>
     </div>
