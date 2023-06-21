@@ -38,20 +38,36 @@ const CategorySidebar = () => {
               <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">Property</li>
             </Link>
 
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">Health</li>
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">Clothes</li>
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
-              Babies and Kids
-            </li>
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
-              Hobbies and Toys
-            </li>
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
-              Foods and Drinks
-            </li>
-            <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
-              Volunteer Activities
-            </li>
+            <Link href="/products?category=health">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">Health</li>
+            </Link>
+
+            <Link href="/products?category=clothes">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">Clothes</li>
+            </Link>
+
+            <Link href="/products?category=babies_and_kids">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
+                Babies and Kids
+              </li>
+            </Link>
+
+            <Link href="/products?category=hobbies_and_toys">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
+                Hobbies and Toys
+              </li>
+            </Link>
+            <Link href="/products?category=foods_and_drinks">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
+                Foods and Drinks
+              </li>
+            </Link>
+
+            <Link href="/products?category=activities">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
+                Volunteer Activities
+              </li>
+            </Link>
           </ul>
         </div>
       </div>

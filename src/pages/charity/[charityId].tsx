@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import CharityPage from '@/components/CharityGeneral'
+import CharityPageComponent from '@/components/CharityPage'
 import { CharityData } from '@/utils/constants/constants'
 import { getFirestore } from 'firebase/firestore'
 import { doc, getDoc } from 'firebase/firestore'
 
 const firestore = getFirestore()
 
-const CharityDetailPage = () => {
+const CharityPage = () => {
   const router = useRouter()
   const { charityId } = router.query
   const [charity, setCharity] = useState<CharityData | null>(null)
@@ -32,7 +32,7 @@ const CharityDetailPage = () => {
     return <div className="mt-10">Loading...</div>
   }
 
-  return <CharityPage charity={charity} />
+  return <CharityPageComponent charity={charity} />
 }
 
-export default CharityDetailPage
+export default CharityPage

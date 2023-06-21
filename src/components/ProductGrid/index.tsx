@@ -5,17 +5,14 @@ import { useRouter } from 'next/router'
 
 interface ProductGridProps {
   searchQuery?: string
-  query?: {
-    sellerId?: string
-    category?: string
-  }
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, query }) => {
-  const { sellerId = '', category = '' } = query || {}
+const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
+  const router = useRouter()
+  const { sellerId = '', category = '' } = router.query || {}
 
   const [products, setProducts] = useState<Product[]>([])
-  const router = useRouter()
+
   const handleClick = (productId: string) => {
     router.push(`/products/${productId}`)
   }
@@ -39,7 +36,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery, query }) => {
     }
 
     fetchProducts()
-  }, [sellerId, category, query])
+  }, [sellerId, category, router.query])
 
   const filteredProducts = searchQuery
     ? products.filter(

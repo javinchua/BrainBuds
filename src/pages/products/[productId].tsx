@@ -4,7 +4,7 @@ import { getProductById } from '../api/product' // Replace with your API call to
 import ProductDetail from '@/components/ProductDetail'
 import { Product } from '@/utils/constants/constants'
 
-const ProductDetailPage = () => {
+const ProductPage = () => {
   const router = useRouter()
   const { productId } = router.query
   const [product, setProduct] = useState<Product | null>(null)
@@ -34,4 +34,4 @@ const ProductDetailPage = () => {
   )
 }
 
-export default ProductDetailPage
+export default ProductPage

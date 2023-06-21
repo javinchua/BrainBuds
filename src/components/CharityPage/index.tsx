@@ -6,7 +6,7 @@ interface CharityPageProps {
   charity: CharityData
 }
 
-const CharityInfo: React.FC<CharityPageProps> = ({ charity }) => {
+const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
   return (
     <div className="flex flex-col mt-20 text-center">
       <div className="mb-10">
@@ -33,4 +33,4 @@ const CharityInfo: React.FC<CharityPageProps> = ({ charity }) => {
   )
 }
 
-export default CharityInfo
+export default CharityPageComponent
