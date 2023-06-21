@@ -45,14 +45,18 @@ export const NavBar = () => {
         className="fixed top-0 left-0 z-10 w-full duration-300 ease-in"
       >
         <div className="max-w-[1240px] m-auto flex justify-between items-center text-white">
-          <Link href="/" className="absolute flex p-4 text-3xl left-6">
-            <SiJustgiving />
+          <Link href="/" className="relative flex p-4 text-3xl left-6">
+            <SiJustgiving style={{ color: `${textColor}` }} />
             <h1 style={{ color: `${textColor}` }} className="ml-[1px] text-3xl font-bold">
               ivver
             </h1>
           </Link>
 
-          <button className="p-4 m-auto hover:bg-primary-800" onClick={toggleCategory}>
+          <button
+            className="p-4 m-auto hover:bg-primary-800"
+            style={{ color: `${textColor}` }}
+            onClick={toggleCategory}
+          >
             <div className="flex">
               <BsGrid size={24} />
               <h1 className="ml-2">All Categories</h1>
