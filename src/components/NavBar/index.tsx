@@ -6,6 +6,7 @@ import { useAuth } from 'context/AuthContext'
 import { getAuth, signOut } from 'firebase/auth'
 import { BsGrid } from 'react-icons/bs'
 import CategorySidebar from '../CategoryBar'
+import { SiJustgiving } from 'react-icons/si'
 
 export const NavBar = () => {
   const [nav, setNav] = useState(false)
@@ -44,9 +45,10 @@ export const NavBar = () => {
         className="fixed top-0 left-0 z-10 w-full duration-300 ease-in"
       >
         <div className="max-w-[1240px] m-auto flex justify-between items-center text-white">
-          <Link href="/" className="p-4">
-            <h1 style={{ color: `${textColor}` }} className="text-3xl font-bold">
-              Givver
+          <Link href="/" className="flex p-4 text-3xl">
+            <SiJustgiving />
+            <h1 style={{ color: `${textColor}` }} className="ml-[1px] text-3xl font-bold">
+              ivver
             </h1>
           </Link>
 

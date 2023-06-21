@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { AiOutlineClose } from 'react-icons/ai'
 const CategorySidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
 
@@ -21,13 +22,16 @@ const CategorySidebar = () => {
             All Categories
           </h1>
           <button className=" focus:outline-none text-neutral-700" onClick={handleToggleSideBar}>
-            Close
+            <AiOutlineClose size={24} />
           </button>
         </div>
 
         {/* LIST OF categories */}
         <div className="flex flex-col">
           <ul>
+            <Link href="/products">
+              <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">All</li>
+            </Link>
             <Link href="/products?category=home-services">
               <li className="p-6 text-lg border-b border-neutral-400 text-neutral-700">
                 Home Services

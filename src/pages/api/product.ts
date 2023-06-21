@@ -78,7 +78,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
 
 export const getSellerNameById = async (sellerId: string) => {
   try {
-    const sellerRef = collection(firestore, 'sellers')
+    const sellerRef = (firestore, 'sellers')
     const q = query(sellerRef, where('id', '==', sellerId))
     const sellerSnapshot = await getDocs(q)
     if (!sellerSnapshot.empty) {

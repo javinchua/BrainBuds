@@ -16,9 +16,9 @@ const CharityPage = () => {
     const fetchCharity = async () => {
       if (typeof charityId === 'string') {
         const docRef = doc(firestore, 'charities', charityId)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-          const charityData = docSnap.data() as CharityData
+        const  = await getDoc(docRef)
+        if (.exists()) {
+          const charityData = .data() as CharityData
           setCharity(charityData)
         }
       }

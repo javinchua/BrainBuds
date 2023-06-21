@@ -1,3 +1,5 @@
+// import { homedir } from "os"
+
 export enum userTypes {
   DONOR = 'DONOR',
   CHARITY = 'CHARITY'
@@ -22,4 +24,10 @@ export interface Product {
   delivery: string
   createdAt: string
   sellerName: string
+}
+
+export const sampleCharity: CharityData = {
+  id: '0zUwFItSqXYhWCMXfprWQI3',
+  name: 'old folks home',
+  description: 'making people happy'
 }
