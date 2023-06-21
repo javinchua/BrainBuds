@@ -96,10 +96,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                 <div className="w-6 h-6 rounded-full bg-purple"></div>
                 <div>
                   <p className="block ml-2 font-semibold text-gray-700 text-md">
-                    {sellerNames.length > 0 ? sellerNames[index] : 'Unknown Seller'}
+                    {sellerNames.length > 0 ? sellerNames[index] : 'Unknown Charity'}
                   </p>
 
-                  <p className="block ml-2 text-sm text-gray-700">{product.createdAt}</p>
+                  <p className="block ml-2 text-sm text-gray-700">
+                    {product.createdAt ? product.createdAt : 'Unknown'}
+                  </p>
                 </div>
               </div>
               <div className="rounded-full aspect-w-1 aspect-h-1">
