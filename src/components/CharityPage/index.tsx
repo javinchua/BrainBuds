@@ -1,7 +1,6 @@
 import { CharityData } from '@/utils/constants/constants'
 import React from 'react'
-
-import ProductGrid from '../ProductGrid'
+import CharityProductGrid from '../CharityProductGrid'
 import { useRouter } from 'next/router'
 import VerticalCharityProfile from '../VerticalCharityProfile'
 
@@ -37,7 +36,10 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
             <h1>Information</h1>
           </button>
         </div>
-        <ProductGrid />
+        <div className="p-10 shadow-md">
+          <h1 className="mb-10 text-2xl font-semibold text-left">Listings</h1>
+          <CharityProductGrid />
+        </div>
       </div>
       {/* <div className="flex">
         <div className="w-[30%]">

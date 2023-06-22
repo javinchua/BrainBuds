@@ -82,32 +82,32 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+    <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
       {filteredProducts.length === 0 ? (
         <div className="text-gray-500">No items found</div>
       ) : (
         filteredProducts.map((product, index) => (
           <div
             key={product.id}
-            className="p-4 bg-white hover:shadow-md"
+            className="p-2 bg-white hover:shadow-md"
             onClick={() => handleClick(product.id)}
           >
             <div className="grid h-full grid-cols-1 gap-2">
               <div className="flex items-center">
                 <div>
-                  <p className="block ml-2 font-semibold text-gray-700 text-md">
+                  <p className="block ml-2 font-semibold text-gray-800 text-md">
                     {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
                   </p>
 
-                  <p className="block ml-2 text-sm text-gray-700">
+                  <p className="block ml-2 text-sm text-gray-800">
                     {product.createdAt ? product.createdAt : 'Unknown'}
                   </p>
                 </div>
               </div>
-              <div className="rounded-full aspect-w-1 aspect-h-1">
-                <img src={product.image} alt={product.name} className="object-cover" />
+              <div className=" aspect-w-1 aspect-h-1">
+                <img src={product.image} alt={product.name} className="object-cover rounded-md" />
               </div>
-              <h2 className="text-md">{product.name}</h2>
+              <h2 className="text-gray-800 text-md">{product.name}</h2>
               <div className="flex flex-col justify-end">
                 <p className="text-sm text-gray-500">{product.description}</p>
                 <p className="mt-2 text-gray-700">${product.price}</p>
