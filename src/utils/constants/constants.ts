@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore'
 export enum userTypes {
   DONOR = 'DONOR',
   CHARITY = 'CHARITY'
@@ -15,6 +16,20 @@ export interface Product {
   id: string
   name: string
   description: string
-  price: string
+  price: number
+  sellerId: string
+  image: string
+  category: string
+  file?: File
+  quantity: number
+  createdAt?: Timestamp
+}
+
+export interface ProductEditing extends Product {
   editing: boolean
+}
+
+export interface Category {
+  id: string
+  name: string
 }
