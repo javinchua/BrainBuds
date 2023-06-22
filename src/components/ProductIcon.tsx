@@ -9,4 +9,3 @@ const ProductIcon: React.FC<ProductIconsProps> = ({ icon }) => {
 }
 
 export default ProductIcon
-  

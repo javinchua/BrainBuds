@@ -4,6 +4,7 @@ import { CharityData, Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
 import { doc, getDoc } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
+import SmallProfileAvatar from '../smallProfileAvatar'
 
 interface ProductGridProps {
   searchQuery?: string
@@ -92,13 +93,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
             className="p-2 bg-white hover:shadow-md"
             onClick={() => handleClick(product.id)}
           >
-            <div className="grid h-full grid-cols-1 gap-2">
-              <div className="flex items-center">
-                <div>
+            <div className="flex flex-col">
+              {/*upper*/}
+              <div className="flex">
+                {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
+                <div className="flex flex-col">
                   <p className="block ml-2 font-semibold text-gray-800 text-md">
                     {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
                   </p>
-
                   <p className="block ml-2 text-sm text-gray-800">
                     {product.createdAt ? product.createdAt : 'Unknown'}
                   </p>
@@ -107,10 +109,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
               <div className=" aspect-w-1 aspect-h-1">
                 <img src={product.image} alt={product.name} className="object-cover rounded-md" />
               </div>
-              <h2 className="text-gray-800 text-md">{product.name}</h2>
-              <div className="flex flex-col justify-end">
-                <p className="text-sm text-gray-500">{product.description}</p>
-                <p className="mt-2 text-gray-700">${product.price}</p>
+
+              {/*lower*/}
+              <div>
+                <h2 className="text-gray-800 text-md">{product.name}</h2>
+                <div className="flex flex-col justify-end">
+                  <p className="text-sm text-gray-500">{product.description}</p>
+                  <p className="mt-2 text-gray-700">${product.price}</p>
+                </div>
               </div>
             </div>
           </div>
