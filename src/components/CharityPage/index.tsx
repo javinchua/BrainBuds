@@ -38,7 +38,7 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
         </div>
         <div className="p-10 shadow-md">
           <h1 className="mb-10 text-2xl font-semibold text-left">Listings</h1>
-          <CharityProductGrid />
+          <CharityProductGrid sellerId={charity.id} />
         </div>
       </div>
       {/* <div className="flex">

@@ -8,13 +8,12 @@ import { Product } from '@/utils/constants/constants'
 
 interface CharityProductGridProps {
   searchQuery?: string
+  sellerId?: string
 }
 
-const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery }) => {
+const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, sellerId }) => {
   const router = useRouter()
-  const { sellerId = '', category = '' } = router.query || {}
   const [products, setProducts] = useState<Product[]>([])
-  //const [charities, setCharities] = useState<CharityData[]>([])
   const handleClick = (productId: string) => {
     router.push(`/products/${productId}`)
   }
@@ -29,16 +28,12 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery }) 
           filteredProducts = filteredProducts.filter((product) => product.sellerId === sellerId)
         }
 
-        if (category) {
-          filteredProducts = filteredProducts.filter((product) => product.category === category)
-        }
-
         setProducts(filteredProducts) // Update the state with filtered products
       }
     }
 
     fetchProducts()
-  }, [sellerId, category, router.query])
+  }, [sellerId, router.query])
 
   const filteredProducts = searchQuery
     ? products.filter(
@@ -90,12 +85,12 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery }) 
         filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="p-4 bg-white hover:shadow-md"
+            className="p-2 bg-white hover:shadow-md"
             onClick={() => handleClick(product.id)}
           >
             <div className="grid h-full grid-cols-1 gap-2">
-              <div className="rounded-full aspect-w-1 aspect-h-1">
-                <img src={product.image} alt={product.name} className="object-cover" />
+              <div className=" aspect-w-1 aspect-h-1">
+                <img src={product.image} alt={product.name} className="object-cover rounded-md" />
               </div>
               <h2 className="text-gray-800 text-md">{product.name}</h2>
               <div className="flex flex-col justify-end">
