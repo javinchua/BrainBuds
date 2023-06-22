@@ -31,3 +31,8 @@ export const charitySample: CharityData = {
   name: 'old folks home',
   description: 'making people happy'
 }
+
+export interface Category {
+  id: string
+  name: string
+}

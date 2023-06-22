@@ -93,9 +93,9 @@ export const NavBar = () => {
           {/*mobile button */}
           <div className="z-10 block sm:hidden">
             {nav ? (
-              <AiOutlineClose size={20} style={{ color: `${textColor}` }} />
+              <AiOutlineClose size={20} style={{ color: `${textColor}` }} onClick={handleNav} />
             ) : (
-              <AiOutlineMenu size={20} style={{ color: `${textColor}` }} />
+              <AiOutlineMenu size={20} style={{ color: `${textColor}` }} onClick={handleNav} />
             )}
           </div>
           {/*mobile menu */}
@@ -108,17 +108,17 @@ export const NavBar = () => {
           >
             <ul>
               <Link href="/">
-                <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
                   Home
                 </li>
               </Link>
               <Link href="/gallery">
-                <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
                   Gallery
                 </li>
               </Link>
               <Link href="/contact">
-                <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
                   Contact
                 </li>
               </Link>
