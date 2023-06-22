@@ -1,9 +1,19 @@
-import { doc, setDoc, collection, getDocs, addDoc, query, where } from 'firebase/firestore'
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  serverTimestamp
+} from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const firestore = getFirestore()
-
+const storage = getStorage()
 export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
   try {
     const q = query(collection(firestore, 'products'), where('sellerId', '==', uid))
@@ -18,7 +28,9 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         price: data.price,
         image: data.image,
         sellerId: data.sellerId,
-        category: data.category
+        category: data.category,
+        quantity: data.quantity || 0,
+        createdAt: data.createdAt
       }
     })
 
@@ -31,6 +43,13 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
 
 export const updateProductInfo = async (data: Product) => {
   try {
+    if (data.file) {
+      const url = await handleImageUpload(data.file)
+      if (url) {
+        data.image = url
+      }
+      delete data.file
+    }
     const docRef = doc(firestore, `products`, data.id)
     setDoc(docRef, data)
     return data as Product
@@ -42,8 +61,18 @@ export const updateProductInfo = async (data: Product) => {
 
 export const addNewProduct = async (data: Product) => {
   try {
+    if (data.file) {
+      const url = await handleImageUpload(data.file)
+      if (url) {
+        data.image = url
+      }
+      delete data.file
+    }
     const collectionRef = collection(firestore, `products`)
-    const docRef = await addDoc(collectionRef, data)
+    const docRef = await addDoc(collectionRef, {
+      ...data,
+      createdAt: serverTimestamp()
+    })
     return {
       ...data,
       id: docRef.id
@@ -51,5 +80,24 @@ export const addNewProduct = async (data: Product) => {
   } catch (error) {
     console.error('Error adding new product:', error)
     return null
+  }
+}
+
+const handleImageUpload = async (file: File) => {
+  try {
+    // Create a reference to the file in Firebase Storage
+    console.log('here')
+    const storageRef = ref(storage, 'images/' + file.name)
+
+    // Upload the file to Firebase Storage
+    await uploadBytes(storageRef, file)
+
+    // Get the download URL of the uploaded file
+    const downloadURL = await getDownloadURL(storageRef)
+
+    return downloadURL
+  } catch (error) {
+    // Handle any errors that occur during the upload process
+    console.error('Error uploading image:', error)
   }
 }
