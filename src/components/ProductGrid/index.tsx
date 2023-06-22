@@ -83,45 +83,50 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   }
 
   return (
-    <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
-      {filteredProducts.length === 0 ? (
-        <div className="text-gray-500">No items found</div>
-      ) : (
-        filteredProducts.map((product, index) => (
-          <div
-            key={product.id}
-            className="p-2 bg-white hover:shadow-md"
-            onClick={() => handleClick(product.id)}
-          >
-            <div className="flex flex-col">
-              {/*upper*/}
-              <div className="flex">
-                {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
-                <div className="flex flex-col">
-                  <p className="block ml-2 font-semibold text-gray-800 text-md">
-                    {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
-                  </p>
-                  <p className="block ml-2 text-sm text-gray-800">
-                    {product.createdAt ? product.createdAt : 'Unknown'}
-                  </p>
+    <div>
+      <h1 className="block w-full my-4">
+        Showing {products.length} result(s) for: {category}
+      </h1>
+      <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
+        {filteredProducts.length === 0 ? (
+          <div className="text-gray-500">No items found</div>
+        ) : (
+          filteredProducts.map((product, index) => (
+            <div
+              key={product.id}
+              className="p-2 bg-white hover:shadow-md"
+              onClick={() => handleClick(product.id)}
+            >
+              <div className="flex flex-col">
+                {/*upper*/}
+                <div className="flex">
+                  {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
+                  <div className="flex flex-col">
+                    <p className="block ml-2 font-semibold text-gray-800 text-md">
+                      {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
+                    </p>
+                    <p className="block ml-2 text-sm text-gray-800">
+                      {product.createdAt ? product.createdAt : 'Unknown'}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className=" aspect-w-1 aspect-h-1">
-                <img src={product.image} alt={product.name} className="object-cover rounded-md" />
-              </div>
+                <div className=" aspect-w-1 aspect-h-1">
+                  <img src={product.image} alt={product.name} className="object-cover rounded-md" />
+                </div>
 
-              {/*lower*/}
-              <div>
-                <h2 className="text-gray-800 text-md">{product.name}</h2>
-                <div className="flex flex-col justify-end">
-                  <p className="text-sm text-gray-500">{product.description}</p>
-                  <p className="mt-2 text-gray-700">${product.price}</p>
+                {/*lower*/}
+                <div>
+                  <h2 className="text-gray-800 text-md">{product.name}</h2>
+                  <div className="flex flex-col justify-end">
+                    <p className="text-sm text-gray-500">{product.description}</p>
+                    <p className="mt-2 text-gray-700">${product.price}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
+      </div>
     </div>
   )
 }
