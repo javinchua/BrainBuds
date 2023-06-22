@@ -42,50 +42,50 @@ export const NavBar = () => {
     <>
       <div
         style={{ backgroundColor: `${color}` }}
-        className="fixed top-0 left-0 z-10 w-full duration-300 ease-in"
+        className="fixed top-0 left-0 z-10 w-full duration-300 ease-in h-[70px]"
       >
-        <div className="max-w-[1240px] m-auto flex justify-between items-center text-white">
-          <Link href="/" className="relative flex p-4 text-3xl left-6">
+        <div className="max-w-[1240px] flex justify-between text-white items-center h-[70px]">
+          <Link href="/" className="relative flex items-center p-4 text-3xl pl-14">
             <SiJustgiving style={{ color: `${textColor}` }} />
-            <h1 style={{ color: `${textColor}` }} className="ml-[1px] text-3xl font-bold">
+            <h1 style={{ color: `${textColor}` }} className="ml-[2px] text-3xl font-bold">
               ivver
             </h1>
           </Link>
 
-          <button
-            className="p-4 m-auto hover:bg-primary-800"
-            style={{ color: `${textColor}` }}
-            onClick={toggleCategory}
-          >
-            <div className="flex">
-              <BsGrid size={24} />
-              <h1 className="ml-2">All Categories</h1>
-            </div>
-          </button>
+          <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
+            <button
+              className="p-4 hover:bg-primary-900"
+              style={{ color: `${textColor}` }}
+              onClick={toggleCategory}
+            >
+              <div className="flex">
+                <BsGrid size={24} />
+                <h1 className="ml-2">All Categories</h1>
+              </div>
+            </button>
 
-          <ul style={{ color: `${textColor}` }} className="hidden p-4 sm:flex">
             <Link href="/">
-              <li className="p-4">Home</li>
+              <li className="p-4 hover:bg-primary-900">Home</li>
             </Link>
             <Link href="/products">
-              <li className="p-4">Browse All</li>
+              <li className="p-4 hover:bg-primary-900">Browse All</li>
             </Link>
             <Link href="/gallery">
-              <li className="p-4">Gallery</li>
+              <li className="p-4 hover:bg-primary-900">Gallery</li>
             </Link>
             <Link href="/contact">
-              <li className="p-4">Contact</li>
+              <li className="p-4 hover:bg-primary-900">Contact</li>
             </Link>
             {user && user.uid ? (
               <>
                 <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
                   Logout
                 </div>
-                <div className="p-4">User Type: {user.type}</div>
+                <div className="p-">User Type: {user.type}</div>
               </>
             ) : (
               <Link href="/login">
-                <li className="p-4">Login</li>
+                <li className="p-4 hover:bg-primary-900">Login</li>
               </Link>
             )}
           </ul>

@@ -30,8 +30,8 @@ const CategorySidebar = () => {
         {/* Sidebar content goes here */}
         {/*header*/}
         <div className="flex justify-between p-6 border-b border-neutral-400">
-          <h1 className="text-2xl font-bold focus:outline-none text-neutral-700">All Categories</h1>
-          <button className=" focus:outline-none text-neutral-700" onClick={handleToggleSideBar}>
+          <h1 className="text-2xl font-bold focus:outline-none text-neutral-800">All Categories</h1>
+          <button className=" focus:outline-none text-neutral-800" onClick={handleToggleSideBar}>
             <AiOutlineClose size={24} />
           </button>
         </div>
@@ -40,61 +40,61 @@ const CategorySidebar = () => {
         <div className="flex flex-col">
           <ul>
             <Link href="/products">
-              <div className="flex p-6 text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <MdAllInbox size={25}></MdAllInbox>
                 <li className="ml-4">All</li>
               </div>
             </Link>
             <Link href="/products?category=home-services">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <SiHomeassistant size={25} />
                 <li className="ml-2">Home services</li>
               </div>
             </Link>
 
             <Link href="/products?category=property">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <BsBuilding size={25} />
                 <li className="ml-4">Property</li>
               </div>
             </Link>
 
             <Link href="/products?category=health">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <MdHealthAndSafety size={25} />
                 <li className="ml-4">Health</li>
               </div>
             </Link>
 
             <Link href="/products?category=clothes">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <GiClothes size={25} />
                 <li className="ml-4">Clothes</li>
               </div>
             </Link>
 
             <Link href="/products?category=babies_and_kids">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <TbMoodKid size={25} />
                 <li className="ml-4">Babies and Kids</li>
               </div>
             </Link>
 
             <Link href="/products?category=hobbies_and_toys">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <MdToys size={25} />
                 <li className="ml-4">Hobbies and Toys</li>
               </div>
             </Link>
             <Link href="/products?category=foods_and_drinks">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <MdEmojiFoodBeverage size={25} />
                 <li className="ml-4">Foods and Drinks</li>
               </div>
             </Link>
 
             <Link href="/products?category=activities">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-700 hover:bg-slate-300">
+              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <MdLocalActivity size={25} />
                 <li className="ml-4">Volunteer Activities</li>
               </div>
