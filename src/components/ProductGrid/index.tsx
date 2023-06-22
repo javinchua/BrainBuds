@@ -105,17 +105,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                     <p className="block ml-2 font-semibold text-gray-800 text-md">
                       {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
                     </p>
-                    <p className="block ml-2 text-sm text-gray-800">
+                    <p className="block ml-2 text-sm text-gray-500">
                       {product.createdAt ? product.createdAt : 'Unknown'}
                     </p>
                   </div>
                 </div>
-                <div className=" aspect-w-1 aspect-h-1">
+                <div className="mt-2 aspect-w-1 aspect-h-1">
                   <img src={product.image} alt={product.name} className="object-cover rounded-md" />
                 </div>
 
                 {/*lower*/}
-                <div>
+                <div className="mt-2">
                   <h2 className="text-gray-800 text-md">{product.name}</h2>
                   <div className="flex flex-col justify-end">
                     <p className="text-sm text-gray-500">{product.description}</p>
