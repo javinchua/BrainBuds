@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
 import { CharityData, Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
-import { doc, getDoc } from 'firebase/firestore'
-import { getFirestore } from 'firebase/firestore'
+import { fetchSellerDetails } from 'pages/api/product'
 import SmallProfileAvatar from '../smallProfileAvatar'
 
 interface ProductGridProps {
@@ -56,32 +55,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     fetchSellerData()
   }, [products])
 
-  const fetchSellerDetails = async ({ products }: { products: Product[] }) => {
-    try {
-      const sellerIds = products.map((product) => product.sellerId)
-      const firestore = getFirestore()
-      const charities: CharityData[] = []
-
-      for (const sellerId of sellerIds) {
-        const docRef = doc(firestore, 'charities', sellerId)
-        const docSnap = await getDoc(docRef)
-
-        if (docSnap.exists()) {
-          const userData = docSnap.data()
-          const charity = userData as CharityData
-          if (charity) {
-            charities.push(charity)
-          }
-        }
-      }
-
-      return charities
-    } catch (error) {
-      console.error('Error fetching charity names:', error)
-      return []
-    }
-  }
-
   return (
     <div>
       <h1 className="block w-full my-4">
@@ -103,10 +76,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                   {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
                   <div className="flex flex-col">
                     <p className="block ml-2 font-semibold text-gray-800 text-md">
-                      {charities.length > 0 ? charities[index].name : 'Unknown Charity'}
+                      {charities.length > 0 && charities[index]
+                        ? charities[index].name
+                        : 'Unknown Charity'}
                     </p>
                     <p className="block ml-2 text-sm text-gray-500">
-                      {product.createdAt ? product.createdAt : 'Unknown'}
+                      <p className="block ml-2 text-sm text-gray-500">
+                        {product.createdAt
+                          ? new Date(product.createdAt).toLocaleString()
+                          : 'Unknown'}
+                      </p>
                     </p>
                   </div>
                 </div>

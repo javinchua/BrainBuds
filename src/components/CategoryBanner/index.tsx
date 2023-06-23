@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import { Category } from '@/utils/constants/constants'
 import Link from 'next/link'
-const firestore = getFirestore()
+import { fetchCategories } from 'pages/api/category'
 
 const CategoryBanner = () => {
   const [categories, setCategories] = useState<Category[]>([])
 
-  const fetchCategories = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(firestore, 'categories'))
-      const fetchedCategories: Category[] = []
-      querySnapshot.forEach((doc) => {
-        const category = doc.data() as Category
-        fetchedCategories.push(category)
-      })
-      setCategories(fetchedCategories)
-    } catch (error) {
-      console.error('Error fetching categories:', error)
-    }
-  }
-
   useEffect(() => {
-    fetchCategories()
+    const retrieveInfo = async () => {
+      const data = await fetchCategories()
+      if (data != null) {
+        setCategories(data as Category[])
+      }
+    }
+    retrieveInfo()
   }, [])
 
   return (

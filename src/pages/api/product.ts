@@ -1,7 +1,7 @@
-import { doc, setDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import { doc, setDoc, collection, getDocs, query, where, getDoc } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
-
+import { CharityData } from '@/utils/constants/constants'
 const firestore = getFirestore()
 
 export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
@@ -75,21 +75,46 @@ export const getProductById = async (id: string): Promise<Product | null> => {
     return null
   }
 }
-
-export const getSellerNameById = async (sellerId: string) => {
+export const fetchSellerDetails = async ({ products }: { products: Product[] }) => {
   try {
-    const sellerRef = (firestore, 'sellers')
-    const q = query(sellerRef, where('id', '==', sellerId))
-    const sellerSnapshot = await getDocs(q)
-    if (!sellerSnapshot.empty) {
-      const sellerDoc = sellerSnapshot.docs[0]
-      const sellerData = sellerDoc.data()
-      const sellerName = sellerData.name
-      return sellerName
+    const sellerIds = products.map((product) => product.sellerId)
+    const charities: CharityData[] = []
+
+    for (const sellerId of sellerIds) {
+      const docRef = doc(firestore, 'charities', sellerId)
+      const docSnap = await getDoc(docRef)
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data()
+        const charity = userData as CharityData
+        if (charity) {
+          charities.push(charity)
+        }
+      }
     }
-    return null
+
+    return charities
   } catch (error) {
-    console.error('Error getting seller name:', error)
+    console.error('Error fetching charity names:', error)
+    return []
+  }
+}
+
+export const fetchSellerData = async ({ product }: { product: Product }) => {
+  try {
+    const sellerId = product.sellerId
+    const docRef = doc(firestore, 'charities', sellerId)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      const userData = docSnap.data()
+      const charity = userData as CharityData
+      return charity
+    } else {
+      return null
+    }
+  } catch (error) {
+    console.error('Error fetching charity names:', error)
     return null
   }
 }

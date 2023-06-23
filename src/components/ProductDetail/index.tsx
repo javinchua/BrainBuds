@@ -1,9 +1,8 @@
-import { getFirestore } from 'firebase/firestore'
 import { CharityData, Product } from '@/utils/constants/constants'
 import Link from 'next/link'
 import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
+import { fetchSellerData } from 'pages/api/product'
 import { useState } from 'react'
 import { FiMapPin } from 'react-icons/fi'
 import ProductIcon from '../ProductIcon'
@@ -11,26 +10,19 @@ import { FaHandshake } from 'react-icons/fa'
 interface ProductDetailProps {
   product: Product
 }
-const firestore = getFirestore()
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   const [charity, setCharity] = useState<CharityData>()
 
-  const fetchCharityData = async () => {
-    const docRef = doc(firestore, 'charities', product.sellerId)
-    const docSnap = await getDoc(docRef)
-
-    // Access the data from the document snapshot
-    if (docSnap.exists()) {
-      const charityData = docSnap.data() as CharityData
-      setCharity(charityData)
-
-      // Process the seller data here
-    }
-  }
-
   useEffect(() => {
-    fetchCharityData()
+    const fetchData = async () => {
+      const data = await fetchSellerData({ product })
+      if (data) {
+        setCharity(data)
+      }
+    }
+
+    fetchData()
   }, [])
 
   return (
