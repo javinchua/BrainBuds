@@ -15,7 +15,7 @@ const AllCharities = () => {
     fetchCharities()
   }, [])
   return (
-    <div className="h-screen bg-gradient-to-r from-navy to-purple-200">
+    <div className="h-screen bg-gradient-to-br from-navy to-purple-200">
       <div className="py-10 mx-10">
         <h1 className="text-2xl font-semibold text-white">All Charities</h1>
         <div className="grid grid-cols-2 gap-6 mt-10">

@@ -2,8 +2,8 @@ import React from 'react'
 
 const contact = () => {
   return (
-    <div className="justify-center mt-20 text-center">
-      <h1 className="text-xl font-semibold">Contact us</h1>
+    <div className="items-center justify-center h-screen text-center bg-gradient-to-br from-navy to-purple-200">
+      <h1 className="pt-20 text-2xl font-semibold text-white">Contact us</h1>
     </div>
   )
 }

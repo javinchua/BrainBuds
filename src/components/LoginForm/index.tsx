@@ -68,7 +68,7 @@ const LoginForm: React.FC = (): JSX.Element | null => {
   }
 
   return (
-    <section className="bg-gray-900">
+    <section className="bg-gradient-to-br from-navy to-purple-200">
       <div className="flex flex-col items-center justify-center h-screen px-6 py-8 mx-auto lg:py-0">
         <div className="w-full bg-gray-800 border border-gray-700 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
