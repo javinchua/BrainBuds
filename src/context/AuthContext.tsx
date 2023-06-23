@@ -9,6 +9,7 @@ interface UserType {
   email: string | null
   uid: string | null
   type: userTypes | null
+  username: string | null
 }
 
 interface AuthContextType {
@@ -26,20 +27,23 @@ export const useAuth = (): AuthContextType => {
 }
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserType>({ email: null, uid: null, type: null })
+  const [user, setUser] = useState<UserType>({ email: null, uid: null, type: null, username: null })
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       if (user) {
-        const userType = await getUserTypeFromFirestore(user.uid)
-        setUser({
-          email: user.email,
-          uid: user.uid,
-          type: userType
-        })
+        const userDoc = await getUserTypeFromFirestore(user.uid)
+        if (userDoc) {
+          setUser({
+            email: user.email,
+            uid: user.uid,
+            type: userDoc?.type,
+            username: userDoc?.username
+          })
+        }
       } else {
-        setUser({ email: null, uid: null, type: null })
+        setUser({ email: null, uid: null, type: null, username: null })
       }
       setLoading(false)
     })
@@ -47,14 +51,20 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return () => unsubscribe()
   }, [])
 
-  const getUserTypeFromFirestore = async (uid: string): Promise<userTypes | null> => {
+  const getUserTypeFromFirestore = async (uid: string) => {
     try {
       const firestore = getFirestore()
       const docRef = doc(firestore, 'users', uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
         const userData = docSnap.data()
-        return userData?.userType || null
+        if (userData) {
+          return {
+            type: userData.userType as userTypes,
+            username: userData.username as string
+          }
+        }
+        return null
       } else {
         return null
       }

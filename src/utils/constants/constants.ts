@@ -33,3 +33,10 @@ export interface Category {
   id: string
   name: string
 }
+
+export interface Message {
+  id: string
+  senderId: string
+  content: string
+  timestamp: Date
+}

@@ -59,6 +59,7 @@ export const NavBar = () => {
                   Logout
                 </div>
                 <div className="p-4">User Type: {user.type}</div>
+                <div className="p-4">Username: {user.username}</div>
               </>
             ) : (
               <Link href="/login">
