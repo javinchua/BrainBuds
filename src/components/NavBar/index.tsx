@@ -67,11 +67,8 @@ export const NavBar = () => {
             <Link href="/">
               <li className="p-4 hover:bg-primary-900">Home</li>
             </Link>
-            <Link href="/products">
-              <li className="p-4 hover:bg-primary-900">Browse All</li>
-            </Link>
-            <Link href="/gallery">
-              <li className="p-4 hover:bg-primary-900">Gallery</li>
+            <Link href="/allCharities">
+              <li className="p-4 hover:bg-primary-900">Explore Charities</li>
             </Link>
             <Link href="/contact">
               <li className="p-4 hover:bg-primary-900">Contact</li>

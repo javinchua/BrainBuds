@@ -41,42 +41,6 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, se
           product.available && product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : products
-
-  //   useEffect(() => {
-  //     const fetchSellerData = async () => {
-  //       const charities = await fetchSellerDetails({ products })
-  //       setCharities(charities)
-  //     }
-
-  //     fetchSellerData()
-  //   }, [products])
-
-  //   const fetchSellerDetails = async ({ products }: { products: Product[] }) => {
-  //     try {
-  //       const sellerIds = products.map((product) => product.sellerId)
-  //       const firestore = getFirestore()
-  //       const charities: CharityData[] = []
-
-  //       for (const sellerId of sellerIds) {
-  //         const docRef = doc(firestore, 'charities', sellerId)
-  //         const docSnap = await getDoc(docRef)
-
-  //         if (docSnap.exists()) {
-  //           const userData = docSnap.data()
-  //           const charity = userData as CharityData
-  //           if (charity) {
-  //             charities.push(charity)
-  //           }
-  //         }
-  //       }
-
-  //       return charities
-  //     } catch (error) {
-  //       console.error('Error fetching charity names:', error)
-  //       return []
-  //     }
-  //   }
-
   return (
     <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
       {filteredProducts.length === 0 ? (

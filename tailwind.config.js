@@ -59,7 +59,7 @@ module.exports = {
       'dark-green': '#009100',
       pink: '#FF3A79',
       orange: '#FF9431',
-      purple: '#5200D1',
+      purple: '#5b21b6',
       'dark-blue': '#33424E'
     },
     minWidth: {

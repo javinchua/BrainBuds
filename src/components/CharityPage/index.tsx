@@ -41,16 +41,6 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
           <CharityProductGrid sellerId={charity.id} />
         </div>
       </div>
-      {/* <div className="flex">
-        <div className="w-[30%]">
-          <VerticalCharityProfile charity={charity} />
-        </div>
-    
-      </div>
-      <div>
-        <ProductGrid></ProductGrid>
-      </div>
-    </div> */}
     </div>
   )
 }
