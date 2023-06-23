@@ -1,9 +1,7 @@
 export const SliderData = [
-  { image: 'https://funds2orgs.com/wp-content/uploads/2021/04/for-kids.jpg' },
+  { image: '/public/img/2020events.png' },
   {
-    image: 'https://i.etsystatic.com/39555077/r/il/b2baf3/4943682147/il_570xN.4943682147_i9af.jpg'
-  },
-  {
-    image: 'https://thenew.org/app/uploads/2023/01/giving-domain-pr-image.png'
+    image:
+      '/public/img/charity-fundraiser-event-invitation-design-template-cedbbc6ff65acdae9f802104fc2f5f29_screen.jpeg'
   }
 ]

@@ -75,7 +75,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
     return null
   }
 }
-export const fetchSellerDetails = async ({ products }: { products: Product[] }) => {
+export const getCharityDataByProducts = async ({ products }: { products: Product[] }) => {
   try {
     const sellerIds = products.map((product) => product.sellerId)
     const charities: CharityData[] = []
@@ -100,7 +100,7 @@ export const fetchSellerDetails = async ({ products }: { products: Product[] }) 
   }
 }
 
-export const fetchSellerData = async ({ product }: { product: Product }) => {
+export const getCharityDataByProduct = async ({ product }: { product: Product }) => {
   try {
     const sellerId = product.sellerId
     const docRef = doc(firestore, 'charities', sellerId)

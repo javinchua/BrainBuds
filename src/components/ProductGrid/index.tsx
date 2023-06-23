@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
 import { CharityData, Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
-import { fetchSellerDetails } from 'pages/api/product'
+import { getCharityDataByProducts } from 'pages/api/product'
 import SmallProfileAvatar from '../smallProfileAvatar'
 
 interface ProductGridProps {
@@ -48,7 +48,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      const charities = await fetchSellerDetails({ products })
+      const charities = await getCharityDataByProducts({ products })
       setCharities(charities)
     }
 

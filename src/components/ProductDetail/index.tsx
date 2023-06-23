@@ -2,7 +2,7 @@ import { CharityData, Product } from '@/utils/constants/constants'
 import Link from 'next/link'
 import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
-import { fetchSellerData } from 'pages/api/product'
+import { getCharityDataByProduct } from 'pages/api/product'
 import { useState } from 'react'
 import { FiMapPin } from 'react-icons/fi'
 import ProductIcon from '../ProductIcon'
@@ -16,7 +16,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchSellerData({ product })
+      const data = await getCharityDataByProduct({ product })
       if (data) {
         setCharity(data)
       }

@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
-// import { CharityData, Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
-// import { doc, getDoc } from 'firebase/firestore'
-// import { getFirestore } from 'firebase/firestore'
 import { Product } from '@/utils/constants/constants'
 
 interface CharityProductGridProps {

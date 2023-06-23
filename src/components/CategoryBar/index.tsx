@@ -48,7 +48,7 @@ const CategorySidebar = () => {
             <Link href="/products?category=home-services">
               <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
                 <SiHomeassistant size={25} />
-                <li className="ml-2">Home services</li>
+                <li className="ml-4">Home services</li>
               </div>
             </Link>
 
