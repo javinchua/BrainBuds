@@ -16,11 +16,11 @@ const AllCharities = () => {
   }, [])
   return (
     <div className="h-screen bg-gradient-to-r from-navy to-purple-200">
-      <div className="py-6 mx-10">
-        <h1 className="text-xl font-semibold text-white">All Charities</h1>
-        <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="py-10 mx-10">
+        <h1 className="text-2xl font-semibold text-white">All Charities</h1>
+        <div className="grid grid-cols-2 gap-6 mt-10">
           {charities.map((charity, index) => (
-            <div className="p-2 text-white bg-white shadow-md bg-opacity-10" key={index}>
+            <div className="p-2 text-white bg-white rounded-md shadow-md bg-opacity-10" key={index}>
               <CharityProfile charity={charity} key={index}></CharityProfile>
             </div>
           ))}
