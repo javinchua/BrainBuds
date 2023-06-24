@@ -16,6 +16,7 @@ export const SignupForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = React.useState<string>('')
   const [countdownTime, setCountdownTime] = React.useState<number>(5)
   const [signupSuccess, setSignupSuccess] = React.useState<boolean>(false)
+  const [username, setUsername] = React.useState<string>('')
   // TODO: Handle validations
   const [emailInUsed, setEmailInUsed] = React.useState<boolean>(false)
   const [passwordInvalid, setPasswordInvalid] = React.useState<boolean>(false)
@@ -37,7 +38,7 @@ export const SignupForm: React.FC = () => {
     if (password !== confirmPassword) {
       setConfirmPasswordValid(false)
     } else {
-      handleFirebaseUserCreation(auth, email, password, userType)
+      handleFirebaseUserCreation(auth, email, password, userType, username)
     }
   }
 
@@ -45,7 +46,8 @@ export const SignupForm: React.FC = () => {
     auth: Auth,
     email: string,
     password: string,
-    userType: userTypes
+    userType: userTypes,
+    username: string
   ) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -54,7 +56,8 @@ export const SignupForm: React.FC = () => {
         const userRef = doc(firestore, 'users', user.uid)
         setDoc(userRef, {
           uid: user.uid,
-          userType: userType
+          userType: userType,
+          username: username
         })
         setSignupSuccess(true)
       })
@@ -110,6 +113,15 @@ export const SignupForm: React.FC = () => {
                 placeHolder={'name@company.com'}
               />
               {emailInUsed && <span className="text-xs text-pink">Email is in use!</span>}
+              <InputContainer
+                condition={false}
+                type={'text'}
+                labelName="Your Username"
+                onChange={(e) => {
+                  setUsername(e.target.value)
+                }}
+                placeHolder={'your username'}
+              />
               <InputContainer
                 condition={passwordInvalid}
                 type={'password'}

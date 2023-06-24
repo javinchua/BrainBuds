@@ -42,6 +42,7 @@ const ProductListingPage = () => {
   }
 
   const handleClose = () => {
+    setNewProduct(emptyProduct)
     setOpen(false)
   }
 
