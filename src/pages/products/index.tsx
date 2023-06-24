@@ -2,7 +2,6 @@ import React from 'react'
 import ProductGrid from '@/components/ProductGrid'
 import SearchBar from '@/components/SearchBar'
 import { useState } from 'react'
-import CategorySidebar from '@/components/CategoryBar'
 import { userTypes } from '@/utils/constants/constants'
 import PrivateRoute from 'context/PrivateRoute'
 interface ProductPageProps {
@@ -16,7 +15,6 @@ const ProductPage: React.FC<ProductPageProps> = () => {
   return (
     <PrivateRoute allowedUserTypes={[userTypes.DONOR]}>
       <div className="p-6 mx-6">
-        <CategorySidebar></CategorySidebar>
         <SearchBar onSearch={handleSearch}></SearchBar>
         <div className="mt-6">{/* <CategoryBanner /> */}</div>
         <div className="mt-6">
