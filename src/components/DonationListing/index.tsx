@@ -20,6 +20,7 @@ import { getProductById } from 'pages/api/product'
 interface DonationItem extends Donation {
   productName: string
   productImage: string
+  totalQuantity: number
 }
 export const Donations = () => {
   const { user } = useAuth()
@@ -46,6 +47,7 @@ export const Donations = () => {
             transformedDonations.push({
               productImage: product.image,
               productName: product.name,
+              totalQuantity: product.quantity,
               ...donationArray[i]
             })
           }
@@ -120,7 +122,11 @@ export const Donations = () => {
                       color="success"
                       variant="contained"
                       onClick={() =>
-                        handleAccept(donation.id as string, donation.productId, donation.quantity)
+                        handleAccept(
+                          donation.id as string,
+                          donation.productId,
+                          donation.totalQuantity - donation.quantity
+                        )
                       }
                     >
                       Accept
@@ -130,7 +136,11 @@ export const Donations = () => {
                       color="error"
                       variant="contained"
                       onClick={() =>
-                        handleReject(donation.id as string, donation.productId, donation.quantity)
+                        handleReject(
+                          donation.id as string,
+                          donation.productId,
+                          donation.totalQuantity - donation.quantity
+                        )
                       }
                     >
                       Reject

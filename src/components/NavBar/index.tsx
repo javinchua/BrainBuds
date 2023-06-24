@@ -16,8 +16,8 @@ export const NavBar = () => {
   const [textColor, setTextColor] = useState('white')
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
 
-  const toggleCategory = () => {
-    setIsCategoryOpen(!isCategoryOpen)
+  const handleClose = () => {
+    setIsCategoryOpen(false)
   }
   const handleNav = () => {
     setNav(!nav)
@@ -62,7 +62,7 @@ export const NavBar = () => {
                 <button
                   className="p-4 hover:bg-primary-900"
                   style={{ color: `${textColor}` }}
-                  onClick={toggleCategory}
+                  onClick={() => setIsCategoryOpen(true)}
                 >
                   <div className="flex">
                     <BsGrid size={24} />
@@ -134,7 +134,7 @@ export const NavBar = () => {
             </ul>
           </div>
         </div>
-        {isCategoryOpen && <CategorySidebar />}
+        <CategorySidebar open={isCategoryOpen} handleClose={handleClose} />
       </div>
     </>
   )

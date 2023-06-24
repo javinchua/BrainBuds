@@ -7,8 +7,7 @@ import {
   where,
   updateDoc,
   doc,
-  setDoc,
-  increment
+  setDoc
 } from '@firebase/firestore'
 import { Donation, DonationTypes } from '@/utils/constants/constants'
 const firestore = getFirestore()
@@ -57,7 +56,7 @@ export const updateDonationStatus = async (
     })
     if (status == DonationTypes.ACCEPTED) {
       await updateDoc(doc(firestore, 'products', productId), {
-        quantity: increment(-1 * quantity)
+        quantity: quantity
       })
     }
   } catch (error) {

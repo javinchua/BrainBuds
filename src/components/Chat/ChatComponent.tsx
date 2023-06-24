@@ -158,7 +158,8 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charity
         }
       }
     }
-    if (user) {
+    if (user && user.uid) {
+      getAddressUsernameMap(user.uid)
       if (selectedChat) {
         getMessages(selectedChat.id)
       } else if (productId && charityId) {

@@ -14,13 +14,13 @@ import { TbMoodKid } from 'react-icons/tb'
 import { GiClothes } from 'react-icons/gi'
 import { fetchCategories } from 'pages/api/category'
 import { Category } from '@/utils/constants/constants'
-
-const CategorySidebar = () => {
-  const [isOpen, setIsOpen] = useState(true)
+interface CategoryProps {
+  open: boolean
+  handleClose: () => void
+}
+const CategorySidebar: React.FC<CategoryProps> = ({ open, handleClose }) => {
   const [categories, setCategories] = useState<Category[]>([])
-  const handleToggleSideBar = () => {
-    setIsOpen(!isOpen)
-  }
+
   useEffect(() => {
     const getCategories = async () => {
       const categories = await fetchCategories()
@@ -55,14 +55,14 @@ const CategorySidebar = () => {
     <div>
       <div
         className={`z-10 fixed top-0 right-0 h-screen w-[490px] bg-primary-50 text-white transition-transform ease-in-out duration-300 transform ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+          open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Sidebar content goes here */}
         {/*header*/}
         <div className="flex justify-between p-6 border-b border-neutral-400">
           <h1 className="text-2xl font-bold focus:outline-none text-neutral-800">All Categories</h1>
-          <button className=" focus:outline-none text-neutral-800" onClick={handleToggleSideBar}>
+          <button className=" focus:outline-none text-neutral-800" onClick={handleClose}>
             <AiOutlineClose size={24} />
           </button>
         </div>
@@ -91,10 +91,10 @@ const CategorySidebar = () => {
       </div>
 
       {/* Overlay */}
-      {isOpen && (
+      {open && (
         <div
           className="fixed top-0 left-0 w-screen h-screen bg-neutral-900 opacity-40"
-          onClick={handleToggleSideBar}
+          onClick={handleClose}
         ></div>
       )}
     </div>
