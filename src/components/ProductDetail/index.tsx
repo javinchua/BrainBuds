@@ -8,6 +8,7 @@ import { FiMapPin } from 'react-icons/fi'
 import ProductIcon from '../ProductIcon'
 import { FaHandshake } from 'react-icons/fa'
 import ChatComponent from '../Chat/ChatComponent'
+import DonateModal from '../DonationModal'
 interface ProductDetailProps {
   product: Product
 }
@@ -56,9 +57,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         <div className="w-[30%] mt-4">
           <div className="flex flex-col p-4 text-center shadow-md border-neutral-800">
             <h1 className="py-4 text-lg font-bold">{charity ? charity.name : 'Unknown'}</h1>
-            <Link href="/checkout" className="w-full py-4 font-bold text-red-100 bg-purple">
-              Donate
-            </Link>
+            <DonateModal product={product} />
             <ChatComponent productId={product.id} charityId={charity?.id} />
           </div>
         </div>
