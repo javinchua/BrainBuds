@@ -10,7 +10,8 @@ import {
   where,
   doc,
   setDoc,
-  Timestamp
+  Timestamp,
+  getDocs
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import {
@@ -39,16 +40,15 @@ const StyledListItem = styled(ListItem)(() => ({
   marginBottom: '0.5rem',
   backgroundColor: '#F3F4F6',
   borderRadius: '0.5rem',
-  padding: '1rem'
+  padding: '1rem',
+  cursor: 'pointer', // change cursor on hover
+  '&:hover': {
+    backgroundColor: '#E5E7EB' // change background color on hover
+  }
 }))
 
-const StyledButton = styled(Button)(() => ({
-  marginTop: '0.5rem',
-  backgroundColor: '#3B82F6',
-  color: '#FFF',
-  '&:hover': {
-    backgroundColor: '#1E3A8A'
-  }
+const StyledTypography = styled(Typography)(() => ({
+  color: '#374151' // make text darker
 }))
 export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charityId }) => {
   const { user } = useAuth()
@@ -138,27 +138,35 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charity
     }
 
     const createNewChat = async () => {
+      // first check if this has already been created anot
       if (productId && user) {
         // Create a new chat with the provided productId
         const chatsRef: CollectionReference = collection(firestore, 'chats')
-        const docRef = doc(chatsRef)
-        const docId = docRef.id
-        const newDoc: Chat = {
-          id: docId,
-          productId: productId,
-          donorId: user.uid || '',
-          charityId: charityId || '', // Set the initial charityId as an empty string or set it to the appropriate value
-          createdAt: Timestamp.now()
+        const chatsQuery = query(
+          chatsRef,
+          where('donorId', '==', user.uid),
+          where('productId', '==', productId)
+        )
+        const chatDoc = await getDocs(chatsQuery)
+        if (chatDoc.empty) {
+          const docRef = doc(chatsRef)
+          const docId = docRef.id
+          const newDoc: Chat = {
+            id: docId,
+            productId: productId,
+            donorId: user.uid || '',
+            charityId: charityId || '', // Set the initial charityId as an empty string or set it to the appropriate value
+            createdAt: Timestamp.now()
+          }
+          await setDoc(docRef, newDoc)
+          setSelectedChat(newDoc)
+        } else {
+          const docRef = chatDoc.docs[0]
+          const docData = docRef.data()
+          setSelectedChat(docData as Chat)
         }
-        await setDoc(docRef, newDoc)
-
-        setSelectedChat(newDoc)
-
-        // Retrieve and set the messages for the new chat
-        getMessages(newDoc.id)
       }
     }
-
     if (user) {
       if (selectedChat) {
         getMessages(selectedChat.id)
@@ -219,18 +227,18 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charity
       <div className="p-6 bg-white rounded-lg shadow">
         <List>
           {chats.map((chat) => (
-            <StyledListItem key={chat.id}>
-              <ListItemText
-                primary={user.type === userTypes.DONOR ? chat.charityId : chat.productId}
-                className="text-gray-600"
-              />
-              <StyledButton
-                onClick={() => handleSelectChat(chat)}
-                variant="contained"
-                color="primary"
-              >
-                Open Chat
-              </StyledButton>
+            <StyledListItem key={chat.id} onClick={() => handleSelectChat(chat)}>
+              <div>
+                <StyledTypography variant="subtitle1">
+                  Product: {productNameMap[chat.productId]}
+                </StyledTypography>
+                <StyledTypography variant="body2">
+                  User:{' '}
+                  {user.type === userTypes.DONOR
+                    ? addressUsernameMap[chat.charityId]
+                    : addressUsernameMap[chat.donorId]}
+                </StyledTypography>
+              </div>
             </StyledListItem>
           ))}
         </List>
@@ -241,6 +249,9 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charity
   const renderChatMessages = () => {
     return (
       <div>
+        <Typography variant="h6" className="mb-4 text-gray-800">
+          Product: {selectedChat && productNameMap[selectedChat.productId]}
+        </Typography>
         <div className="p-4 overflow-y-auto bg-white rounded h-96">
           {messages.map((message, index) => (
             <div key={index} className="p-2 mb-4 border border-gray-500 rounded">
@@ -287,8 +298,8 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charity
         Chat
       </Button>
       <Modal open={open} onClose={handleCloseChatModal}>
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="p-4 bg-white rounded">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="p-4 bg-white rounded min-w-[50%]">
             <div className="flex justify-between">
               <Typography variant="h6">{selectedChat ? 'Chat Messages' : 'Chat List'}</Typography>
               <IconButton onClick={handleCloseChatModal} size="small">

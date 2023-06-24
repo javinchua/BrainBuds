@@ -75,13 +75,11 @@ export const AddProductForm: React.FC<AddProductFormProps> = ({
 
           {/* Display the selected image */}
           {product.file && (
-            <div className="mt-4">
-              <h3>Selected Image:</h3>
+            <div className="w-64 h-64 mt-4">
               <img
                 src={URL.createObjectURL(product.file)}
                 alt="Selected"
-                width={'400px'}
-                height={'400px'}
+                className="object-cover rounded-md"
               />
             </div>
           )}

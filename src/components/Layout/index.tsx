@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <NavBar />
       <div className="relative pt-16">
         {children}
-        {user && (
+        {user && user.uid && (
           <div className="fixed z-50 object-cover bottom-5 right-5">
             <ChatComponent />
           </div>

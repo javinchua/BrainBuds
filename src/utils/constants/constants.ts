@@ -62,3 +62,20 @@ export interface Message {
   createdAt: Timestamp
   chatId: string
 }
+
+export interface Order {
+  id: string
+  productId: string
+  sellerId: string
+  buyerId: string
+  offerPrice: number
+  status: OrderTypes // this can be 'offered', 'accepted', 'rejected', 'delivered', 'completed'
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+export enum OrderTypes {
+  OFFERED = 'OFFERED',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED'
+}

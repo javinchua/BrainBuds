@@ -32,7 +32,8 @@ export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
                 <h1 className=" hover:underline hover:text-purple-500">{charity.name}</h1>
               </Link>
             </div>
-            <h1 className="mt-2">Description</h1>
+            <div className="text-lg font-medium">Description</div>
+            <div>{charity.description}</div>
           </div>
         </>
       ) : (

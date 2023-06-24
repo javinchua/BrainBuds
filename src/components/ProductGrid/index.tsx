@@ -56,7 +56,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
 
     fetchSellerData()
   }, [products])
-  console.log(products)
+
   return (
     <div>
       <h1 className="block w-full my-4">

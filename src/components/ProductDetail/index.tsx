@@ -34,7 +34,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           <div className="rounded-full">
             <img src={product.image} alt={product.name} className="object-contain" />
           </div>
-          <div className="absolute inset-0 bg-gray-200 opacity-50"></div>
+          <div className="absolute inset-0 bg-gray-200 opacity-10"></div>
         </div>
       </div>
 

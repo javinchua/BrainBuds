@@ -26,7 +26,7 @@ const CategorySidebar = () => {
       const categories = await fetchCategories()
       setCategories(categories as Category[])
     }
-    getCategories
+    getCategories()
   }, [])
 
   const getIconComponent = (category: string) => {

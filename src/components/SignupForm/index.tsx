@@ -60,13 +60,16 @@ export const SignupForm: React.FC = () => {
           userType: userType,
           username: username
         })
-        updateCharityInfo(
-          {
-            name: username,
-            description: ''
-          } as CharityData,
-          user.uid
-        )
+        if (userType == userTypes.CHARITY) {
+          updateCharityInfo(
+            {
+              name: username,
+              description: ''
+            } as CharityData,
+            user.uid
+          )
+        }
+
         setSignupSuccess(true)
       })
       .catch((error) => {
