@@ -63,18 +63,19 @@ export interface Message {
   chatId: string
 }
 
-export interface Order {
-  id: string
+export interface Donation {
+  id?: string
   productId: string
-  sellerId: string
-  buyerId: string
-  offerPrice: number
-  status: OrderTypes // this can be 'offered', 'accepted', 'rejected', 'delivered', 'completed'
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  charityId: string
+  donorId: string
+  price: number
+  quantity: number
+  status: DonationTypes // this can be 'offered', 'accepted', 'rejected', 'delivered', 'completed'
+  createdAt?: Timestamp
+  updatedAt?: Timestamp
 }
 
-export enum OrderTypes {
+export enum DonationTypes {
   OFFERED = 'OFFERED',
   ACCEPTED = 'ACCEPTED',
   REJECTED = 'REJECTED'
