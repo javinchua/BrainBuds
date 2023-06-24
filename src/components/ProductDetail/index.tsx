@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { FiMapPin } from 'react-icons/fi'
 import ProductIcon from '../ProductIcon'
 import { FaHandshake } from 'react-icons/fa'
+import ChatComponent from '../Chat/ChatComponent'
 interface ProductDetailProps {
   product: Product
 }
@@ -58,9 +59,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
             <Link href="/checkout" className="w-full py-4 font-bold text-red-100 bg-purple">
               Donate
             </Link>
-            <Link href="/chat" className="w-full py-4 bg-gray-100 ">
-              Chat
-            </Link>
+            <ChatComponent productId={product.id} charityId={charity?.id} />
           </div>
         </div>
       </div>
@@ -70,7 +69,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         <h2 className="text-2xl font-semibold ">Description</h2>
         <div className="flex mb-4">
           <div className="w-1/2">
-            <h1>Posted: {product.createdAt}</h1>
+            <h1>Posted: {product.createdAt?.toDate().toLocaleString() || 'Unknown'}</h1>
           </div>
           <div className="w-1/2">
             <h1>Category: {product.category}</h1>

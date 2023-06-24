@@ -35,7 +35,9 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, se
   const filteredProducts = searchQuery
     ? products.filter(
         (product) =>
-          product.available && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          product.quantity &&
+          product.quantity > 0 &&
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : products
   return (

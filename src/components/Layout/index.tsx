@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { NavBar } from '../NavBar'
 import { useAuth } from 'context/AuthContext'
-import { ChatComponent } from '../Chat/ChatComponent'
+import ChatComponent from '../Chat/ChatComponent'
 
 interface LayoutProps {
   children: ReactNode
@@ -13,17 +13,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <NavBar />
-      <div style={{ paddingTop: '64px', position: 'relative' }}>
+      <div className="relative pt-16">
         {children}
         {user && (
-          <div
-            style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px'
-            }}
-          >
-            <ChatComponent userType="donor" />
+          <div className="fixed z-50 object-cover bottom-5 right-5">
+            <ChatComponent />
           </div>
         )}
       </div>

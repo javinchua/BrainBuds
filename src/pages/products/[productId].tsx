@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getProductById } from '../api/product' // Replace with your API call to fetch the product data
 import ProductDetail from '@/components/ProductDetail'
-import { Product } from '@/utils/constants/constants'
+import { Product, userTypes } from '@/utils/constants/constants'
+import PrivateRoute from 'context/PrivateRoute'
 
 const ProductPage = () => {
   const router = useRouter()
@@ -26,11 +27,13 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="min-h-screen py-10 bg-purple-100">
-      <div className="max-w-5xl px-4 mx-auto">
-        <ProductDetail product={product} />
+    <PrivateRoute allowedUserTypes={[userTypes.DONOR]}>
+      <div className="min-h-screen py-10 bg-purple-100">
+        <div className="max-w-5xl px-4 mx-auto">
+          <ProductDetail product={product} />
+        </div>
       </div>
-    </div>
+    </PrivateRoute>
   )
 }
 

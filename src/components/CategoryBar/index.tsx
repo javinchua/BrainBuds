@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { AiOutlineClose } from 'react-icons/ai'
 import { SiHomeassistant } from 'react-icons/si'
@@ -12,14 +12,45 @@ import {
 } from 'react-icons/md'
 import { TbMoodKid } from 'react-icons/tb'
 import { GiClothes } from 'react-icons/gi'
+import { fetchCategories } from 'pages/api/category'
+import { Category } from '@/utils/constants/constants'
 
 const CategorySidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
-
+  const [categories, setCategories] = useState<Category[]>([])
   const handleToggleSideBar = () => {
     setIsOpen(!isOpen)
   }
+  useEffect(() => {
+    const getCategories = async () => {
+      const categories = await fetchCategories()
+      setCategories(categories as Category[])
+    }
+    getCategories
+  }, [])
 
+  const getIconComponent = (category: string) => {
+    switch (category) {
+      case 'Home Services':
+        return <SiHomeassistant size={25} />
+      case 'Property':
+        return <BsBuilding size={25} />
+      case 'Health':
+        return <MdHealthAndSafety size={25} />
+      case 'Clothes':
+        return <GiClothes size={25} />
+      case 'Babies and Kids':
+        return <TbMoodKid size={25} />
+      case 'Hobbies and Toys':
+        return <MdToys size={25} />
+      case 'Foods and Drinks':
+        return <MdEmojiFoodBeverage size={25} />
+      case 'Volunteer Activities':
+        return <MdLocalActivity size={25} />
+      default:
+        return <MdAllInbox size={25} />
+    }
+  }
   return (
     <div>
       <div
@@ -45,60 +76,16 @@ const CategorySidebar = () => {
                 <li className="ml-4">All</li>
               </div>
             </Link>
-            <Link href="/products?category=home-services">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <SiHomeassistant size={25} />
-                <li className="ml-4">Home services</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=property">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <BsBuilding size={25} />
-                <li className="ml-4">Property</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=health">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <MdHealthAndSafety size={25} />
-                <li className="ml-4">Health</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=clothes">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <GiClothes size={25} />
-                <li className="ml-4">Clothes</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=babies_and_kids">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <TbMoodKid size={25} />
-                <li className="ml-4">Babies and Kids</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=hobbies_and_toys">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <MdToys size={25} />
-                <li className="ml-4">Hobbies and Toys</li>
-              </div>
-            </Link>
-            <Link href="/products?category=foods_and_drinks">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <MdEmojiFoodBeverage size={25} />
-                <li className="ml-4">Foods and Drinks</li>
-              </div>
-            </Link>
-
-            <Link href="/products?category=activities">
-              <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
-                <MdLocalActivity size={25} />
-                <li className="ml-4">Volunteer Activities</li>
-              </div>
-            </Link>
+            {categories.map((category, index) => {
+              return (
+                <Link href={`/products?category=${category.name}`} key={index}>
+                  <div className="flex p-6 m-auto text-lg border-b border-neutral-400 text-neutral-800 hover:bg-slate-300">
+                    {getIconComponent(category.name)}
+                    <li className="ml-4">{category.name}</li>
+                  </div>
+                </Link>
+              )
+            })}
           </ul>
         </div>
       </div>

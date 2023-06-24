@@ -15,9 +15,6 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
     router.push(`/charity/${charity.id}`)
   }
 
-  const handleClickInfo = () => {
-    router.push('/charityInfo')
-  }
   return (
     <div className="flex p-10 mt-20 text-center">
       {/* charity profile navbar */}
@@ -31,9 +28,6 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
             className="z-10 ml-10 text-lg border-b-4 text-bold text-dark-green border-b-dark-green"
           >
             <h1>Listings</h1>
-          </button>
-          <button onClick={handleClickInfo} className="ml-10 text-lg border-b-4 border-white">
-            <h1>Information</h1>
           </button>
         </div>
         <div className="p-10 shadow-md">

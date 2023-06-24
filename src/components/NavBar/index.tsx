@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import { useAuth } from 'context/AuthContext'
-import { getAuth, signOut } from 'firebase/auth'
+
 import { BsGrid } from 'react-icons/bs'
 import CategorySidebar from '../CategoryBar'
 import { SiJustgiving } from 'react-icons/si'
+import { userTypes } from '@/utils/constants/constants'
+import NavProfile from './profile'
 
 export const NavBar = () => {
   const [nav, setNav] = useState(false)
@@ -21,7 +23,7 @@ export const NavBar = () => {
     setNav(!nav)
   }
   const { user } = useAuth()
-  const auth = getAuth()
+
   useEffect(() => {
     const changeColor = () => {
       if (window.scrollY >= 90) {
@@ -44,51 +46,57 @@ export const NavBar = () => {
         style={{ backgroundColor: `${color}` }}
         className="fixed top-0 left-0 z-10 w-full duration-300 ease-in h-[70px]"
       >
-        <div className="max-w-[1240px] flex justify-between text-white items-center h-[70px]">
-          <Link href="/" className="relative flex items-center p-4 text-3xl pl-14">
-            <SiJustgiving style={{ color: `${textColor}` }} />
-            <h1 style={{ color: `${textColor}` }} className="ml-[2px] text-3xl font-bold">
-              ivver
-            </h1>
-          </Link>
+        <div className="max-w-[1240px] flex justify-between text-white items-center h-[70px] mx-auto px-4">
+          <div className="flex items-center">
+            <Link href="/" className="relative flex items-center p-4 text-3xl">
+              <SiJustgiving style={{ color: `${textColor}` }} />
+              <h1 style={{ color: `${textColor}` }} className="ml-[2px] text-3xl font-bold">
+                ivver
+              </h1>
+            </Link>
+          </div>
 
-          <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
-            <button
-              className="p-4 hover:bg-primary-900"
-              style={{ color: `${textColor}` }}
-              onClick={toggleCategory}
-            >
-              <div className="flex">
-                <BsGrid size={24} />
-                <h1 className="ml-2">All Categories</h1>
-              </div>
-            </button>
-
-            <Link href="/">
-              <li className="p-4 hover:bg-primary-900">Home</li>
-            </Link>
-            <Link href="/allCharities">
-              <li className="p-4 hover:bg-primary-900">Explore Charities</li>
-            </Link>
-            <Link href="/contact">
-              <li className="p-4 hover:bg-primary-900">Contact</li>
-            </Link>
-            {user && user.uid ? (
+          <div className="flex items-center space-x-4">
+            {user && user.type == userTypes.DONOR ? (
               <>
-                <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
-                  Logout
-                </div>
-                <div className="p-4">User Type: {user.type}</div>
-                <div className="p-4">Username: {user.username}</div>
+                <button
+                  className="p-4 hover:bg-primary-900"
+                  style={{ color: `${textColor}` }}
+                  onClick={toggleCategory}
+                >
+                  <div className="flex">
+                    <BsGrid size={24} />
+                    <h1 className="ml-2">All Categories</h1>
+                  </div>
+                </button>
+                <Link href="/allCharities">
+                  <li className="p-4 hover:bg-primary-900">Explore Charities</li>
+                </Link>
               </>
+            ) : user && user.type == userTypes.CHARITY ? (
+              <>
+                <Link href="/charityProducts">
+                  <li className="p-4 hover:bg-primary-900">Products</li>
+                </Link>
+                <Link href="/charityInfo">
+                  <li className="p-4 hover:bg-primary-900">Charity Info</li>
+                </Link>
+              </>
+            ) : null}
+            <Link href="/contact">
+              <div className="p-4 hover:bg-primary-900">Contact</div>
+            </Link>
+
+            {user && user.uid ? (
+              <NavProfile />
             ) : (
               <Link href="/login">
                 <li className="p-4 hover:bg-primary-900">Login</li>
               </Link>
             )}
-          </ul>
+          </div>
 
-          {/*mobile button */}
+          {/* Mobile button */}
           <div className="z-10 block sm:hidden">
             {nav ? (
               <AiOutlineClose size={20} style={{ color: `${textColor}` }} onClick={handleNav} />
@@ -96,7 +104,7 @@ export const NavBar = () => {
               <AiOutlineMenu size={20} style={{ color: `${textColor}` }} onClick={handleNav} />
             )}
           </div>
-          {/*mobile menu */}
+          {/* Mobile menu */}
           <div
             className={
               nav

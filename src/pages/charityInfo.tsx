@@ -61,6 +61,7 @@ const CharityInfoPage = () => {
               // Edit mode
               <>
                 <TextField
+                  disabled
                   name="name"
                   label="Name"
                   value={charityData.name}

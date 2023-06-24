@@ -42,7 +42,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   const filteredProducts = searchQuery
     ? products.filter(
         (product) =>
-          product.available && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          product.quantity &&
+          product.quantity > 0 &&
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : products
 
@@ -54,7 +56,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
 
     fetchSellerData()
   }, [products])
-
+  console.log(products)
   return (
     <div>
       <h1 className="block w-full my-4">
@@ -83,7 +85,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                     <p className="block ml-2 text-sm text-gray-500">
                       <p className="block ml-2 text-sm text-gray-500">
                         {product.createdAt
-                          ? new Date(product.createdAt).toLocaleString()
+                          ? product.createdAt?.toDate().toLocaleString()
                           : 'Unknown'}
                       </p>
                     </p>

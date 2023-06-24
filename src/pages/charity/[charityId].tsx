@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CharityPageComponent from '@/components/CharityPage'
-import { CharityData } from '@/utils/constants/constants'
 import { getFirestore } from 'firebase/firestore'
 import { doc, getDoc } from 'firebase/firestore'
-
+import { CharityData, userTypes } from '@/utils/constants/constants'
+import PrivateRoute from 'context/PrivateRoute'
 const firestore = getFirestore()
 
 const CharityPage = () => {
@@ -32,7 +32,11 @@ const CharityPage = () => {
     return <div>Loading...</div>
   }
 
-  return <CharityPageComponent charity={charity} />
+  return (
+    <PrivateRoute allowedUserTypes={[userTypes.DONOR]}>
+      <CharityPageComponent charity={charity} />
+    </PrivateRoute>
+  )
 }
 
 export default CharityPage

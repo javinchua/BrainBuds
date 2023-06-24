@@ -23,7 +23,10 @@ export const getCharityInfo = async (uid: string): Promise<CharityData | null> =
 export const updateCharityInfo = async (data: CharityData, uid: string) => {
   try {
     const docRef = doc(firestore, 'charities', uid)
-    setDoc(docRef, data)
+    setDoc(docRef, {
+      ...data,
+      id: uid
+    })
     return null
   } catch (error) {
     console.error('Error updating charity info:', error)
