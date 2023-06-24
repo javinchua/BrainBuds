@@ -81,6 +81,9 @@ export const NavBar = () => {
                 <Link href="/charityInfo">
                   <li className="p-4 hover:bg-primary-900">Charity Info</li>
                 </Link>
+                <Link href="/donations">
+                  <li className="p-4 hover:bg-primary-900">Donations</li>
+                </Link>
               </>
             ) : null}
             <Link href="/contact">
