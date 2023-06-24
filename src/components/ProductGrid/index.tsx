@@ -100,7 +100,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                   <h2 className="text-gray-800 text-md">{product.name}</h2>
                   <div className="flex flex-col justify-end">
                     <p className="text-sm text-gray-500">{product.description}</p>
-                    <p className="mt-2 text-gray-700">${product.price}</p>
+                    <p className="mt-2 text-gray-700">Target: ${product.price}</p>
+                    <p className="mt-2 text-gray-700">Quantity needed: {product.quantity}</p>
                   </div>
                 </div>
               </div>
