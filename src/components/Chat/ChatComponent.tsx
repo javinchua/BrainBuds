@@ -13,7 +13,7 @@ import {
 import { getFirestore } from 'firebase/firestore'
 import { Button, Modal, TextField, Typography, IconButton } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import { userTypes } from '@/utils/constants/constants'
+import { userTypes, Chat, Message } from '@/utils/constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { getUserByUsername } from 'pages/api/chat'
@@ -21,21 +21,6 @@ import { getProductName } from 'pages/api/product'
 interface ChatComponentProps {
   productId?: string
   userType: 'donor' | 'charity'
-}
-
-interface Chat {
-  id: string
-  productId: string
-  donorId: string
-  charityId: string
-  createdAt: Timestamp
-}
-
-interface Message {
-  senderId: string
-  content: string
-  createdAt: Timestamp
-  chatId: string
 }
 
 export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
