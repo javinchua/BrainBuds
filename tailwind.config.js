@@ -36,6 +36,7 @@ module.exports = {
         800: '#343A40',
         900: '#212529'
       },
+      
       red: colors.red,
       black: colors.black,
       white: colors.white,
@@ -53,13 +54,16 @@ module.exports = {
         800: '#1e40af',
         900: '#1e3a8a'
       },
+      navy: '#1B263D',
       error: '#FA541C',
       tosca: '#00CBB4',
       'light-green': '#19C200',
       'dark-green': '#009100',
       pink: '#FF3A79',
       orange: '#FF9431',
-      purple: '#5200D1',
+      purple: {
+        200: '#5b21b6',
+        100: '#8b5cf6'},
       'dark-blue': '#33424E'
     },
     minWidth: {

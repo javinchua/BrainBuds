@@ -6,7 +6,7 @@ import { CharityData, sampleCharity, userTypes } from '@/utils/constants/constan
 import { getCharityInfo, updateCharityInfo } from './api/charity'
 import PrivateRoute from 'context/PrivateRoute'
 
-const CharityPage = () => {
+const CharityInfoPage = () => {
   const { user } = useAuth()
 
   const [editing, setEditing] = useState(false)
@@ -61,6 +61,7 @@ const CharityPage = () => {
               // Edit mode
               <>
                 <TextField
+                  disabled
                   name="name"
                   label="Name"
                   value={charityData.name}
@@ -115,4 +116,4 @@ const CharityPage = () => {
   )
 }
 
-export default CharityPage
+export default CharityInfoPage

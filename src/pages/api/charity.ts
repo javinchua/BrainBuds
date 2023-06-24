@@ -1,6 +1,7 @@
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { CharityData } from '@/utils/constants/constants'
+
 const firestore = getFirestore()
 
 export const getCharityInfo = async (uid: string): Promise<CharityData | null> => {
@@ -22,10 +23,33 @@ export const getCharityInfo = async (uid: string): Promise<CharityData | null> =
 export const updateCharityInfo = async (data: CharityData, uid: string) => {
   try {
     const docRef = doc(firestore, 'charities', uid)
-    setDoc(docRef, data)
+    setDoc(docRef, {
+      ...data,
+      id: uid
+    })
     return null
   } catch (error) {
     console.error('Error updating charity info:', error)
+    return null
+  }
+}
+
+export const getAllCharities = async () => {
+  try {
+    const docRef = collection(firestore, 'charities')
+    const docSnap = await getDocs(docRef)
+
+    const charities: CharityData[] = docSnap.docs.map((doc) => {
+      const data = doc.data()
+      return {
+        id: doc.id,
+        name: data.name,
+        description: data.description
+      }
+    })
+    return charities
+  } catch (error) {
+    console.error('Error getting charities:', error)
     return null
   }
 }

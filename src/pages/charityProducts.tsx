@@ -231,16 +231,24 @@ const ProductListingPage = () => {
                           {product.file ? (
                             <div className="mt-4">
                               <h3>Selected Image:</h3>
-                              <img
-                                src={URL.createObjectURL(product.file)}
-                                alt="Selected"
-                                width={'400px'}
-                              />
+                              <div className="w-64 h-64">
+                                <img
+                                  src={URL.createObjectURL(product.file)}
+                                  alt="Selected"
+                                  className="object-cover rounded-md"
+                                />
+                              </div>
                             </div>
                           ) : product.image ? (
                             <div className="mt-4">
                               <h3>Selected Image:</h3>
-                              <img src={product.image} alt="Selected" width={'400px'} />
+                              <div className="w-64 h-64">
+                                <img
+                                  src={product.image}
+                                  alt="Selected"
+                                  className="object-cover rounded-md"
+                                />
+                              </div>
                             </div>
                           ) : null}
 

@@ -8,22 +8,49 @@ import {
   orderBy,
   onSnapshot,
   where,
-  Timestamp
+  doc,
+  setDoc,
+  Timestamp,
+  getDocs
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
-import { Button, Modal, TextField, Typography, IconButton } from '@mui/material'
+import {
+  Button,
+  Modal,
+  TextField,
+  Typography,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText
+} from '@mui/material'
+import { styled } from '@mui/system'
 import { Close } from '@mui/icons-material'
 import { userTypes, Chat, Message } from '@/utils/constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { getUserByUsername } from 'pages/api/chat'
 import { getProductName } from 'pages/api/product'
+import ChatIcon from '@mui/icons-material/Chat'
 interface ChatComponentProps {
   productId?: string
-  userType: 'donor' | 'charity'
+  charityId?: string
 }
+const StyledListItem = styled(ListItem)(() => ({
+  marginBottom: '0.5rem',
+  backgroundColor: '#F3F4F6',
+  borderRadius: '0.5rem',
+  padding: '1rem',
+  cursor: 'pointer', // change cursor on hover
+  '&:hover': {
+    backgroundColor: '#E5E7EB' // change background color on hover
+  }
+}))
 
-export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
+const StyledTypography = styled(Typography)(() => ({
+  color: '#374151' // make text darker
+}))
+export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, charityId }) => {
   const { user } = useAuth()
   const [chats, setChats] = useState<Chat[]>([])
   const [messages, setMessages] = useState<Message[]>([])
@@ -109,9 +136,42 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
         })
       }
     }
+
+    const createNewChat = async () => {
+      // first check if this has already been created anot
+      if (productId && user) {
+        // Create a new chat with the provided productId
+        const chatsRef: CollectionReference = collection(firestore, 'chats')
+        const chatsQuery = query(
+          chatsRef,
+          where('donorId', '==', user.uid),
+          where('productId', '==', productId)
+        )
+        const chatDoc = await getDocs(chatsQuery)
+        if (chatDoc.empty) {
+          const docRef = doc(chatsRef)
+          const docId = docRef.id
+          const newDoc: Chat = {
+            id: docId,
+            productId: productId,
+            donorId: user.uid || '',
+            charityId: charityId || '', // Set the initial charityId as an empty string or set it to the appropriate value
+            createdAt: Timestamp.now()
+          }
+          await setDoc(docRef, newDoc)
+          setSelectedChat(newDoc)
+        } else {
+          const docRef = chatDoc.docs[0]
+          const docData = docRef.data()
+          setSelectedChat(docData as Chat)
+        }
+      }
+    }
     if (user) {
       if (selectedChat) {
         getMessages(selectedChat.id)
+      } else if (productId && charityId) {
+        createNewChat()
       } else {
         getChats()
       }
@@ -125,7 +185,7 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
         unsubscribeMessages()
       }
     }
-  }, [user, userType, selectedChat])
+  }, [user, selectedChat, productId, charityId])
 
   const handleOpenChatModal = () => {
     setOpen(true)
@@ -147,7 +207,6 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
         firestore,
         `chats/${selectedChat.id}/messages`
       )
-      console.log('here')
       await addDoc(messagesRef, {
         chatId: selectedChat.id,
         senderId: user.uid,
@@ -165,19 +224,24 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
   }
   const renderChatList = () => {
     return (
-      <div>
-        <div>
+      <div className="p-6 bg-white rounded-lg shadow">
+        <List>
           {chats.map((chat) => (
-            <div key={chat.id} className="mb-2">
-              <Typography>
-                {user.type == userTypes.DONOR ? chat.charityId : chat.productId}
-              </Typography>
-              <Button onClick={() => handleSelectChat(chat)} variant="contained" color="primary">
-                Open Chat
-              </Button>
-            </div>
+            <StyledListItem key={chat.id} onClick={() => handleSelectChat(chat)}>
+              <div>
+                <StyledTypography variant="subtitle1">
+                  Product: {productNameMap[chat.productId]}
+                </StyledTypography>
+                <StyledTypography variant="body2">
+                  User:{' '}
+                  {user.type === userTypes.DONOR
+                    ? addressUsernameMap[chat.charityId]
+                    : addressUsernameMap[chat.donorId]}
+                </StyledTypography>
+              </div>
+            </StyledListItem>
           ))}
-        </div>
+        </List>
       </div>
     )
   }
@@ -185,6 +249,9 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
   const renderChatMessages = () => {
     return (
       <div>
+        <Typography variant="h6" className="mb-4 text-gray-800">
+          Product: {selectedChat && productNameMap[selectedChat.productId]}
+        </Typography>
         <div className="p-4 overflow-y-auto bg-white rounded h-96">
           {messages.map((message, index) => (
             <div key={index} className="p-2 mb-4 border border-gray-500 rounded">
@@ -221,13 +288,18 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
   }
 
   return (
-    <div>
-      <Button onClick={handleOpenChatModal} variant="contained" color="primary">
-        Open Chat
+    <div className="z-50">
+      <Button
+        onClick={handleOpenChatModal}
+        variant="contained"
+        color="primary"
+        endIcon={<ChatIcon />}
+      >
+        Chat
       </Button>
       <Modal open={open} onClose={handleCloseChatModal}>
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="p-4 bg-white rounded">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="p-4 bg-white rounded min-w-[50%]">
             <div className="flex justify-between">
               <Typography variant="h6">{selectedChat ? 'Chat Messages' : 'Chat List'}</Typography>
               <IconButton onClick={handleCloseChatModal} size="small">

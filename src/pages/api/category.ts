@@ -1,8 +1,7 @@
-import { getDocs, collection } from 'firebase/firestore'
-import { getFirestore } from 'firebase/firestore'
+import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import { Category } from '@/utils/constants/constants'
-const firestore = getFirestore()
 
+const firestore = getFirestore()
 export const fetchCategories = async () => {
   try {
     const querySnapshot = await getDocs(collection(firestore, 'categories'))

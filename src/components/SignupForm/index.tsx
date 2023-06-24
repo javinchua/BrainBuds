@@ -6,8 +6,9 @@ import { InputContainer } from '../InputContainer'
 import { useAuth } from 'context/AuthContext'
 import { RedirectComponent } from '../Redirect'
 import { doc, setDoc } from 'firebase/firestore'
-import { userTypes } from '@/utils/constants/constants'
+import { CharityData, userTypes } from '@/utils/constants/constants'
 import { getFirestore } from 'firebase/firestore'
+import { updateCharityInfo } from 'pages/api/charity'
 
 export const SignupForm: React.FC = () => {
   // State
@@ -59,6 +60,16 @@ export const SignupForm: React.FC = () => {
           userType: userType,
           username: username
         })
+        if (userType == userTypes.CHARITY) {
+          updateCharityInfo(
+            {
+              name: username,
+              description: ''
+            } as CharityData,
+            user.uid
+          )
+        }
+
         setSignupSuccess(true)
       })
       .catch((error) => {
