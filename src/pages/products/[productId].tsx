@@ -28,7 +28,7 @@ const ProductPage = () => {
 
   return (
     <PrivateRoute allowedUserTypes={[userTypes.DONOR]}>
-      <div className="min-h-screen py-10 bg-purple-100">
+      <div className="min-h-screen py-10">
         <div className="max-w-5xl px-4 mx-auto">
           <ProductDetail product={product} />
         </div>
