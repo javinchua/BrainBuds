@@ -47,3 +47,18 @@ export interface Category {
   id: string
   name: string
 }
+
+export interface Chat {
+  id: string
+  productId: string
+  donorId: string
+  charityId: string
+  createdAt: Timestamp
+}
+
+export interface Message {
+  senderId: string
+  content: string
+  createdAt: Timestamp
+  chatId: string
+}

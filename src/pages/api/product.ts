@@ -4,7 +4,6 @@ import {
   collection,
   getDocs,
   getDoc,
-  addDoc,
   query,
   where,
   serverTimestamp
@@ -140,14 +139,17 @@ export const addNewProduct = async (data: Product) => {
       }
       delete data.file
     }
-    const collectionRef = collection(firestore, `products`)
-    const docRef = await addDoc(collectionRef, {
+    const collectionRef = collection(firestore, 'products')
+    const docRef = doc(collectionRef)
+    const docId = docRef.id
+    await setDoc(docRef, {
       ...data,
+      id: docId,
       createdAt: serverTimestamp()
     })
     return {
       ...data,
-      id: docRef.id
+      id: docId
     } as Product
   } catch (error) {
     console.error('Error adding new product:', error)
@@ -158,7 +160,6 @@ export const addNewProduct = async (data: Product) => {
 const handleImageUpload = async (file: File) => {
   try {
     // Create a reference to the file in Firebase Storage
-    console.log('here')
     const storageRef = ref(storage, 'images/' + file.name)
 
     // Upload the file to Firebase Storage
@@ -171,5 +172,23 @@ const handleImageUpload = async (file: File) => {
   } catch (error) {
     // Handle any errors that occur during the upload process
     console.error('Error uploading image:', error)
+  }
+}
+
+export const getProductName = async (productId: string) => {
+  try {
+    const collectionRef = collection(firestore, 'products')
+    const docQuery = query(collectionRef, where('id', '==', productId))
+    const querySnapshot = await getDocs(docQuery)
+    if (!querySnapshot.empty) {
+      const productDoc = querySnapshot.docs[0]
+      const productData = productDoc.data()
+      const productname = productData.name
+
+      return productname
+    }
+  } catch (error) {
+    console.error('Error fetching product name:', error)
+    return null
   }
 }

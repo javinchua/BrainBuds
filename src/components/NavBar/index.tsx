@@ -78,7 +78,8 @@ export const NavBar = () => {
                 <div className="p-4 cursor-pointer" onClick={() => signOut(auth)}>
                   Logout
                 </div>
-                <div className="p-">User Type: {user.type}</div>
+                <div className="p-4">User Type: {user.type}</div>
+                <div className="p-4">Username: {user.username}</div>
               </>
             ) : (
               <Link href="/login">
