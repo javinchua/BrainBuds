@@ -1,13 +1,24 @@
-import { doc, setDoc, collection, getDocs, query, where, getDoc } from 'firebase/firestore'
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  query,
+  where,
+  serverTimestamp
+} from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
-import { Product } from '@/utils/constants/constants'
-import { CharityData } from '@/utils/constants/constants'
-const firestore = getFirestore()
+import { Product, CharityData } from '@/utils/constants/constants'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
+const firestore = getFirestore()
+const storage = getStorage()
 export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
   try {
-    const productRef = collection(firestore, `charities/${uid}/products`)
-    const productSnapshot = await getDocs(productRef)
+    const q = query(collection(firestore, 'products'), where('sellerId', '==', uid))
+    const productSnapshot = await getDocs(q)
 
     const products: Product[] = productSnapshot.docs.map((doc) => {
       const data = doc.data()
@@ -17,12 +28,9 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         description: data.description,
         price: data.price,
         image: data.image,
-        editing: false,
-        available: data.available,
         sellerId: data.sellerId,
-        sellerName: data.sellerName,
         category: data.category,
-        delivery: data.delivery,
+        quantity: data.quantity || 0,
         createdAt: data.createdAt
       }
     })
@@ -33,11 +41,18 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
   }
 }
 
-export const updateProductInfo = async (data: Product, uid: string) => {
+export const updateProductInfo = async (data: Product) => {
   try {
-    const docRef = doc(firestore, `charities/${uid}/products`, data.id)
+    if (data.file) {
+      const url = await handleImageUpload(data.file)
+      if (url) {
+        data.image = url
+      }
+      delete data.file
+    }
+    const docRef = doc(firestore, `products`, data.id)
     setDoc(docRef, data)
-    return null
+    return data as Product
   } catch (error) {
     console.error('Error updating product info:', error)
     return null
@@ -58,13 +73,10 @@ export const getProductById = async (id: string): Promise<Product | null> => {
         description: productData.description,
         price: productData.price,
         image: productData.image,
-        editing: false,
-        available: false,
         sellerId: productData.sellerId,
-        sellerName: productData.sellerName,
         category: productData.category,
-        delivery: productData.delivery,
-        createdAt: productData.createdAt
+        createdAt: productData.createdAt,
+        quantity: productData.quantity
       }
       return product
     } else {
@@ -116,5 +128,48 @@ export const getCharityDataByProduct = async ({ product }: { product: Product })
   } catch (error) {
     console.error('Error fetching charity names:', error)
     return null
+  }
+}
+
+export const addNewProduct = async (data: Product) => {
+  try {
+    if (data.file) {
+      const url = await handleImageUpload(data.file)
+      if (url) {
+        data.image = url
+      }
+      delete data.file
+    }
+    const collectionRef = collection(firestore, `products`)
+    const docRef = await addDoc(collectionRef, {
+      ...data,
+      createdAt: serverTimestamp()
+    })
+    return {
+      ...data,
+      id: docRef.id
+    } as Product
+  } catch (error) {
+    console.error('Error adding new product:', error)
+    return null
+  }
+}
+
+const handleImageUpload = async (file: File) => {
+  try {
+    // Create a reference to the file in Firebase Storage
+    console.log('here')
+    const storageRef = ref(storage, 'images/' + file.name)
+
+    // Upload the file to Firebase Storage
+    await uploadBytes(storageRef, file)
+
+    // Get the download URL of the uploaded file
+    const downloadURL = await getDownloadURL(storageRef)
+
+    return downloadURL
+  } catch (error) {
+    // Handle any errors that occur during the upload process
+    console.error('Error uploading image:', error)
   }
 }

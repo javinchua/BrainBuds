@@ -1,5 +1,4 @@
-// import { homedir } from "os"
-
+import { Timestamp } from 'firebase/firestore'
 export enum userTypes {
   DONOR = 'DONOR',
   CHARITY = 'CHARITY'
@@ -20,21 +19,28 @@ export interface Product {
   id: string
   name: string
   description: string
-  price: string
-  image: string
-  editing: boolean
-  available: boolean
+  price: number
   sellerId: string
+  image: string
   category: string
-  delivery: string
-  createdAt: string
-  sellerName: string
+  file?: File
+  quantity: number
+  createdAt?: Timestamp
+}
+
+export interface ProductEditing extends Product {
+  editing: boolean
 }
 
 export const charitySample: CharityData = {
   id: '0zUwFItSqXYhWCMXfprWQI3',
   name: 'old folks home',
   description: 'making people happy'
+}
+
+export interface Category {
+  id: string
+  name: string
 }
 
 export interface Category {

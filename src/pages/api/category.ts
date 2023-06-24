@@ -7,12 +7,11 @@ export const fetchCategories = async () => {
     const querySnapshot = await getDocs(collection(firestore, 'categories'))
     const fetchedCategories: Category[] = []
     querySnapshot.forEach((doc) => {
-      const { id, name } = doc.data() as Category
-      fetchedCategories.push({ id, name })
+      const category = doc.data() as Category
+      fetchedCategories.push(category)
     })
-    return fetchedCategories.length ? fetchedCategories : null
+    return fetchedCategories
   } catch (error) {
     console.error('Error fetching categories:', error)
-    return null
   }
 }

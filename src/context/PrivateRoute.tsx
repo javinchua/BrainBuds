@@ -10,19 +10,20 @@ interface RouteProps {
 
 const PrivateRoute = ({ allowedUserTypes, children }: RouteProps) => {
   const { user } = useAuth()
+  const isAuthenticated = !!user
   const router = useRouter()
 
-  // Check if user type is allowed
-  const isUserTypeAllowed = user && allowedUserTypes?.some((type) => type === user.type)
+  const isUserTypeAllowed = isAuthenticated && allowedUserTypes?.some((type) => type === user.type)
 
   useEffect(() => {
-    // Redirect unauthorized users
-    if (!isUserTypeAllowed) {
+    if (!isAuthenticated) {
+      router.push('/login')
+    } else if (!isUserTypeAllowed) {
       router.push('/unauthorized')
     }
-  }, [isUserTypeAllowed, router])
+  }, [isAuthenticated, isUserTypeAllowed, router])
 
-  return isUserTypeAllowed ? children : null
+  return <>{isUserTypeAllowed && children}</>
 }
 
 export default PrivateRoute
