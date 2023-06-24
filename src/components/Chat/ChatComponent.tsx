@@ -14,16 +14,7 @@ import {
   getDocs
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
-import {
-  Button,
-  Modal,
-  TextField,
-  Typography,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText
-} from '@mui/material'
+import { Button, Modal, TextField, Typography, IconButton, List, ListItem } from '@mui/material'
 import { styled } from '@mui/system'
 import { Close } from '@mui/icons-material'
 import { userTypes, Chat, Message } from '@/utils/constants/constants'
