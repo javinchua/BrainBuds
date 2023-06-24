@@ -1,5 +1,4 @@
 import { CharityData, Product } from '@/utils/constants/constants'
-import Link from 'next/link'
 import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
 import { getCharityDataByProduct } from 'pages/api/product'
