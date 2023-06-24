@@ -8,7 +8,8 @@ import {
   orderBy,
   onSnapshot,
   where,
-  Timestamp
+  Timestamp,
+  getDocs
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Button, Modal, TextField, Typography, IconButton } from '@mui/material'
@@ -16,6 +17,8 @@ import { Close } from '@mui/icons-material'
 import { userTypes } from '@/utils/constants/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
+import { getUserByUsername } from 'pages/api/chat'
+import { getProductName } from 'pages/api/product'
 interface ChatComponentProps {
   productId?: string
   userType: 'donor' | 'charity'
@@ -44,9 +47,33 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userTyp
   const [open, setOpen] = useState(false)
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [unsubscribeMessages, setUnsubscribeMessages] = useState<() => void>()
+  const dispatch = useDispatch()
   const firestore = getFirestore()
   const addressUsernameMap = useSelector((state: RootState) => state.addressUsernameMap)
+  const productNameMap = useSelector((state: RootState) => state.productNameMap)
+  const getAddressUsernameMap = async (id: string) => {
+    const addressUsernameMapCopy = Object.assign({}, addressUsernameMap)
+    if (!addressUsernameMap[id]) {
+      const username = await getUserByUsername(id)
+      addressUsernameMapCopy[id] = username
+      dispatch({
+        type: 'SET_USERNAME',
+        data: addressUsernameMapCopy
+      })
+    }
+  }
 
+  const getProductNameMap = async (id: string) => {
+    const productNameMapCopy = { ...productNameMap }
+    if (!productNameMap[id]) {
+      const username = await getProductName(id)
+      productNameMapCopy[id] = username
+      dispatch({
+        type: 'SET_PRODUCT_NAME',
+        data: productNameMapCopy
+      })
+    }
+  }
   const getMessages = async (chatId: string) => {
     const messagesRef: CollectionReference = collection(firestore, `chats/${chatId}/messages`)
     const messagesQuery = query(messagesRef, orderBy('createdAt'))
@@ -83,6 +110,9 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userTyp
         unsubscribeChats = onSnapshot(chatsQuery, (snapshot) => {
           const chatList: Chat[] = snapshot.docs.map((doc) => {
             const chatData = doc.data()
+            getProductNameMap(chatData.productId)
+            getAddressUsernameMap(chatData.donorId)
+            getAddressUsernameMap(chatData.charityId)
             return {
               id: doc.id,
               productId: chatData.productId,
@@ -144,7 +174,11 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userTyp
       setInputMessage('')
     }
   }
-
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSendMessage()
+    }
+  }
   const renderChatList = () => {
     return (
       <div>
@@ -165,14 +199,19 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userTyp
   }
 
   const renderChatMessages = () => {
-    console.log(messages)
     return (
-      <div className="p-4 bg-white rounded">
-        <div>
+      <div>
+        <div className="p-4 overflow-y-auto bg-white rounded h-96">
           {messages.map((message, index) => (
-            <div key={index} className="mb-4">
-              <Typography variant="body1">
-                {message.senderId}: {message.content}
+            <div key={index} className="p-2 mb-4 border border-gray-500 rounded">
+              <Typography
+                variant="body1"
+                className={`${message.senderId == user.uid ? 'text-primary-400' : ''} `}
+              >
+                {addressUsernameMap[message.senderId]
+                  ? addressUsernameMap[message.senderId]
+                  : message.senderId}
+                : {message.content}
               </Typography>
               <Typography variant="caption" className="text-gray-500">
                 {message.createdAt?.toDate().toLocaleString()}
@@ -187,6 +226,7 @@ export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userTyp
             label="Message"
             variant="outlined"
             fullWidth
+            onKeyDown={handleKeyDown}
           />
           <Button onClick={handleSendMessage} variant="contained" color="primary">
             Send

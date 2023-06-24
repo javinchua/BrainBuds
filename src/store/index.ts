@@ -1,5 +1,6 @@
 import { configureStore, combineReducers, AnyAction } from '@reduxjs/toolkit'
-
+import { persistReducer, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 interface AppState {
   addressUsernameMap: Record<string, string>
   productNameMap: Record<string, string>
@@ -58,17 +59,26 @@ const rootReducer = combineReducers({
   addressUsernameMap: addressUsernameReducer,
   productNameMap: productNameReducer
 })
+const persistConfig = {
+  key: 'root',
+  storage
+}
 
-const configureAppStore = (preloadedState: AppState = initialState) => {
-  return configureStore({
-    reducer: rootReducer,
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const configureAppStore = (preloadedState = initialState) => {
+  const store = configureStore({
+    reducer: persistedReducer,
     preloadedState,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false
       })
   })
+
+  const persistor = persistStore(store)
+
+  return { store, persistor }
 }
 
 export default configureAppStore
-export type RootState = ReturnType<typeof rootReducer>

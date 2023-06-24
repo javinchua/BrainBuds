@@ -94,3 +94,21 @@ const handleImageUpload = async (file: File) => {
     console.error('Error uploading image:', error)
   }
 }
+
+export const getProductName = async (productId: string) => {
+  try {
+    const collectionRef = collection(firestore, 'products')
+    const docQuery = query(collectionRef, where('id', '==', productId))
+    const querySnapshot = await getDocs(docQuery)
+    if (!querySnapshot.empty) {
+      const productDoc = querySnapshot.docs[0]
+      const productData = productDoc.data()
+      const productname = productData.name
+
+      return productname
+    }
+  } catch (error) {
+    console.error('Error fetching product name:', error)
+    return null
+  }
+}
