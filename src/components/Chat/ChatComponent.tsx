@@ -8,8 +8,7 @@ import {
   orderBy,
   onSnapshot,
   where,
-  Timestamp,
-  getDocs
+  Timestamp
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Button, Modal, TextField, Typography, IconButton } from '@mui/material'
@@ -39,7 +38,7 @@ interface Message {
   chatId: string
 }
 
-export const ChatComponent: React.FC<ChatComponentProps> = ({ productId, userType }) => {
+export const ChatComponent: React.FC<ChatComponentProps> = ({ userType }) => {
   const { user } = useAuth()
   const [chats, setChats] = useState<Chat[]>([])
   const [messages, setMessages] = useState<Message[]>([])

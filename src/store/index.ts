@@ -82,3 +82,4 @@ const configureAppStore = (preloadedState = initialState) => {
 }
 
 export default configureAppStore
+export type RootState = ReturnType<typeof rootReducer>
