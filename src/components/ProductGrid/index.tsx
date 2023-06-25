@@ -14,6 +14,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   const { sellerId = '', category = '' } = router.query || {}
   const [products, setProducts] = useState<Product[]>([])
   const [charities, setCharities] = useState<CharityData[]>([])
+  const [sortedFiltered, setSortedFiltered] = useState<Product[]>([])
+  const [sortEnabled, setSortEnabled] = useState(false)
+
   const handleClick = (productId: string) => {
     router.push(`/products/${productId}`)
   }
@@ -57,16 +60,40 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     fetchSellerData()
   }, [products])
 
+  useEffect(() => {
+    // Sort the filteredProducts array based on createdAt
+    const sortedFiltered = [...filteredProducts].sort((p1, p2) => {
+      if (sortEnabled) {
+        const createdAt1 = p1.createdAt ? p1.createdAt.seconds : 0
+        const createdAt2 = p2.createdAt ? p2.createdAt.seconds : 0
+        return createdAt2 - createdAt1
+      } else {
+        return 0
+      }
+    })
+    // Update the state with the sorted products
+    setSortedFiltered(sortedFiltered)
+  }, [filteredProducts, sortEnabled])
+
+  const handleSortToggle = () => {
+    setSortEnabled(!sortEnabled)
+  }
+
   return (
     <div>
+      {/* Checkbox for sort toggle */}
+      <label className="mr-2">
+        <input type="checkbox" checked={sortEnabled} onChange={handleSortToggle} />
+        Sort by Most Recent
+      </label>
       <h1 className="block w-full my-4">
         Showing {products.length} result(s) for: {category}
       </h1>
       <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
-        {filteredProducts.length === 0 ? (
+        {sortedFiltered.length === 0 ? (
           <div className="text-gray-500">No items found</div>
         ) : (
-          filteredProducts.map((product, index) => (
+          sortedFiltered.map((product, index) => (
             <div
               key={product.id}
               className="p-2 bg-white hover:shadow-md"
