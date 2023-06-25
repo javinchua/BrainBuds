@@ -4,6 +4,8 @@ import { CharityData, Product } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
 import { getCharityDataByProducts } from 'pages/api/product'
 import SmallProfileAvatar from '../smallProfileAvatar'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 interface ProductGridProps {
   searchQuery?: string
@@ -16,9 +18,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   const [charities, setCharities] = useState<CharityData[]>([])
   const [sortedFiltered, setSortedFiltered] = useState<Product[]>([])
   const [sortEnabled, setSortEnabled] = useState(false)
-
+  const [isLiked, setIsLiked] = useState<boolean[]>([])
   const handleClick = (productId: string) => {
     router.push(`/products/${productId}`)
+  }
+
+  const handleLike = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    event.stopPropagation() // Stop event propagation
+    setIsLiked((prevState) => {
+      const newState = [...prevState]
+      newState[index] = !newState[index]
+      return newState
+    })
   }
 
   useEffect(() => {
@@ -96,7 +107,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
           sortedFiltered.map((product, index) => (
             <div
               key={product.id}
-              className="p-2 bg-white hover:shadow-md"
+              className="relative p-2 bg-white hover:shadow-md"
               onClick={() => handleClick(product.id)}
             >
               <div className="flex flex-col">
@@ -123,13 +134,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                 </div>
 
                 {/*lower*/}
-                <div className="mt-2">
+                <div className="mt-2 mb-10">
                   <h2 className="text-gray-800 text-md">{product.name}</h2>
                   <div className="flex flex-col justify-end">
                     <p className="text-sm text-gray-500">{product.description}</p>
                     <p className="mt-2 text-gray-700">Target: ${product.price}</p>
                     <p className="mt-2 text-gray-700">Quantity needed: {product.quantity}</p>
                   </div>
+                </div>
+                <div className="absolute left-2 bottom-2">
+                  <button onClick={(event) => handleLike(event, index)}>
+                    {isLiked[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  </button>
                 </div>
               </div>
             </div>
