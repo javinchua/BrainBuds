@@ -86,6 +86,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
     return null
   }
 }
+
 export const getCharityDataByProducts = async ({ products }: { products: Product[] }) => {
   try {
     const sellerIds = products.map((product) => product.sellerId)
