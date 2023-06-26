@@ -1,97 +1,81 @@
 # 🧠 BrainBuds (https://brain-buds.vercel.app/)
 
-## 🎯 Proposed Level of Achievement: Apollo 11
+### Proposed Level of Achievement: 
 
-## 🌟 Motivation 
+🚀 Apollo 11
 
-We believe that Instagram's vast creative possibilities may sometimes overwhelm users, leaving them unsure of how to best retain and curate posts for their audience. Our application, **BrainBuds**, is a solution that enables them to monitor their metrics in a dashboard, understand their audience better, and receive suggestions on how to devise effective strategies for successful content creation. 
+### 🌟 Motivation
 
-## 🚀 Aim 
+The motivation behind this project is to bridge the gap between charities and potential donors by creating an e-commerce platform specifically designed for charitable organizations. Many people want to support causes they care about, but they may not always know how to contribute effectively. By providing a centralized platform where charities can showcase their specific needs and donors can easily find and purchase products to support those needs, we aim to streamline the donation process and make it more accessible and transparent.
 
-Our mission is to make content planning and management more convenient and effective for Instagram users, boosting their growth potential.
+### 🚀 Aim 
 
-## 👥 User Stories
+The aim of this project is to develop an e-commerce application that connects charities with donors, enabling charities to post their product requirements and donors to browse and purchase those products to support the causes they are passionate about. The application should be user-friendly, secure, and efficient, providing a seamless experience for both charities and donors.
 
-1. **As a content creator** wanting to reach a wider audience, I want to quickly identify current trends and receive content ideas suggestions.
-2. **As a small content creator** without a professional social media management team, I aim to manage my social media platforms at minimal costs.
-3. **As a content creator**, I want to monitor interactions with my followers to foster a tight-knit community.
-4. **As an administrator** concerned about user’s data safety, I want to ensure the security of the system and database.
+### 👥 User Stories
 
-## ⏰ Features and Timeline
+- As a charity representative, I want to be able to create an account and easily post the products my organization needs, including details such as quantity, description, and preferred specifications.
+- As a donor, I want to be able to browse different charities and their product needs, filtering them based on causes I care about or location.
+- As a donor, I want to view detailed information about each product requirement, including the charity's mission, impact, and progress towards their goals.
+- As a donor, I want to be able to securely make a purchase directly on the platform, knowing that my payment information is protected.
+- As a charity representative, I want to be notified when a donor purchases a product from our posted requirements, including the donor's contact information and shipping details.
 
-Our web application provides users with a dashboard to monitor their Instagram performance, along with an AI that suggests optimal strategies for successful content creation. 
+### ⏰ Features and Timeline
 
-Key performance metrics include:
-- Follower growth
-- Engagement rates (likes, comments, shares)
-- Post reach
+#### Phase 1: Foundation
 
-Our other features include a caption generator, a hashtag generator, and a scheduler for auto-posting, among others.
+- Create a user registration and authentication system for charities and donors.
+- Implement a user-friendly interface for charities to post product requirements, including relevant details.
 
-### 🎨 Login Page (Firebase):
+#### Phase 2: Product Listings and Donor Experience
 
-- Top-placed logo
-- Username and password fields
-- "Log In" button
-- "Forgot Password" and "Sign Up" links
+- Separate the pages between charities and donors.
+- Allow charities to post items they need.
+- Notify charities when there is a potential donor and enable easy interaction through chat.
+- Enable charities to view donations made.
+- Allow donors to browse listed donations, filtering them by category.
+- Enable donors to browse different charities and choose the ones they want to contribute towards.
+- Facilitate communication between donors and charities through a chat system for each listing.
 
-### 🏠 Dashboard Main Page: (June)
+#### Phase 3: Refinements and Additional Features
 
-- Left-side navigation bar (Home, Analytics, Scheduler, Caption Generator, Hashtag Generator, Settings, etc.)
-- Home page overview of key metrics (follower growth, engagement rate, post reach)
-- "Recommended Posting Time" and "Recommended Content Type" sections, based on AI analysis
+- Set up a notification system to alert charities when a donor purchases a product from their requirements.
+- Improve the user interface and overall user experience based on feedback and testing.
+- Integrate a rating and review system for donors to provide feedback on their donation experience.
+- Implement additional features based on user feedback and emerging needs.
 
-### 📊 Analytics Page: (Throughout June)
+### Pages for Charities
 
-- Graphs/charts displaying follower growth, engagement rates, and post reach over time (June Week 1)
-- Engagement breakdown (likes, comments, shares) (June Week 2)
-- Date range selection for historical data viewing (June Week 3)
+- Charity information page
+- Charity products listed
+- Chat feature
+- Browse through donations offered by donors
 
-### 📅 Scheduler Page: (June Week 4)
+### Pages for Donors
 
-- Calendar view for post scheduling
-- Option to upload images/videos, write captions, and add hashtags
-- List view of scheduled and past posts
+- Page to view list of charities
+- Page to list products for each charity
+- Page to list products of every charity
+- Donation feature for each product
+- Chat feature
 
-### 🖊️ Caption Generator Page: (July)
-
-- Keyword/topic input field
-- Caption generation button
-- Display area for generated caption with copying or adding options
-
-### 🏷️ Hashtag Generator Page: (July)
-
-- Keyword/topic input field
-- Hashtag generation button
-- Display area for generated hashtags with copying or adding options
-
-### ⚙️ Settings Page: (June)
-
-- User account details and preferences fields
-
-**Mid-June Goal**: Sync data with Instagram and monitor performance factors + design user interface
-
-**Mid-July Goal**: Train AI for social media strategy suggestions and optimal post times + collect datasets for analysis
-
-## 🛠️ Tech Stack
+### 🛠️ Tech Stack
 
 - Typescript/Javascript
 - Firebase
-- Python
-- Express/Next.js
-- Amazon EC2
-- Tailwind CSS
+- Express/Nextjs
+- Vercel
 
-We'll be using Next.JS and TypeScript for frontend, coupled with Firebase for authentication and data storage. Our machine learning model will be created with Python and deployed online with Amazon EC2. Furthermore, we'll utilize Instagram's Graph API for data access.
+We'll be using Next.JS and TypeScript for frontend, coupled with Firebase for authentication and data storage.
 
-## 💡 Explanation of codebase
+### 💡 Explanation of Codebase
 
 Our codebase will be segregated into multiple folders:
 
-- **Pages**: Contains unique route or URL endpoint files
-- **Components**: Houses reusable UI components for encapsulating specific functionalities or visual elements
-- **Config**: Stores configuration files
-- **Context**: Used to store files related to application-level state management
+- `Pages`: Contains unique route or URL endpoint files
+- `Components`: Houses reusable UI components for encapsulating specific functionalities or visual elements
+- `Config`: Stores configuration files
+- `Context`: Used to store files related to application-level state management
 
 ## 🤫 Secret / Environment Variables
 
