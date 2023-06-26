@@ -78,6 +78,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
       if (sortEnabled) {
         const createdAt1 = p1.createdAt ? p1.createdAt.seconds : 0
         const createdAt2 = p2.createdAt ? p2.createdAt.seconds : 0
+
         return createdAt2 - createdAt1
       } else {
         return 0
@@ -168,9 +169,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                     </p>
                     <p className="block ml-2 text-sm text-gray-500">
                       <p className="block ml-2 text-sm text-gray-500">
-                        {product.createdAt
-                          ? product.createdAt?.toDate().toLocaleString()
-                          : 'Unknown'}
+                        {product.createdAt && product.createdAt.toDate().toLocaleString()}
                       </p>
                     </p>
                   </div>
