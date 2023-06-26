@@ -27,7 +27,7 @@ The aim of this project is to develop an e-commerce application that connects ch
 - Create a user registration and authentication system for charities and donors.
 - Implement a user-friendly interface for charities to post product requirements, including relevant details.
 
-#### Phase 2: Product Listings and Donor Experience
+#### Phase 2: Product Listings and Donor Experience (June)
 
 - Separate the pages between charities and donors.
 - Allow charities to post items they need.
@@ -37,7 +37,7 @@ The aim of this project is to develop an e-commerce application that connects ch
 - Enable donors to browse different charities and choose the ones they want to contribute towards.
 - Facilitate communication between donors and charities through a chat system for each listing.
 
-#### Phase 3: Refinements and Additional Features
+#### Phase 3: Refinements and Additional Features (July)
 
 - Set up a notification system to alert charities when a donor purchases a product from their requirements.
 - Improve the user interface and overall user experience based on feedback and testing.
