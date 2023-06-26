@@ -9,6 +9,7 @@ import CategorySidebar from '../CategoryBar'
 import { SiJustgiving } from 'react-icons/si'
 import { userTypes } from '@/utils/constants/constants'
 import NavProfile from './profile'
+import { FavoriteBorder } from '@mui/icons-material'
 
 export const NavBar = () => {
   const [nav, setNav] = useState(false)
@@ -71,6 +72,11 @@ export const NavBar = () => {
                 </button>
                 <Link href="/allCharities">
                   <li className="p-4 hover:bg-primary-900">Explore Charities</li>
+                </Link>
+                <Link href="/myLikes">
+                  <li className="p-4 hover:bg-primary-900">
+                    <FavoriteBorder />
+                  </li>
                 </Link>
               </>
             ) : user && user.type == userTypes.CHARITY ? (

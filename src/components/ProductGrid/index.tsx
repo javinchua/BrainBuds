@@ -1,35 +1,31 @@
 import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
-import { CharityData, Product } from '@/utils/constants/constants'
+import { CharityData, Product, userTypes } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
 import { getCharityDataByProducts } from 'pages/api/product'
 import SmallProfileAvatar from '../smallProfileAvatar'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { updateDonorLikedProducts } from 'pages/api/donor'
+import { getDonorLikedProductIds } from 'pages/api/donor'
+import { useAuth } from 'context/AuthContext'
 
 interface ProductGridProps {
   searchQuery?: string
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
+  const { user } = useAuth()
   const router = useRouter()
   const { sellerId = '', category = '' } = router.query || {}
   const [products, setProducts] = useState<Product[]>([])
   const [charities, setCharities] = useState<CharityData[]>([])
   const [sortedFiltered, setSortedFiltered] = useState<Product[]>([])
   const [sortEnabled, setSortEnabled] = useState(false)
-  const [isLiked, setIsLiked] = useState<boolean[]>([])
+  const [likedProductIds, setLikedProductIds] = useState<string[]>([])
+
   const handleClick = (productId: string) => {
     router.push(`/products/${productId}`)
-  }
-
-  const handleLike = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
-    event.stopPropagation() // Stop event propagation
-    setIsLiked((prevState) => {
-      const newState = [...prevState]
-      newState[index] = !newState[index]
-      return newState
-    })
   }
 
   useEffect(() => {
@@ -90,6 +86,32 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     setSortEnabled(!sortEnabled)
   }
 
+  useEffect(() => {
+    console.log(user.uid)
+    const fetchDonorLikedProducts = async () => {
+      if (user.uid) {
+        const likedProductIds = await getDonorLikedProductIds(user.uid)
+        if (likedProductIds) {
+          setLikedProductIds(likedProductIds)
+        }
+      }
+    }
+    fetchDonorLikedProducts()
+  }, [user.uid])
+
+  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    event.stopPropagation() // Stop event propagation
+    const product = sortedFiltered[index]
+    if (user.uid && user.type === userTypes.DONOR) {
+      const updatedLikedProductIds = likedProductIds?.includes(product.id)
+        ? likedProductIds.filter((id) => id !== product.id)
+        : [...likedProductIds, product.id]
+
+      setLikedProductIds(updatedLikedProductIds)
+      await updateDonorLikedProducts(updatedLikedProductIds, user.uid)
+    }
+  }
+
   return (
     <div>
       {/* Checkbox for sort toggle */}
@@ -102,7 +124,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
       </h1>
       <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
         {sortedFiltered.length === 0 ? (
-          <div className="text-gray-500">No items found</div>
+          <div className="text-gray-500">No Products found</div>
         ) : (
           sortedFiltered.map((product, index) => (
             <div
@@ -144,7 +166,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                 </div>
                 <div className="absolute left-2 bottom-2">
                   <button onClick={(event) => handleLike(event, index)}>
-                    {isLiked[index] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    {likedProductIds.includes(product.id) ? (
+                      <FavoriteIcon />
+                    ) : (
+                      <FavoriteBorderIcon />
+                    )}
                   </button>
                 </div>
               </div>

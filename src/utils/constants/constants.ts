@@ -81,3 +81,8 @@ export enum DonationTypes {
   ACCEPTED = 'ACCEPTED',
   REJECTED = 'REJECTED'
 }
+
+export interface Donor {
+  id: string
+  likedProducts: Product[]
+}
