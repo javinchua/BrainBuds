@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react'
 import { getAllProducts } from '../../pages/api/allproduct'
 import { CharityData, Product, userTypes } from '@/utils/constants/constants'
 import { useRouter } from 'next/router'
-import { getCharityDataByProducts } from 'pages/api/product'
+import {
+  decrementProductLikes,
+  getCharityDataByProducts,
+  incrementProductLikes
+} from 'pages/api/product'
 import SmallProfileAvatar from '../smallProfileAvatar'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { updateDonorLikedProducts } from 'pages/api/donor'
 import { getDonorLikedProductIds } from 'pages/api/donor'
 import { useAuth } from 'context/AuthContext'
+import { Typography } from '@mui/material'
 
 interface ProductGridProps {
   searchQuery?: string
@@ -101,6 +106,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
 
   const handleLike = async (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     event.stopPropagation() // Stop event propagation
+
     const product = sortedFiltered[index]
     if (user.uid && user.type === userTypes.DONOR) {
       const updatedLikedProductIds = likedProductIds?.includes(product.id)
@@ -108,7 +114,25 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
         : [...likedProductIds, product.id]
 
       setLikedProductIds(updatedLikedProductIds)
+      if (updatedLikedProductIds.includes(product.id)) {
+        await incrementProductLikes(product.id)
+      } else {
+        await decrementProductLikes(product.id)
+      }
       await updateDonorLikedProducts(updatedLikedProductIds, user.uid)
+      setSortedFiltered((prevProducts) =>
+        prevProducts.map((prevProduct, idx) => {
+          if (idx === index) {
+            return {
+              ...prevProduct,
+              numLikes: updatedLikedProductIds.includes(prevProduct.id)
+                ? prevProduct.numLikes + 1
+                : prevProduct.numLikes - 1
+            }
+          }
+          return prevProduct
+        })
+      )
     }
   }
 
@@ -122,7 +146,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
       <h1 className="block w-full my-4">
         Showing {products.length} result(s) for: {category}
       </h1>
-      <div className="grid gap-4 text-left sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid text-left gap-y-6 sm:grid-cols-3 lg:grid-cols-5 gap-x-4">
         {sortedFiltered.length === 0 ? (
           <div className="text-gray-500">No Products found</div>
         ) : (
@@ -164,14 +188,15 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                     <p className="mt-2 text-gray-700">Quantity needed: {product.quantity}</p>
                   </div>
                 </div>
-                <div className="absolute left-2 bottom-2">
-                  <button onClick={(event) => handleLike(event, index)}>
+                <div className="absolute flex left-2 bottom-2">
+                  <button onClick={(event) => handleLike(event, index)} className="mr-2">
                     {likedProductIds.includes(product.id) ? (
                       <FavoriteIcon />
                     ) : (
                       <FavoriteBorderIcon />
                     )}
                   </button>
+                  <Typography variant="body1">{product.numLikes}</Typography>
                 </div>
               </div>
             </div>

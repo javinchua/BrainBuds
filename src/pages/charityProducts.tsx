@@ -33,7 +33,8 @@ const ProductListingPage = () => {
     image: '',
     category: '',
     id: '0',
-    quantity: 0
+    quantity: 0,
+    numLikes: 0
   }
   const [newProduct, setNewProduct] = useState<Product>(emptyProduct)
 
@@ -114,6 +115,7 @@ const ProductListingPage = () => {
         image: data.image,
         quantity: data.quantity,
         createdAt: data.createdAt,
+        numLikes: data.numLikes,
         ...(data.file && { file: data.file })
       }
       const res = await updateProductInfo(removedEditField)

@@ -21,7 +21,8 @@ export const getAllProducts = async () => {
         sellerId: data.sellerId,
         category: data.category,
         createdAt: data.createdAt,
-        quantity: data.quantity
+        quantity: data.quantity,
+        numLikes: data.numLikes
       }
     })
 

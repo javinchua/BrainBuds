@@ -26,7 +26,7 @@ export interface Product {
   file?: File
   quantity: number
   createdAt?: Timestamp
-  likedProducts?: Product[]
+  numLikes: number
 }
 
 export interface ProductEditing extends Product {

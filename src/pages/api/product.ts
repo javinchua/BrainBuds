@@ -6,7 +6,9 @@ import {
   getDoc,
   query,
   where,
-  serverTimestamp
+  serverTimestamp,
+  updateDoc,
+  increment
 } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Product, CharityData } from '@/utils/constants/constants'
@@ -30,7 +32,8 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         sellerId: data.sellerId,
         category: data.category,
         quantity: data.quantity || 0,
-        createdAt: data.createdAt
+        createdAt: data.createdAt,
+        numLikes: data.numLikes || 0
       }
     })
     return products
@@ -75,7 +78,8 @@ export const getProductById = async (id: string): Promise<Product | null> => {
         sellerId: productData.sellerId,
         category: productData.category,
         createdAt: productData.createdAt,
-        quantity: productData.quantity
+        quantity: productData.quantity,
+        numLikes: productData.numLikes
       }
       return product
     } else {
@@ -191,5 +195,27 @@ export const getProductName = async (productId: string) => {
   } catch (error) {
     console.error('Error fetching product name:', error)
     return null
+  }
+}
+
+export const incrementProductLikes = async (productId: string) => {
+  try {
+    const docRef = doc(firestore, 'products', productId)
+    await updateDoc(docRef, {
+      numLikes: increment(1)
+    })
+  } catch (error) {
+    console.error('Error updating product likes:', error)
+  }
+}
+
+export const decrementProductLikes = async (productId: string) => {
+  try {
+    const docRef = doc(firestore, 'products', productId)
+    await updateDoc(docRef, {
+      numLikes: increment(-1)
+    })
+  } catch (error) {
+    console.error('Error updating product likes:', error)
   }
 }
