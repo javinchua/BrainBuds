@@ -109,6 +109,19 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     event.stopPropagation() // Stop event propagation
 
     const product = sortedFiltered[index]
+    setSortedFiltered((products) =>
+      products.map((product, idx) => {
+        if (idx === index) {
+          return {
+            ...product,
+            numLikes: likedProductIds.includes(product.id)
+              ? product.numLikes - 1
+              : product.numLikes + 1
+          }
+        }
+        return product
+      })
+    )
     if (user.uid && user.type === userTypes.DONOR) {
       const updatedLikedProductIds = likedProductIds?.includes(product.id)
         ? likedProductIds.filter((id) => id !== product.id)
@@ -121,19 +134,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
         await decrementProductLikes(product.id)
       }
       await updateDonorLikedProducts(updatedLikedProductIds, user.uid)
-      setSortedFiltered((prevProducts) =>
-        prevProducts.map((prevProduct, idx) => {
-          if (idx === index) {
-            return {
-              ...prevProduct,
-              numLikes: updatedLikedProductIds.includes(prevProduct.id)
-                ? prevProduct.numLikes + 1
-                : prevProduct.numLikes - 1
-            }
-          }
-          return prevProduct
-        })
-      )
     }
   }
 
