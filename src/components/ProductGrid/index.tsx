@@ -196,7 +196,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
                       <FavoriteBorderIcon />
                     )}
                   </button>
-                  <Typography variant="body1">{product.numLikes}</Typography>
+                  <Typography variant="body1">{product.numLikes || '0'}</Typography>
                 </div>
               </div>
             </div>
