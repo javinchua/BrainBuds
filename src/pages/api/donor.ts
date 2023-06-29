@@ -47,3 +47,15 @@ export const updateDonorLikedProducts = async (newData: string[], donorId: strin
     throw error
   }
 }
+
+export const updateDonorLikedProductsById = async (newId: string, donorId: string) => {
+  try {
+    const donorRef = doc(firestore, 'donors', donorId)
+    const likedProductsRef = collection(donorRef, 'LikedProducts')
+    const docRef = doc(likedProductsRef, 'likedProducts')
+    await setDoc(docRef, { [newId]: true }, { merge: true })
+  } catch (error) {
+    console.error('Error updating likedProducts info:', error)
+    throw error
+  }
+}
