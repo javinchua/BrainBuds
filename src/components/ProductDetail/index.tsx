@@ -49,7 +49,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     setNumLikes(updatedNumLikes)
     if (user.uid) {
       updateDonorLikedProductsById(product.id, user.uid)
-      if (isLiked) {
+      if (!isLiked) {
         incrementProductLikes(product.id)
       } else {
         decrementProductLikes(product.id)
@@ -71,8 +71,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   return (
     <div className="h-screen p-10 mt-10">
       {/*image*/}
-      <div className="z-0 flex justify-center bg-neutral-300">
-        <div className="relative">
+      <div className="relative z-0 flex justify-center bg-neutral-300">
+        <div>
           <div className="absolute flex p-2 shadow-md right-2 top-2">
             <button onClick={handleLike} className="z-[2]">
               {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
