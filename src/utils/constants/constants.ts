@@ -104,3 +104,7 @@ export enum FundraiserTypes {
   IN_PROGRESS = 'IN_PROGRESS',
   COMPLETED = 'COMPLETED'
 }
+
+export default interface FundraiserEditing extends Fundraiser {
+  editing: boolean
+}

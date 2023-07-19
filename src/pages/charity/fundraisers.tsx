@@ -14,6 +14,7 @@ const Fundraisers: NextPage<FundraisersProps> = ({ charityId }) => {
 
   return (
     <div>
+      <h1>Fundraisers</h1>
       <CharityFundraiserGrid charityId={charityId} />
     </div>
   )

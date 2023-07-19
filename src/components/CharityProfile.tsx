@@ -21,7 +21,7 @@ export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
     <div className="flex">
       {charity ? (
         <>
-          <div className="w-[17%] items-center justify-ceneter p-2">
+          <div className="items-center p-2 justify-ceneter">
             <ProfileAvatar charity={charity} />
             {/* Avatar/Circle */}
           </div>

@@ -68,7 +68,8 @@ const CharityFundraiserGrid: React.FC<CharityFundraiserGridProps> = ({
               <h2 className="text-gray-800 text-md">{fundraiser.name}</h2>
               <div className="flex flex-col justify-end">
                 <p className="text-sm text-gray-500">{fundraiser.description}</p>
-                <p className="mt-2 text-gray-700">${fundraiser.goalAmount}</p>
+                <p className="mt-2 text-gray-700">Goal: ${fundraiser.goalAmount}</p>
+                <p className="mt-2 text-gray-700">Current: ${fundraiser.curAmount}</p>
               </div>
             </div>
           </div>
