@@ -15,6 +15,12 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
     router.push(`/charity/${charity.id}`)
   }
 
+  const handleClickFund = () => {
+    router.push({
+      pathname: '/charity/fundraisers',
+      query: { charityId: charity.id }
+    })
+  }
   return (
     <div className="flex p-10 mt-20 text-center">
       {/* charity profile navbar */}
@@ -29,10 +35,13 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
           >
             <h1>Listings</h1>
           </button>
+          <button onClick={handleClickFund} className="z-10 ml-10 text-lg text-bold mb-[4px]">
+            <h1>Fundraisers</h1>
+          </button>
         </div>
         <div className="p-10 shadow-md">
           <h1 className="mb-10 text-2xl font-semibold text-left">Listings</h1>
-          <CharityProductGrid sellerId={charity.id} />
+          <CharityProductGrid charityId={charity.id} />
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ export interface Product {
   name: string
   description: string
   price: number
-  sellerId: string
+  charityId: string
   image: string
   category: string
   file?: File
@@ -85,4 +85,22 @@ export enum DonationTypes {
 export interface Donor {
   id: string
   likedProducts: Product[]
+}
+
+export interface Fundraiser {
+  id: string
+  name: string
+  file?: File
+  description: string
+  goalAmount: number
+  curAmount: number
+  image: string
+  charityId: string
+  category: string
+  createdAt?: Timestamp
+}
+
+export enum FundraiserTypes {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED'
 }

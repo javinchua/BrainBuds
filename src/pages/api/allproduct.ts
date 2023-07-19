@@ -18,7 +18,7 @@ export const getAllProducts = async () => {
         price: data.price,
         image: data.image,
         editing: false,
-        sellerId: data.sellerId,
+        charityId: data.charityId,
         category: data.category,
         createdAt: data.createdAt,
         quantity: data.quantity,

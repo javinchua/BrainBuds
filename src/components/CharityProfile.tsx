@@ -10,10 +10,10 @@ interface CharityProfileProps {
 
 export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
   const router = useRouter()
-  const { sellerId, ...rest } = router.query
+  const { charityId, ...rest } = router.query
   const handleClick = () => {
     if (charity) {
-      const newQuery = { sellerId: charity.id, ...rest }
+      const newQuery = { charityId: charity.id, ...rest }
       router.push({ pathname: router.pathname, query: newQuery })
     }
   }

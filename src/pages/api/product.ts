@@ -18,7 +18,7 @@ const firestore = getFirestore()
 const storage = getStorage()
 export const getAllProductsFromCharity = async (uid: string): Promise<Product[] | null> => {
   try {
-    const q = query(collection(firestore, 'products'), where('sellerId', '==', uid))
+    const q = query(collection(firestore, 'products'), where('charityId', '==', uid))
     const productSnapshot = await getDocs(q)
 
     const products: Product[] = productSnapshot.docs.map((doc) => {
@@ -29,7 +29,7 @@ export const getAllProductsFromCharity = async (uid: string): Promise<Product[] 
         description: data.description,
         price: data.price,
         image: data.image,
-        sellerId: data.sellerId,
+        charityId: data.charityId,
         category: data.category,
         quantity: data.quantity || 0,
         createdAt: data.createdAt,
@@ -75,7 +75,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
         description: productData.description,
         price: productData.price,
         image: productData.image,
-        sellerId: productData.sellerId,
+        charityId: productData.charityId,
         category: productData.category,
         createdAt: productData.createdAt,
         quantity: productData.quantity,
@@ -93,11 +93,11 @@ export const getProductById = async (id: string): Promise<Product | null> => {
 
 export const getCharityDataByProducts = async ({ products }: { products: Product[] }) => {
   try {
-    const sellerIds = products.map((product) => product.sellerId)
+    const charityIds = products.map((product) => product.charityId)
     const charities: CharityData[] = []
 
-    for (const sellerId of sellerIds) {
-      const docRef = doc(firestore, 'charities', sellerId)
+    for (const charityId of charityIds) {
+      const docRef = doc(firestore, 'charities', charityId)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -118,8 +118,8 @@ export const getCharityDataByProducts = async ({ products }: { products: Product
 
 export const getCharityDataByProduct = async ({ product }: { product: Product }) => {
   try {
-    const sellerId = product.sellerId
-    const docRef = doc(firestore, 'charities', sellerId)
+    const charityId = product.charityId
+    const docRef = doc(firestore, 'charities', charityId)
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {

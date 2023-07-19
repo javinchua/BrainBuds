@@ -22,7 +22,7 @@ interface ProductGridProps {
 const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
   const { user } = useAuth()
   const router = useRouter()
-  const { sellerId = '', category = '' } = router.query || {}
+  const { charityId = '', category = '' } = router.query || {}
   const [products, setProducts] = useState<Product[]>([])
   const [charities, setCharities] = useState<CharityData[]>([])
   const [sortedFiltered, setSortedFiltered] = useState<Product[]>([])
@@ -39,8 +39,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
       if (productsData) {
         let filteredProducts = productsData
 
-        if (sellerId) {
-          filteredProducts = filteredProducts.filter((product) => product.sellerId === sellerId)
+        if (charityId) {
+          filteredProducts = filteredProducts.filter((product) => product.charityId === charityId)
         }
 
         if (category) {
@@ -52,7 +52,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     }
 
     fetchProducts()
-  }, [sellerId, category, router.query])
+  }, [charityId, category, router.query])
 
   const filteredProducts = searchQuery
     ? products.filter(
