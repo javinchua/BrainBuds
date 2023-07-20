@@ -11,7 +11,7 @@ const AllCharitiesPage: React.FC<ProductPageProps> = () => {
     setSearchQuery(query)
   }
   return (
-    <div className="p-6 bg-gradient-to-br from-navy to-purple-200">
+    <div className="min-h-screen p-6 bg-gradient-to-br from-navy to-purple-200">
       <SearchBar onSearch={handleSearch}></SearchBar>
       <div className="mt-6">{/* <CategoryBanner /> */}</div>
       <div className="mt-6">

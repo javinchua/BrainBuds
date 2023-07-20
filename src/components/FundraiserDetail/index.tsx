@@ -3,6 +3,7 @@ import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getCharityDataByFundraiser } from 'pages/api/fundraiser'
+import { checkout } from '@/styles/checkout'
 
 interface FundraiserProps {
   fundraiser: Fundraiser
@@ -28,11 +29,11 @@ const FundraiserDetail: React.FC<FundraiserProps> = ({ fundraiser }) => {
         <div className="mb-10 text-center">
           {/*header for fundraiser*/}
           <div>
-            <h1 className="text-3xl">{fundraiser.name}</h1>
+            <h1 className="text-2xl font-semibold">{fundraiser.name}</h1>
+            {charity && <p>by {charity.name}</p>}
           </div>
         </div>
         <div className="flex">
-          {' '}
           <div className="w-2/3">
             {/*image*/}
             <div className="relative z-0 flex justify-center bg-neutral-300">
@@ -60,14 +61,32 @@ const FundraiserDetail: React.FC<FundraiserProps> = ({ fundraiser }) => {
               <CharityProfile charity={charity}></CharityProfile>
             </div>
           </div>
-          <div className="ml-10">
-            <button className="px-4 py-2 mb-4 text-white uppercase transition duration-300 ease-in-out bg-brightOrange hover:bg-purple-200">
+          <div className="ml-5">
+            <div className="relative inline-block w-full text-center bg-white border border-gray-300 rounded-lg shadow-md">
+              <div className="relative p-4">
+                <p className="text-gray-800">
+                  <span className="text-2xl font-semibold text-primary-400">
+                    ${fundraiser.curAmount}
+                  </span>{' '}
+                  raised of ${fundraiser.goalAmount} goal
+                </p>
+              </div>
+            </div>
+            <button
+              className="w-full px-4 py-2 mt-4 mb-4 text-white uppercase transition duration-300 ease-in-out shadow-md bg-brightOrange hover:bg-navy"
+              onClick={() => {
+                checkout({
+                  lineItems: [
+                    {
+                      price: 'price_1NVwGdDW3oLBLKRLFWxu2ic9',
+                      quantity: 1
+                    }
+                  ]
+                })
+              }}
+            >
               Donate now
             </button>
-            <p>
-              <span className="text-2xl font-bold text-brightOrange">${fundraiser.curAmount}</span>{' '}
-              raised of ${fundraiser.goalAmount} goal
-            </p>
           </div>
         </div>
       </div>

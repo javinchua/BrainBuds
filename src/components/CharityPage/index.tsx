@@ -31,7 +31,7 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
         <div className="flex h-20 border-b">
           <button
             onClick={handleClickListings}
-            className={`z-10 ml-10 text-lg ${
+            className={`ml-10 text-lg ${
               isListing ? 'border-b-4 text-bold text-dark-green border-b-dark-green' : 'mb-[4px]'
             }`}
           >
@@ -39,7 +39,7 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
           </button>
           <button
             onClick={handleClickFund}
-            className={`z-10 ml-10 text-lg ${
+            className={`ml-10 text-lg ${
               !isListing ? 'border-b-4 text-bold text-dark-green border-b-dark-green' : 'mb-[4px]'
             }`}
           >
