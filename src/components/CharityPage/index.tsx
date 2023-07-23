@@ -22,12 +22,12 @@ const CharityPageComponent: React.FC<CharityPageProps> = ({ charity }) => {
   }
 
   return (
-    <div className="flex p-10 mt-20 text-center">
+    <div className="flex p-10 text-center">
       {/* charity profile navbar */}
-      <div className="w-[500px]">
+      <div className="w-1/3 max-w-sm">
         <VerticalCharityProfile charity={charity} />
       </div>
-      <div>
+      <div className="flex-1">
         <div className="flex h-20 border-b">
           <button
             onClick={handleClickListings}

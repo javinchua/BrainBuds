@@ -14,7 +14,7 @@ const ProductPage: React.FC<ProductPageProps> = () => {
   }
   return (
     <PrivateRoute allowedUserTypes={[userTypes.DONOR]}>
-      <div className="p-6 mx-6">
+      <div className="px-12 py-6">
         <SearchBar onSearch={handleSearch}></SearchBar>
         <div className="mt-6">{/* <CategoryBanner /> */}</div>
         <div className="mt-6">

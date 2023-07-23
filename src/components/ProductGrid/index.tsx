@@ -141,7 +141,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
     <div>
       {/* Checkbox for sort toggle */}
       <label className="mr-2">
-        <input type="checkbox" checked={sortEnabled} onChange={handleSortToggle} />
+        <input type="checkbox" className="mr-1" checked={sortEnabled} onChange={handleSortToggle} />
         Sort by Most Recent
       </label>
       <h1 className="block w-full my-4">

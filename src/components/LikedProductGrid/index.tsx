@@ -45,47 +45,49 @@ const LikedProductGrid = () => {
         ? 'No products found'
         : products.map((product, index) => {
             return (
-              <div
-                key={product.id}
-                className="relative p-2 bg-white hover:shadow-md"
-                onClick={() => handleClick(product.id)}
-              >
-                <div className="flex flex-col">
-                  {/*upper*/}
-                  <div className="flex">
-                    {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
-                    <div className="flex flex-col">
-                      <p className="block ml-2 font-semibold text-gray-800 text-md">
-                        {charities.length > 0 && charities[index]
-                          ? charities[index].name
-                          : 'Unknown Charity'}
-                      </p>
-                      <p className="block ml-2 text-sm text-gray-500">
-                        <p className="block ml-2 text-sm text-gray-500">
-                          {product.createdAt && product.createdAt.toDate().toLocaleString()}
+              product && (
+                <div
+                  key={product.id}
+                  className="relative p-2 bg-white hover:shadow-md"
+                  onClick={() => handleClick(product.id)}
+                >
+                  <div className="flex flex-col">
+                    {/*upper*/}
+                    <div className="flex">
+                      {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
+                      <div className="flex flex-col">
+                        <p className="block ml-2 font-semibold text-gray-800 text-md">
+                          {charities.length > 0 && charities[index]
+                            ? charities[index].name
+                            : 'Unknown Charity'}
                         </p>
-                      </p>
+                        <p className="block ml-2 text-sm text-gray-500">
+                          <p className="block ml-2 text-sm text-gray-500">
+                            {product.createdAt && product.createdAt.toDate().toLocaleString()}
+                          </p>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-2 aspect-w-1 aspect-h-1">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="object-cover rounded-md"
-                    />
-                  </div>
+                    <div className="mt-2 aspect-w-1 aspect-h-1">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="object-cover rounded-md"
+                      />
+                    </div>
 
-                  {/*lower*/}
-                  <div className="mt-2 mb-10">
-                    <h2 className="text-gray-800 text-md">{product.name}</h2>
-                    <div className="flex flex-col justify-end">
-                      <p className="text-sm text-gray-500">{product.description}</p>
-                      <p className="mt-2 text-gray-700">Target: ${product.price}</p>
-                      <p className="mt-2 text-gray-700">Quantity needed: {product.quantity}</p>
+                    {/*lower*/}
+                    <div className="mt-2 mb-10">
+                      <h2 className="text-gray-800 text-md">{product.name}</h2>
+                      <div className="flex flex-col justify-end">
+                        <p className="text-sm text-gray-500">{product.description}</p>
+                        <p className="mt-2 text-gray-700">Target: ${product.price}</p>
+                        <p className="mt-2 text-gray-700">Quantity needed: {product.quantity}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )
             )
           })}
     </div>

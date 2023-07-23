@@ -24,7 +24,7 @@ const CharityGrid: React.FC<CharityGridProps> = ({ searchQuery }) => {
     : charities
 
   return (
-    <div className="py-10 mx-10">
+    <div className="py-6">
       <h1 className="text-2xl font-semibold text-white">All Charities</h1>
       <div className="grid grid-cols-2 gap-6 mt-10">
         {filteredCharities.map((charity, index) => (
