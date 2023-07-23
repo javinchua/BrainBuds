@@ -10,133 +10,141 @@ import {
   CircularProgress
 } from '@mui/material'
 import { Edit, Save, Add } from '@mui/icons-material'
-import { ProductEditing, Product, Category, userTypes } from '@/utils/constants/constants'
-import { addNewProduct, getAllProductsFromCharity, updateProductInfo } from './api/product'
+import FundraiserEditing, { Fundraiser, Category, userTypes } from '@/utils/constants/constants'
+import {
+  addNewFundraiser,
+  getAllFundraisersFromCharityId,
+  updateFundraiserInfo
+} from './api/fundraiser'
 import { useAuth } from 'context/AuthContext'
-import { AddProductForm } from '@/components/AddProduct'
+import { AddFundraiserForm } from '@/components/AddFundraiser'
 import { fetchCategories } from './api/category'
 import PrivateRoute from 'context/PrivateRoute'
 
-const ProductListingPage = () => {
+const FundraiserListingPage = () => {
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [products, setProducts] = useState<ProductEditing[]>([])
+  const [fundraisers, setFundraisers] = useState<FundraiserEditing[]>([])
   const [open, setOpen] = useState<boolean>(false)
   const [categories, setCategories] = useState<Category[]>([])
 
-  const emptyProduct = {
+  const emptyFundraiser = {
+    id: '',
     name: '',
     description: '',
-    price: 0,
-    editing: true,
-    charityId: user.uid || '',
+    goalAmount: 0,
+    curAmount: 0,
     image: '',
-    category: '',
-    id: '0',
-    quantity: 0,
-    numLikes: 0
+    charityId: user.uid || '',
+    category: ''
   }
-  const [newProduct, setNewProduct] = useState<Product>(emptyProduct)
+  const [newFundraiser, setNewFundraiser] = useState<Fundraiser>(emptyFundraiser)
 
   const handleOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
-    setNewProduct(emptyProduct)
+    setNewFundraiser(emptyFundraiser)
     setOpen(false)
   }
 
-  const handleAddProduct = async () => {
-    if (newProduct) {
-      const result = await addNewProduct(newProduct)
+  const handleAddFundraiser = async () => {
+    if (newFundraiser) {
+      const result = await addNewFundraiser(newFundraiser)
       const addEditField = {
         ...result,
         editing: false
       }
-      setProducts((prevProducts) => [...prevProducts, addEditField as ProductEditing])
+      setFundraisers((prevFundraisers) => [...prevFundraisers, addEditField as FundraiserEditing])
       handleClose()
     }
   }
 
-  const handleNewProductImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNewFundraiserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    setNewProduct((prevProduct) => ({
-      ...(prevProduct as Product),
+    setNewFundraiser((prevFundraiser) => ({
+      ...(prevFundraiser as Fundraiser),
       file: file
     }))
   }
 
-  const handleProductImageChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFundraiserImageChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0]
-    setProducts((prevProducts) =>
-      prevProducts.map((product, i) => (i === index ? { ...product, file: file } : product))
+    setFundraisers((prevFundraisers) =>
+      prevFundraisers.map((fundraiser, i) =>
+        i === index ? { ...fundraiser, file: file } : fundraiser
+      )
     )
   }
-  const handleNewProductChange = (field: keyof Product, value: string) => {
-    setNewProduct((prevProduct) => ({
-      ...(prevProduct as Product),
+  const handleNewFundraiserChange = (field: keyof Fundraiser, value: string) => {
+    setNewFundraiser((prevFundraiser) => ({
+      ...(prevFundraiser as Fundraiser),
       [field]: value
     }))
   }
 
   const handleEdit = (index: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product, i) =>
-        i === index ? { ...product, editing: !product.editing } : product
+    setFundraisers((prevFundraisers) =>
+      prevFundraisers.map((fundraiser, i) =>
+        i === index ? { ...fundraiser, editing: !fundraiser.editing } : fundraiser
       )
     )
   }
 
   const handleSave = async (index: number) => {
-    const result = await handleSaveProduct(products[index])
+    const result = await handleSaveFundraiser(fundraisers[index])
     if (result != undefined) {
-      setProducts((prevProducts) =>
-        prevProducts.map((product, i) => (i === index ? result : product))
+      setFundraisers((prevFundraisers) =>
+        prevFundraisers.map((fundraiser, i) => (i === index ? result : fundraiser))
       )
     }
   }
 
-  const handleProductChange = (index: number, field: keyof ProductEditing, value: string) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product, i) => (i === index ? { ...product, [field]: value } : product))
+  const handleFundraiserChange = (index: number, field: keyof FundraiserEditing, value: string) => {
+    setFundraisers((prevFundraisers) =>
+      prevFundraisers.map((fundraiser, i) =>
+        i === index ? { ...fundraiser, [field]: value } : fundraiser
+      )
     )
   }
 
-  const handleSaveProduct = async (data: ProductEditing) => {
+  const handleSaveFundraiser = async (data: FundraiserEditing) => {
     if (user.uid) {
       const removedEditField = {
         id: data.id,
         name: data.name,
-        category: data.category,
         description: data.description,
-        charityId: data.charityId,
-        price: data.price,
+        goalAmount: data.goalAmount,
+        curAmount: data.curAmount,
         image: data.image,
-        quantity: data.quantity,
+        charityId: data.charityId,
+        category: data.category,
         createdAt: data.createdAt,
-        numLikes: data.numLikes,
         ...(data.file && { file: data.file })
       }
-      const res = await updateProductInfo(removedEditField)
+      const res = await updateFundraiserInfo(removedEditField)
       const addEditField = {
         ...res,
         editing: false
       }
-      return addEditField as ProductEditing
+      return addEditField as FundraiserEditing
     }
   }
   useEffect(() => {
     const retrieveInfo = async () => {
       if (user.uid) {
         setLoading(true)
-        const data = await getAllProductsFromCharity(user.uid)
+        const data = await getAllFundraisersFromCharityId(user.uid)
         if (data != null) {
           const editedData = data.map((info) => ({
             ...info,
             editing: false
           }))
-          setProducts(editedData)
+          setFundraisers(editedData)
         }
 
         const categories = await fetchCategories()
@@ -156,36 +164,36 @@ const ProductListingPage = () => {
           <div className="p-6 mx-auto rounded shadow w-[75%]">
             <div className="flex items-center justify-between mb-4">
               <Typography variant="h4" className="mb-4 text-white">
-                Product Listings
+                Fundraiser Listings
               </Typography>
               <Button onClick={handleOpen} variant="contained" endIcon={<Add />}>
-                Add Product
+                Add Fundraiser
               </Button>
             </div>
             {loading ? (
               <CircularProgress /> // Render a loading indicator while data is being fetched
             ) : (
               <>
-                {products.map((product, index) => {
+                {fundraisers.map((fundraiser, index) => {
                   return (
                     <div
                       key={index}
                       className={`m-4 mx-auto border-gray-600 text-white border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700  placeholder-gray-400  focus:ring-blue-500 focus:border-blue-500`}
                     >
-                      {product.editing ? (
+                      {fundraiser.editing ? (
                         <>
                           <TextField
                             label="Name"
-                            value={product.name}
-                            onChange={(e) => handleProductChange(index, 'name', e.target.value)}
+                            value={fundraiser.name}
+                            onChange={(e) => handleFundraiserChange(index, 'name', e.target.value)}
                             fullWidth
                             style={{ marginBottom: '1rem' }}
                           />
                           <TextField
                             label="Description"
-                            value={product.description}
+                            value={fundraiser.description}
                             onChange={(e) =>
-                              handleProductChange(index, 'description', e.target.value)
+                              handleFundraiserChange(index, 'description', e.target.value)
                             }
                             fullWidth
                             multiline
@@ -193,16 +201,20 @@ const ProductListingPage = () => {
                             style={{ marginBottom: '1rem' }}
                           />
                           <TextField
-                            label="Price"
-                            value={product.price}
-                            onChange={(e) => handleProductChange(index, 'price', e.target.value)}
+                            label="Goal"
+                            value={fundraiser.goalAmount}
+                            onChange={(e) =>
+                              handleFundraiserChange(index, 'goalAmount', e.target.value)
+                            }
                             fullWidth
                             style={{ marginBottom: '1rem' }}
                           />
                           <TextField
-                            label="Quantity"
-                            value={product.quantity}
-                            onChange={(e) => handleProductChange(index, 'quantity', e.target.value)}
+                            label="Current"
+                            value={fundraiser.curAmount}
+                            onChange={(e) =>
+                              handleFundraiserChange(index, 'curAmount', e.target.value)
+                            }
                             fullWidth
                             style={{ marginBottom: '1rem' }}
                           />
@@ -210,9 +222,9 @@ const ProductListingPage = () => {
                             <InputLabel id="category-label">Category</InputLabel>
                             <Select
                               labelId="category-label"
-                              value={product.category}
+                              value={fundraiser.category}
                               onChange={(e) =>
-                                handleProductChange(index, 'category', e.target.value)
+                                handleFundraiserChange(index, 'category', e.target.value)
                               }
                             >
                               {categories.map((category) => (
@@ -226,27 +238,27 @@ const ProductListingPage = () => {
                             type="file"
                             accept="image/*"
                             className="cursor-pointer"
-                            onChange={(e) => handleProductImageChange(index, e)}
+                            onChange={(e) => handleFundraiserImageChange(index, e)}
                           />
 
                           {/* Display the selected image */}
-                          {product.file ? (
+                          {fundraiser.file ? (
                             <div className="mt-4">
                               <h3>Selected Image:</h3>
                               <div className="w-64 h-64">
                                 <img
-                                  src={URL.createObjectURL(product.file)}
+                                  src={URL.createObjectURL(fundraiser.file)}
                                   alt="Selected"
                                   className="object-cover rounded-md"
                                 />
                               </div>
                             </div>
-                          ) : product.image ? (
+                          ) : fundraiser.image ? (
                             <div className="mt-4">
                               <h3>Selected Image:</h3>
                               <div className="w-64 h-64">
                                 <img
-                                  src={product.image}
+                                  src={fundraiser.image}
                                   alt="Selected"
                                   className="object-cover rounded-md"
                                 />
@@ -269,38 +281,31 @@ const ProductListingPage = () => {
                             Name:
                           </Typography>
                           <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                            {product.name}
+                            {fundraiser.name}
                           </Typography>
                           <Typography variant="h6" style={{ marginBottom: '0.5rem' }}>
                             Description:
                           </Typography>
                           <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                            {product.description}
+                            {fundraiser.description}
                           </Typography>
                           <Typography variant="h6" style={{ marginBottom: '0.5rem' }}>
                             Category:
                           </Typography>
                           <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                            {product.category}
+                            {fundraiser.category}
                           </Typography>
-                          <Typography variant="h6" style={{ marginBottom: '0.5rem' }}>
-                            Price:
-                          </Typography>
-                          <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                            {product.price}
-                          </Typography>
+
                           <Typography variant="h6" style={{ marginBottom: '0.5rem' }}>
                             Quantity:
                           </Typography>
-                          <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                            {product.quantity}
-                          </Typography>
-                          {product.image ? (
-                            <img className="mb-4" src={product.image} width={'400px'} />
+
+                          {fundraiser.image ? (
+                            <img className="mb-4" src={fundraiser.image} width={'400px'} />
                           ) : null}
-                          {product.createdAt && (
+                          {fundraiser.createdAt && (
                             <Typography variant="body1" style={{ marginBottom: '0.5rem' }}>
-                              Created At: {product.createdAt.toDate().toLocaleDateString()}
+                              Created At: {fundraiser.createdAt.toDate().toLocaleDateString()}
                             </Typography>
                           )}
 
@@ -318,13 +323,13 @@ const ProductListingPage = () => {
                   )
                 })}
 
-                <AddProductForm
+                <AddFundraiserForm
                   open={open}
                   handleClose={handleClose}
-                  product={newProduct}
-                  handleProductChange={handleNewProductChange}
-                  handleSave={handleAddProduct}
-                  handleNewProductImage={handleNewProductImage}
+                  fundraiser={newFundraiser}
+                  handleFundraiserChange={handleNewFundraiserChange}
+                  handleSave={handleAddFundraiser}
+                  handleNewFundraiserImage={handleNewFundraiserImage}
                   categories={categories}
                 />
               </>
@@ -336,4 +341,4 @@ const ProductListingPage = () => {
   )
 }
 
-export default ProductListingPage
+export default FundraiserListingPage

@@ -5,10 +5,10 @@ import { Product } from '@/utils/constants/constants'
 
 interface CharityProductGridProps {
   searchQuery?: string
-  sellerId?: string
+  charityId?: string
 }
 
-const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, sellerId }) => {
+const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, charityId }) => {
   const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const handleClick = (productId: string) => {
@@ -21,8 +21,8 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, se
       if (productsData) {
         let filteredProducts = productsData
 
-        if (sellerId) {
-          filteredProducts = filteredProducts.filter((product) => product.sellerId === sellerId)
+        if (charityId) {
+          filteredProducts = filteredProducts.filter((product) => product.charityId === charityId)
         }
 
         setProducts(filteredProducts) // Update the state with filtered products
@@ -30,7 +30,7 @@ const CharityProductGrid: React.FC<CharityProductGridProps> = ({ searchQuery, se
     }
 
     fetchProducts()
-  }, [sellerId, router.query])
+  }, [charityId, router.query])
 
   const filteredProducts = searchQuery
     ? products.filter(

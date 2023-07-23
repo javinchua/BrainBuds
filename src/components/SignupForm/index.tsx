@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { InputContainer } from '../InputContainer'
 import { useAuth } from 'context/AuthContext'
 import { RedirectComponent } from '../Redirect'
-import { doc, setDoc } from 'firebase/firestore'
+import { collection, doc, setDoc } from 'firebase/firestore'
 import { CharityData, userTypes } from '@/utils/constants/constants'
 import { getFirestore } from 'firebase/firestore'
 import { updateCharityInfo } from 'pages/api/charity'
@@ -68,9 +68,20 @@ export const SignupForm: React.FC = () => {
             } as CharityData,
             user.uid
           )
-        }
+        } else if (userType === userTypes.DONOR) {
+          const donorRef = doc(firestore, 'donors', user.uid)
+          const likedProductsRef = collection(donorRef, 'LikedProducts')
 
-        setSignupSuccess(true)
+          setDoc(donorRef, {
+            uid: user.uid,
+            username: username
+          })
+
+          // Create an array of liked products directly under LikedProducts subcollection
+          setDoc(doc(likedProductsRef, 'likedProducts'), {
+            likedProducts: []
+          })
+        }
       })
       .catch((error) => {
         console.error(error.code)

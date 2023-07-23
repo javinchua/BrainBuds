@@ -36,7 +36,7 @@ const DonateModal: React.FC<DonateModalProps> = ({ product }) => {
   const handleDonate = async () => {
     const donationItem: Donation = {
       productId: product.id,
-      charityId: product.sellerId,
+      charityId: product.charityId,
       donorId: user.uid || '',
       price: product.price,
       quantity: quantity,

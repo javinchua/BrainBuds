@@ -1,19 +1,61 @@
-import { CharityData, Product } from '@/utils/constants/constants'
+import { CharityData, Product, userTypes } from '@/utils/constants/constants'
 import { CharityProfile } from '../CharityProfile'
 import { useEffect } from 'react'
-import { getCharityDataByProduct } from 'pages/api/product'
+import {
+  decrementProductLikes,
+  getCharityDataByProduct,
+  incrementProductLikes
+} from 'pages/api/product'
 import { useState } from 'react'
 import { FiMapPin } from 'react-icons/fi'
 import ProductIcon from '../ProductIcon'
 import { FaHandshake } from 'react-icons/fa'
 import ChatComponent from '../Chat/ChatComponent'
 import DonateModal from '../DonationModal'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import { useAuth } from 'context/AuthContext'
+import { getDonorLikedProductIds, updateDonorLikedProductsById } from 'pages/api/donor'
+
 interface ProductDetailProps {
   product: Product
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+  const { user } = useAuth()
   const [charity, setCharity] = useState<CharityData>()
+  const [isLiked, setIsLiked] = useState<boolean>()
+  const [donorLikedProductIds, setDonorLikedProductIds] = useState<string[]>([])
+  const [numLikes, setNumLikes] = useState<number>(product.numLikes)
+  useEffect(() => {
+    const fetchDonorData = async () => {
+      if (user.type == userTypes.DONOR && user.uid) {
+        const productIds = await getDonorLikedProductIds(user.uid)
+        setDonorLikedProductIds(productIds)
+      }
+    }
+    fetchDonorData()
+  }, [])
+
+  useEffect(() => {
+    if (donorLikedProductIds.includes(product.id) && user.uid) {
+      setIsLiked(true)
+    }
+  }, [user, product])
+
+  const handleLike = () => {
+    setIsLiked(!isLiked)
+    const updatedNumLikes = isLiked ? numLikes - 1 : numLikes + 1
+    setNumLikes(updatedNumLikes)
+    if (user.uid) {
+      updateDonorLikedProductsById(product.id, user.uid)
+      if (!isLiked) {
+        incrementProductLikes(product.id)
+      } else {
+        decrementProductLikes(product.id)
+      }
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,13 +66,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     }
 
     fetchData()
-  }, [])
+  }, [product])
 
   return (
     <div className="h-screen p-10 mt-10">
       {/*image*/}
-      <div className="flex justify-center bg-neutral-300">
-        <div className="relative">
+      <div className="relative z-0 flex justify-center bg-neutral-300">
+        <div>
+          <div className="absolute flex p-2 shadow-md right-2 top-2">
+            <button onClick={handleLike} className="z-[2]">
+              {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </button>
+            <p>{numLikes} likes</p>
+          </div>
           <div className="rounded-full">
             <img src={product.image} alt={product.name} className="object-contain" />
           </div>

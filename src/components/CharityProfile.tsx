@@ -10,10 +10,10 @@ interface CharityProfileProps {
 
 export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
   const router = useRouter()
-  const { sellerId, ...rest } = router.query
+  const { charityId, ...rest } = router.query
   const handleClick = () => {
     if (charity) {
-      const newQuery = { sellerId: charity.id, ...rest }
+      const newQuery = { charityId: charity.id, ...rest }
       router.push({ pathname: router.pathname, query: newQuery })
     }
   }
@@ -21,7 +21,7 @@ export const CharityProfile: React.FC<CharityProfileProps> = ({ charity }) => {
     <div className="flex">
       {charity ? (
         <>
-          <div className="w-[17%] items-center justify-ceneter p-2">
+          <div className="items-center p-2 justify-ceneter">
             <ProfileAvatar charity={charity} />
             {/* Avatar/Circle */}
           </div>

@@ -9,6 +9,7 @@ import CategorySidebar from '../CategoryBar'
 import { SiJustgiving } from 'react-icons/si'
 import { userTypes } from '@/utils/constants/constants'
 import NavProfile from './profile'
+import { FavoriteBorder } from '@mui/icons-material'
 
 export const NavBar = () => {
   const [nav, setNav] = useState(false)
@@ -22,6 +23,7 @@ export const NavBar = () => {
   const handleNav = () => {
     setNav(!nav)
   }
+
   const { user } = useAuth()
 
   useEffect(() => {
@@ -44,11 +46,11 @@ export const NavBar = () => {
     <>
       <div
         style={{ backgroundColor: `${color}` }}
-        className="fixed top-0 left-0 z-10 w-full duration-300 ease-in h-[70px]"
+        className="fixed top-0 left-0 z-10 w-full duration-300 ease-in h-[70px] px-12"
       >
-        <div className="max-w-[1240px] flex justify-between text-white items-center h-[70px] mx-auto px-4">
+        <div className="max-w-[1240px] flex justify-between text-white items-center h-[70px] mx-auto">
           <div className="flex items-center">
-            <Link href="/" className="relative flex items-center p-4 text-3xl">
+            <Link href="/" className="relative flex items-center py-4 text-3xl">
               <SiJustgiving style={{ color: `${textColor}` }} />
               <h1 style={{ color: `${textColor}` }} className="ml-[2px] text-3xl font-bold">
                 ivver
@@ -56,11 +58,11 @@ export const NavBar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center">
             {user && user.type == userTypes.DONOR ? (
               <>
                 <button
-                  className="p-4 hover:bg-primary-900"
+                  className="p-5 hover:bg-primary-900"
                   style={{ color: `${textColor}` }}
                   onClick={() => setIsCategoryOpen(true)}
                 >
@@ -70,31 +72,47 @@ export const NavBar = () => {
                   </div>
                 </button>
                 <Link href="/allCharities">
-                  <li className="p-4 hover:bg-primary-900">Explore Charities</li>
+                  <h1 className="p-5 hover:bg-primary-900">Explore Charities</h1>
+                </Link>
+                <Link href="/myLikes">
+                  <h1 className="p-5 hover:bg-primary-900">
+                    <FavoriteBorder />
+                  </h1>
                 </Link>
               </>
             ) : user && user.type == userTypes.CHARITY ? (
               <>
                 <Link href="/charityProducts">
-                  <li className="p-4 hover:bg-primary-900">Products</li>
+                  <h1 className="p-5 hover:bg-primary-900">Products</h1>
+                </Link>
+                <Link href="/charityFundraiser">
+                  <h1 className="p-5 hover:bg-primary-900">Fundraisers</h1>
                 </Link>
                 <Link href="/charityInfo">
-                  <li className="p-4 hover:bg-primary-900">Charity Info</li>
+                  <h1 className="p-5 hover:bg-primary-900">Charity Info</h1>
                 </Link>
                 <Link href="/donations">
-                  <li className="p-4 hover:bg-primary-900">Donations</li>
+                  <h1 className="p-5 hover:bg-primary-900">Donations</h1>
                 </Link>
               </>
             ) : null}
             <Link href="/contact">
-              <div className="p-4 hover:bg-primary-900">Contact</div>
+              <div className="p-5 hover:bg-primary-900">Contact</div>
             </Link>
 
+            {user && user.uid && (
+              <Link href="/following">
+                <div className="p-5 hover:bg-primary-900">Following</div>
+              </Link>
+            )}
+
             {user && user.uid ? (
-              <NavProfile />
+              <div className="p-2 hover:bg-primary-900">
+                <NavProfile />
+              </div>
             ) : (
               <Link href="/login">
-                <li className="p-4 hover:bg-primary-900">Login</li>
+                <li className="p-5 hover:bg-primary-900">Login</li>
               </Link>
             )}
           </div>
@@ -117,17 +135,17 @@ export const NavBar = () => {
           >
             <ul>
               <Link href="/">
-                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-5 text-2xl hover:text-gray-500">
                   Home
                 </li>
               </Link>
               <Link href="/gallery">
-                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-5 text-2xl hover:text-gray-500">
                   Gallery
                 </li>
               </Link>
               <Link href="/contact">
-                <li onClick={handleNav} className="p-4 text-2xl hover:text-gray-500">
+                <li onClick={handleNav} className="p-5 text-2xl hover:text-gray-500">
                   Contact
                 </li>
               </Link>

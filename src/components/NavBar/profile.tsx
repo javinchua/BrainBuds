@@ -26,7 +26,7 @@ const NavProfile = (): JSX.Element => {
   }
 
   return (
-    <div className=" hover:bg-primary-900">
+    <div>
       <IconButton color="inherit" aria-label="account" onClick={handleMenuOpen}>
         <AccountCircle fontSize="large" />
       </IconButton>
