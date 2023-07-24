@@ -79,6 +79,9 @@ export const NavBar = () => {
                     <FavoriteBorder />
                   </h1>
                 </Link>
+                <Link href="/following">
+                  <div className="p-5 hover:bg-primary-900">Following</div>
+                </Link>
               </>
             ) : user && user.type == userTypes.CHARITY ? (
               <>
@@ -99,12 +102,6 @@ export const NavBar = () => {
             <Link href="/contact">
               <div className="p-5 hover:bg-primary-900">Contact</div>
             </Link>
-
-            {user && user.uid && (
-              <Link href="/following">
-                <div className="p-5 hover:bg-primary-900">Following</div>
-              </Link>
-            )}
 
             {user && user.uid ? (
               <div className="p-2 hover:bg-primary-900">

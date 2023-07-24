@@ -41,7 +41,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     if (donorLikedProductIds.includes(product.id) && user.uid) {
       setIsLiked(true)
     }
-  }, [user, product])
+  }, [user, product, donorLikedProductIds])
 
   const handleLike = () => {
     setIsLiked(!isLiked)

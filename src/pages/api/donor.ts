@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 import { Donor } from '@/utils/constants/constants'
-import { updateDoc, arrayUnion } from 'firebase/firestore'
+import { arrayUnion, arrayRemove } from 'firebase/firestore'
 const firestore = getFirestore()
 
 export const updateDonorInfo = async (data: Donor, uid: string) => {
@@ -53,9 +53,40 @@ export const updateDonorLikedProductsById = async (newId: string, donorId: strin
     const donorRef = doc(firestore, 'donors', donorId)
     const donorDetailsRef = collection(donorRef, 'donorDetails')
     const docRef = doc(donorDetailsRef, 'likedProductIds')
-    await updateDoc(docRef, {
-      likedProductIds: arrayUnion(newId)
-    })
+
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      const data = docSnap.data()
+      if (data && data.likedProductIds && data.likedProductIds.includes(newId)) {
+        // If newId is already in likedProductIds, remove it
+        await setDoc(
+          docRef,
+          {
+            likedProductIds: arrayRemove(newId)
+          },
+          { merge: true }
+        )
+      } else {
+        // If newId is not in likedProductIds, add it
+        await setDoc(
+          docRef,
+          {
+            likedProductIds: arrayUnion(newId)
+          },
+          { merge: true }
+        )
+      }
+    } else {
+      // If the document doesn't exist, create it with newId in likedProductIds
+      await setDoc(
+        docRef,
+        {
+          likedProductIds: arrayUnion(newId)
+        },
+        { merge: true }
+      )
+    }
   } catch (error) {
     console.error('Error updating likedProducts info:', error)
     throw error
@@ -108,11 +139,42 @@ export const getDonorIsFollowing = async (donorId: string, charityId: string) =>
 export const updateDonorFollowingIds = async (newId: string, donorId: string) => {
   try {
     const donorRef = doc(firestore, 'donors', donorId)
-    const followingRef = collection(donorRef, 'donorDetails')
-    const docRef = doc(followingRef, 'followingIds')
-    await updateDoc(docRef, {
-      followingIds: arrayUnion(newId)
-    })
+    const donorDetailsRef = collection(donorRef, 'donorDetails')
+    const docRef = doc(donorDetailsRef, 'followingIds')
+
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      const data = docSnap.data()
+      if (data && data.followingIds && data.followingIds.includes(newId)) {
+        // If newId is already in followingIds, remove it
+        await setDoc(
+          docRef,
+          {
+            followingIds: arrayRemove(newId)
+          },
+          { merge: true }
+        )
+      } else {
+        // If newId is not in followingIds, add it
+        await setDoc(
+          docRef,
+          {
+            followingIds: arrayUnion(newId)
+          },
+          { merge: true }
+        )
+      }
+    } else {
+      // If the document doesn't exist, create it with newId in followingIds
+      await setDoc(
+        docRef,
+        {
+          followingIds: arrayUnion(newId)
+        },
+        { merge: true }
+      )
+    }
   } catch (error) {
     console.error('Error updating following:', error)
     throw error
