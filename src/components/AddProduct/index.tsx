@@ -46,6 +46,7 @@ export const AddProductForm: React.FC<AddProductFormProps> = ({
           <TextField
             label="Price"
             value={product.price}
+            type="number"
             onChange={(e) => handleProductChange('price', e.target.value)}
             fullWidth
             style={{ marginBottom: '1rem' }}
@@ -67,6 +68,7 @@ export const AddProductForm: React.FC<AddProductFormProps> = ({
           <TextField
             label="Quantity"
             value={product.quantity}
+            type="number"
             onChange={(e) => handleProductChange('quantity', e.target.value)}
             fullWidth
             style={{ marginBottom: '1rem' }}

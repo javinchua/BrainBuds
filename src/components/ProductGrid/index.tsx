@@ -160,11 +160,19 @@ const ProductGrid: React.FC<ProductGridProps> = ({ searchQuery }) => {
               <div className="flex flex-col">
                 {/*upper*/}
                 <div className="flex">
-                  {charities.length > 0 && <SmallProfileAvatar charity={charities[index]} />}
+                  {charities.length > 0 && (
+                    <SmallProfileAvatar
+                      charity={
+                        charities.find((charity) => charity.id == product.charityId) ||
+                        charities[index]
+                      }
+                    />
+                  )}
                   <div className="flex flex-col">
                     <p className="block ml-2 font-semibold text-gray-800 text-md">
-                      {charities.length > 0 && charities[index]
-                        ? charities[index].name
+                      {charities.length > 0 &&
+                      charities.find((charity) => charity.id == product.charityId)
+                        ? charities.find((charity) => charity.id == product.charityId)?.name
                         : 'Unknown Charity'}
                     </p>
                     <p className="block ml-2 text-sm text-gray-500">
